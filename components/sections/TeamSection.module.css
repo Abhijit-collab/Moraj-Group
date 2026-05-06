@@ -1,0 +1,82 @@
+.section { padding: 92px 52px; border-bottom: 1px solid var(--light); }
+.top { display: grid; grid-template-columns: 1fr 1fr; gap: 92px; align-items: end; margin-bottom: 56px; }
+.label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.labelRule { width: 24px; height: 1px; background: var(--light); flex-shrink: 0; }
+.h2 { font-family: var(--serif); font-size: clamp(28px, 3.2vw, 42px); font-weight: 300; color: var(--ink); line-height: 1.18; }
+.h2 em { font-style: italic; }
+.quote { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--mid); line-height: 1.8; font-weight: 400; padding-left: 22px; border-left: 1px solid var(--light); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  border-top: 1px solid var(--light);
+  padding-top: 14px;
+  max-width: 940px;
+  margin: 0 auto;
+}
+.member {
+  background: var(--cream2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--light);
+  position: relative;
+}
+.photoWrap { width: 100%; aspect-ratio: 4/5.1; position: relative; overflow: hidden; background: var(--cream2); }
+.photo { transition: transform .7s cubic-bezier(.22,1,.36,1) !important; }
+.member:hover .photo { transform: scale(1.04) !important; }
+.member::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(112deg, transparent 35%, rgba(255,255,255,.3) 50%, transparent 65%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+.member:hover::after {
+  animation: cardShine 1.05s cubic-bezier(.22,1,.36,1);
+}
+.photoPlaceholder { position: absolute; inset: 0; background: var(--cream2); }
+.info {
+  flex: 1;
+  padding: 20px 24px 26px;
+  background: var(--cream2);
+  border-top: 1px solid var(--light);
+}
+.name { font-family: var(--serif); font-size: 20px; font-weight: 300; color: var(--ink); margin-bottom: 4px; }
+.bio {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.72;
+  color: var(--mid);
+}
+
+.scrollHint {
+  display: flex;
+  justify-content: center;
+  padding-top: 18px;
+}
+
+.scrollButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--light);
+  background: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--mid);
+}
+
+@keyframes cardShine {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(130%); }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 56px 24px; }
+  .top { grid-template-columns: 1fr; gap: 32px; }
+  .grid { grid-template-columns: 1fr 1fr; }
+}

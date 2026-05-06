@@ -1,0 +1,46 @@
+.page { background: var(--white); }
+
+.hero { position: relative; height: 600px; overflow: hidden; display: flex; align-items: flex-end; }
+.heroPlaceholder { position: absolute; inset: 0; background: var(--cream2); }
+.heroDim { position: absolute; inset: 0; background: rgba(0,0,0,.42); }
+.heroContent { position: relative; z-index: 2; padding: 0 52px 52px; width: 100%; }
+.status { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.8); font-weight: 400; display: block; margin-bottom: 10px; }
+.title { font-family: var(--serif); font-size: clamp(36px, 5vw, 60px); font-weight: 300; color: #fff; line-height: 1.06; margin-bottom: 8px; }
+.location { font-family: var(--serif); font-size: 18px; font-weight: 300; color: rgba(255,255,255,.6); }
+
+.overview { padding: 64px 52px; display: grid; grid-template-columns: 1fr 1fr; gap: 52px; border-bottom: 1px solid var(--light); }
+.specs { display: flex; flex-direction: column; gap: 0; }
+.spec { padding: 18px 0; border-bottom: 1px solid var(--light); display: flex; justify-content: space-between; align-items: baseline; }
+.specLabel { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); font-weight: 400; }
+.specValue { font-family: var(--serif); font-size: 18px; font-weight: 300; color: var(--ink); }
+.desc p { font-size: 16px; color: var(--mid); line-height: 1.85; font-weight: 400; }
+
+.sectionLabel { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.sectionLabel::before { content: ''; display: block; width: 24px; height: 1px; background: var(--light); }
+
+.gallery { padding: 64px 52px; border-bottom: 1px solid var(--light); }
+.galleryGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.galleryItem { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+
+.amenities { padding: 64px 52px; border-bottom: 1px solid var(--light); }
+.amenityList { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 24px; margin-top: 8px; }
+.amenityList li { font-size: 14px; color: var(--mid); font-weight: 400; padding-left: 16px; position: relative; }
+.amenityList li::before { content: '—'; position: absolute; left: 0; color: var(--rose); }
+
+.floorplans { padding: 64px 52px; border-bottom: 1px solid var(--light); }
+.floorplanGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.floorplanItem { position: relative; aspect-ratio: 4/3; background: var(--cream2); }
+.floorplanLabel { font-size: 13px; color: var(--mid); text-align: center; margin-top: 8px; font-weight: 400; letter-spacing: .03em; }
+
+.back { padding: 48px 52px; }
+.backLink { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); font-weight: 500; }
+
+@media (max-width: 768px) {
+  .heroContent { padding: 0 24px 40px; }
+  .overview { grid-template-columns: 1fr; padding: 40px 24px; gap: 32px; }
+  .gallery, .amenities, .floorplans { padding: 40px 24px; }
+  .galleryGrid { grid-template-columns: 1fr 1fr; }
+  .amenityList { grid-template-columns: 1fr 1fr; }
+  .floorplanGrid { grid-template-columns: 1fr; }
+  .back { padding: 32px 24px; }
+}

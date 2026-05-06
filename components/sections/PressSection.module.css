@@ -1,0 +1,15 @@
+.press { padding: 34px 52px; display: flex; align-items: center; gap: 26px; border-bottom: 1px solid var(--light); flex-wrap: wrap; }
+.label { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); white-space: nowrap; font-weight: 600; }
+.sep { width: 1px; height: 20px; background: var(--light); flex-shrink: 0; }
+.logos { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.logo {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: #443d36;
+  font-weight: 600;
+  border: 1px solid #d9c9b4;
+  background: #f6f1e8;
+  padding: 8px 14px;
+  line-height: 1.2;
+}
+@media (max-width: 768px) { .press { padding: 24px; gap: 20px; } .sep { display: none; } }

@@ -1,0 +1,68 @@
+.section { padding: 84px 0 80px; border-bottom: 1px solid var(--light); }
+.head { text-align: center; margin-bottom: 54px; padding: 0 52px; }
+.overline { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; display: block; margin-bottom: 13px; }
+.h2 { font-family: var(--serif); font-size: clamp(30px, 4vw, 48px); font-weight: 400; font-style: italic; color: var(--ink); line-height: 1.06; }
+
+.carouselWrap { padding: 0 10px; }
+
+/* Testimonials-style infinite row */
+.viewport { overflow: hidden; }
+.track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  animation: iconicMarquee linear infinite;
+}
+.track:hover { animation-play-state: paused; }
+
+@keyframes iconicMarquee {
+  from { transform: translateX(0); }
+  /* half the flex row = one copy of the list; 5px = half of 10px gap seam */
+  to { transform: translateX(calc(-50% - 5px)); }
+}
+
+.tileCell {
+  flex: 0 0 auto;
+  width: min(280px, calc((100vw - 120px) / 4));
+  min-width: 0;
+}
+
+.tile { text-decoration: none; display: block; }
+.imgWrap { width: 100%; aspect-ratio: 3/4; position: relative; overflow: hidden; background: var(--cream2); }
+.img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.22,1,.36,1); display: block; will-change: transform; }
+.tile:hover .img { transform: scale(1.05); }
+.placeholder { position: absolute; inset: 0; background: var(--cream2); }
+.badge { position: absolute; top: 0; left: 0; z-index: 2; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: var(--rose); color: #fff; padding: 7px 14px; font-weight: 500; }
+.rera { position: absolute; bottom: 14px; right: 14px; z-index: 2; font-size: 10px; letter-spacing: .06em; color: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.45); padding: 5px 10px; background: rgba(0,0,0,.3); }
+
+.caption { padding: 15px 0 0; }
+.name { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--ink); transition: color .3s; }
+.tile:hover .name { color: var(--rose); }
+.sep { font-family: var(--serif); font-size: 16px; color: var(--light); padding: 0 6px; }
+.loc { font-family: var(--serif); font-size: 16px; font-weight: 300; color: var(--mid); }
+.tileAccent {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 12px;
+  background: var(--rose);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .7s cubic-bezier(.22,1,.36,1);
+}
+.tile:hover .tileAccent { transform: scaleX(1); }
+
+.vaWrap { text-align: center; margin-top: 58px; }
+.vaBtn { font-family: var(--serif); font-size: 14px; font-weight: 400; color: var(--rose); border: 1px solid var(--light); padding: 13px 54px; background: none; letter-spacing: .05em; display: inline-block; text-decoration: none; transition: border-color .3s; }
+.vaBtn:hover { border-color: var(--rose); }
+
+@media (max-width: 768px) {
+  .carouselWrap { padding: 0 16px; }
+  .head { padding: 0 24px; }
+  .tileCell { width: min(200px, 46vw); }
+  .track { gap: 8px; animation-duration: 20s !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+}

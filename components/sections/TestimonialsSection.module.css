@@ -1,0 +1,36 @@
+.section { background: var(--cream); padding: 92px 52px; border-bottom: 1px solid var(--light); }
+.label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.labelRule { width: 24px; height: 1px; background: var(--light); flex-shrink: 0; }
+.h2 { font-family: var(--serif); font-size: clamp(28px, 3.2vw, 40px); font-weight: 300; color: var(--ink); line-height: 1.2; margin-bottom: 52px; }
+.h2 em { font-style: italic; }
+.viewport { overflow: hidden; }
+.track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: testimonialsScroll 26s linear infinite;
+}
+.track:hover { animation-play-state: paused; }
+.card {
+  width: min(420px, 78vw);
+  flex: 0 0 auto;
+  padding: 24px 22px 26px;
+  border: 1px solid var(--light);
+  background: var(--white);
+}
+.qm { font-family: var(--serif); font-size: 52px; font-weight: 300; color: var(--light); line-height: .8; display: block; margin-bottom: 18px; }
+.quote { font-family: var(--serif); font-size: 18px; font-weight: 400; font-style: italic; color: var(--ink); line-height: 1.75; margin-bottom: 22px; }
+.name { font-size: 14px; color: var(--ink); font-weight: 500; }
+.loc { font-size: 12px; color: var(--mid); font-weight: 400; margin-top: 3px; }
+.stars { color: #c4a870; font-size: 13px; letter-spacing: 3px; margin-top: 4px; }
+
+@keyframes testimonialsScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 12px)); }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 56px 24px; }
+  .card { width: 86vw; }
+  .track { gap: 16px; animation-duration: 20s; }
+}

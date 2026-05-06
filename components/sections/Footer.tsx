@@ -1,0 +1,56 @@
+import type { SiteSettings } from '@/lib/types'
+import styles from './Footer.module.css'
+
+interface Props { settings: SiteSettings | null }
+
+export default function Footer({ settings }: Props) {
+  const brandLogoSrc = settings?.brandLogoUrl?.trim() || settings?.brandLogoExternalUrl?.trim()
+  const brandLogoAlt = settings?.brandLogo?.alt ?? 'Moraj logo'
+
+  return (
+    <footer className={styles.footer} data-reveal data-reveal-stagger="true">
+      <div className={styles.top}>
+        <div>
+          <div className={styles.logoRow}>
+            {brandLogoSrc && (
+              <img
+                src={brandLogoSrc}
+                alt={brandLogoAlt}
+                className={styles.logoIcon}
+              />
+            )}
+            <div className={styles.logo}>Moraj</div>
+          </div>
+          <div className={styles.logoSub}>Group · Est. 1985</div>
+          <p className={styles.desc}>
+            A legacy of trust and excellence since 1985.<br />
+            Navi Mumbai&apos;s most respected residential developer.
+          </p>
+        </div>
+
+        <div>
+          <div className={styles.colHead}>Contact</div>
+          <ul className={styles.colList}>
+            <li className={styles.contactAddress}>
+              {settings?.address ?? '18th Floor, The Affaires,\nSanpada, Navi Mumbai 400705'}
+            </li>
+            <li>
+              <a href={`tel:${settings?.phone}`} className={styles.contactPhone}>
+                {settings?.phone ?? '+91 98205 77144'}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${settings?.email}`} className={styles.contactEmail}>
+                {settings?.email ?? 'sales@morajinfratech.com'}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className={styles.bar}>
+        <span className={styles.copy}>© {new Date().getFullYear()} Moraj Infratech Pvt. Ltd. All rights reserved.</span>
+      </div>
+    </footer>
+  )
+}

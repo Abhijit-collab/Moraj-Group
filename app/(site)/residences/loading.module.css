@@ -1,0 +1,10 @@
+.page { padding-top: 68px; }
+.header { text-align: center; padding: 80px 52px 56px; border-bottom: 1px solid var(--light); }
+.skOverline { width: 120px; height: 10px; background: var(--xlight); border-radius: 4px; margin: 0 auto 16px; animation: pulse 1.4s ease-in-out infinite; }
+.skTitle { width: 280px; height: 48px; background: var(--xlight); border-radius: 4px; margin: 0 auto; animation: pulse 1.4s ease-in-out infinite; }
+.grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; padding: 40px 10px 80px; }
+.tile {}
+.skImg { width: 100%; aspect-ratio: 3/4; background: var(--xlight); animation: pulse 1.4s ease-in-out infinite; }
+.skCaption { width: 70%; height: 16px; background: var(--xlight); border-radius: 4px; margin-top: 14px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:.5;} }
+@media(max-width:768px){ .grid{grid-template-columns:1fr 1fr;gap:8px;padding:24px 16px 56px;} }

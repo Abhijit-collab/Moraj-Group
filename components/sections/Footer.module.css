@@ -1,0 +1,35 @@
+.footer { background: var(--cream); padding: 62px 52px 0; border-top: 1px solid var(--light); }
+.top { display: grid; grid-template-columns: 1.6fr 1fr; gap: 52px; padding-bottom: 52px; border-bottom: 1px solid var(--light); }
+.logoRow { display: inline-flex; align-items: center; gap: 10px; }
+.logoIcon { width: 36px; height: 36px; object-fit: contain; }
+.logo { font-family: var(--serif); font-size: 21px; font-weight: 300; color: var(--ink); letter-spacing: .18em; text-transform: uppercase; }
+.logoSub { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose2); margin-top: 5px; margin-bottom: 17px; font-weight: 400; }
+.desc { font-size: 17px; color: #5e5750; line-height: 1.72; font-weight: 500; max-width: 52ch; }
+.colHead { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #6b645c; margin-bottom: 15px; font-weight: 600; }
+.colList { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.colList li { font-size: 15px; font-weight: 500; color: #5f5952; }
+.colList li a { color: #5f5952; text-decoration: none; transition: color .32s cubic-bezier(.22,1,.36,1); }
+.colList li a:hover { color: #3f3933; }
+.contactAddress {
+  color: #5f5952;
+  font-size: 15px;
+  line-height: 1.75;
+  font-weight: 500;
+  white-space: pre-line;
+}
+.contactPhone {
+  color: #5b5148;
+  font-size: 18px;
+  font-weight: 600;
+}
+.contactEmail {
+  color: #5f5952;
+  font-size: 16px;
+  font-weight: 500;
+}
+.bar { padding: 22px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.copy { font-size: 13px; color: #6b645c; font-weight: 500; }
+.legal { display: flex; gap: 20px; }
+.legal a { font-size: 13px; color: #6b645c; text-decoration: none; font-weight: 500; transition: color .32s cubic-bezier(.22,1,.36,1); }
+.legal a:hover { color: #3f3933; }
+@media (max-width: 768px) { .footer { padding: 48px 24px 0; } .top { grid-template-columns: 1fr; gap: 28px; } .logoIcon { width: 28px; height: 28px; } .bar { flex-direction: column; align-items: flex-start; } }
