@@ -6,9 +6,14 @@ import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
 import styles from './TeamSection.module.css'
 
-interface Props { team: TeamMember[]; settings: SiteSettings | null }
+interface Props {
+  team: TeamMember[]
+  settings: SiteSettings | null
+  /** Mobile: full list in one column (scroll vertically) instead of 2-up + arrows */
+  mobileLayout?: 'pair' | 'stack'
+}
 
-export default function TeamSection({ team, settings }: Props) {
+export default function TeamSection({ team, settings, mobileLayout = 'pair' }: Props) {
   const quote = (settings as any)?.legacyQuote ?? '"Honesty and quality are not features — they are the foundation on which every Moraj home stands. That belief has not changed in forty years."'
 
   const hasTeam = team && team.length > 0
@@ -36,7 +41,6 @@ export default function TeamSection({ team, settings }: Props) {
   const cards = hasTeam ? team : fallbackTeam
   const [isMobile, setIsMobile] = useState(false)
   const [startIndex, setStartIndex] = useState(0)
-  const [expandedBios, setExpandedBios] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     const apply = () => setIsMobile(window.innerWidth <= 768)
@@ -45,13 +49,16 @@ export default function TeamSection({ team, settings }: Props) {
     return () => window.removeEventListener('resize', apply)
   }, [])
 
+  const mobileStack = isMobile && mobileLayout === 'stack'
+
   const visibleCards = useMemo(() => {
     if (!isMobile) return cards
+    if (mobileLayout === 'stack') return cards
     if (cards.length <= 2) return cards
     return [cards[startIndex % cards.length], cards[(startIndex + 1) % cards.length]]
-  }, [cards, isMobile, startIndex])
+  }, [cards, isMobile, startIndex, mobileLayout])
 
-  const canMove = cards.length > 2
+  const canMove = cards.length > 2 && !mobileStack
   const move = (direction: 'left' | 'right') => {
     if (!canMove) return
     setStartIndex((prev) =>
@@ -69,10 +76,6 @@ export default function TeamSection({ team, settings }: Props) {
     return () => window.clearInterval(id)
   }, [isMobile, canMove, cards.length])
 
-  const toggleBio = (id: string) => {
-    setExpandedBios((prev) => ({ ...prev, [id]: !prev[id] }))
-  }
-
   return (
     <section className={styles.section} id="team" data-reveal data-reveal-stagger="true">
       <div className={styles.top}>
@@ -89,7 +92,7 @@ export default function TeamSection({ team, settings }: Props) {
       </div>
 
       <div className={styles.gridWrap}>
-        <div className={styles.grid}>
+        <div className={`${styles.grid} ${mobileStack ? styles.gridMobileStack : ''}`}>
           {visibleCards.map((m) => (
           <div key={m._id} className={styles.member}>
             <div className={styles.photoWrap}>
@@ -99,7 +102,7 @@ export default function TeamSection({ team, settings }: Props) {
                   alt={m.name}
                   fill
                   quality={92}
-                  sizes="(max-width: 768px) 40vw, 280px"
+                  sizes={mobileStack ? '(max-width: 768px) 100vw, 320px' : '(max-width: 768px) 40vw, 280px'}
                   style={{
                     objectFit: 'cover',
                     objectPosition: 'center 18%',
@@ -113,7 +116,7 @@ export default function TeamSection({ team, settings }: Props) {
                   alt={m.photo.alt ?? m.name}
                   fill
                   quality={92}
-                  sizes="(max-width: 768px) 40vw, 280px"
+                  sizes={mobileStack ? '(max-width: 768px) 100vw, 320px' : '(max-width: 768px) 40vw, 280px'}
                   style={{
                     objectFit: 'cover',
                     objectPosition: 'center 18%',
@@ -127,25 +130,7 @@ export default function TeamSection({ team, settings }: Props) {
             </div>
             <div className={styles.info}>
               <div className={styles.name}>{m.name}</div>
-              {m.bio && (
-                <>
-                  <div
-                    className={`${styles.bio} ${isMobile && !expandedBios[m._id] ? styles.bioCollapsed : ''}`}
-                  >
-                    {m.bio}
-                  </div>
-                  {isMobile && (
-                    <button
-                      type="button"
-                      className={styles.bioToggle}
-                      onClick={() => toggleBio(m._id)}
-                      aria-label={expandedBios[m._id] ? 'Collapse bio' : 'Expand bio'}
-                    >
-                      <span className={`${styles.bioArrow} ${expandedBios[m._id] ? styles.bioArrowOpen : ''}`}>⌄</span>
-                    </button>
-                  )}
-                </>
-              )}
+              {m.bio && <div className={styles.bio}>{m.bio}</div>}
             </div>
           </div>
           ))}

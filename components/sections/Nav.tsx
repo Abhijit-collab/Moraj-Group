@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
 
 interface Props {
@@ -19,6 +20,8 @@ export default function Nav({
 }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isCompare = pathname?.startsWith('/compare')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -34,7 +37,7 @@ export default function Nav({
   }, [menuOpen])
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${isCompare ? styles.compareNav : ''}`}>
       <Link href="/" className={styles.logo}>
         {brandLogoSrc && (
           <img

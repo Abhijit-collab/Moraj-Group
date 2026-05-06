@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface Props {
   logoSrc?: string
@@ -8,16 +8,38 @@ interface Props {
   logoAlt?: string
 }
 
+type LoaderPhase = 'visible' | 'hiding' | 'unmounted'
+
 export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj logo' }: Props) {
-  const [hidden, setHidden] = useState(false)
+  const [phase, setPhase] = useState<LoaderPhase>('visible')
 
   useEffect(() => {
-    const t = window.setTimeout(() => setHidden(true), 1500)
+    const t = window.setTimeout(() => setPhase('hiding'), 1500)
     return () => window.clearTimeout(t)
   }, [])
 
+  useEffect(() => {
+    if (phase !== 'hiding') return
+    const id = window.setTimeout(() => setPhase('unmounted'), 1200)
+    return () => window.clearTimeout(id)
+  }, [phase])
+
+  const onTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) return
+    if (e.propertyName !== 'opacity') return
+    setPhase((p) => (p === 'hiding' ? 'unmounted' : p))
+  }, [])
+
+  if (phase === 'unmounted') return null
+
+  const hiding = phase === 'hiding'
+
   return (
-    <div className={`pageLoader ${hidden ? 'pageLoaderHidden' : ''}`} aria-hidden={hidden}>
+    <div
+      className={`pageLoader ${hiding ? 'pageLoaderHidden' : ''}`}
+      aria-hidden={hiding}
+      onTransitionEnd={onTransitionEnd}
+    >
       <div className="pageLoaderInner">
         {logoSrc && (
           <img
