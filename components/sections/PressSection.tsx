@@ -6,13 +6,16 @@ const DEFAULT_LOGOS = ['Times of India', 'Hindustan Times', 'Maharashtra Times',
 
 export default function PressSection({ logos }: Props) {
   const items = logos?.length ? logos : DEFAULT_LOGOS
+  const marqueeItems = [...items, ...items]
 
   return (
     <div className={styles.press} data-reveal data-reveal-stagger="true">
       <span className={styles.label}>As Featured In</span>
       <div className={styles.sep} />
-      <div className={styles.logos}>
-        {items.map((l, i) => <span key={i} className={styles.logo}>{l}</span>)}
+      <div className={styles.logosViewport}>
+        <div className={styles.logosTrack}>
+          {marqueeItems.map((l, i) => <span key={`${l}-${i}`} className={styles.logo}>{l}</span>)}
+        </div>
       </div>
     </div>
   )

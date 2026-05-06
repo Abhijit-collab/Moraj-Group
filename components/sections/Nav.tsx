@@ -8,20 +8,30 @@ interface Props {
   brandLogoSrc?: string
   brandLogoFallbackSrc?: string
   brandLogoAlt?: string
+  phone?: string
 }
 
 export default function Nav({
   brandLogoSrc,
   brandLogoFallbackSrc,
   brandLogoAlt = 'Moraj logo',
+  phone = '+91 98205 77144',
 }: Props) {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
@@ -51,6 +61,35 @@ export default function Nav({
         <Link href="/#team" className={`${styles.link} ${styles.desktopLink}`}>Legacy</Link>
         <Link href="/#enquire" className={styles.link}>Contact</Link>
         <Link href="/#enquire" className={styles.cta}>Enquire Now</Link>
+      </div>
+
+      <button
+        type="button"
+        className={`${styles.mobileMenuBtn} ${menuOpen ? styles.mobileMenuBtnOpen : ''}`}
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div className={`${styles.mobileMenuPanel} ${menuOpen ? styles.mobileMenuPanelOpen : ''}`}>
+        <div className={styles.mobileMenuList}>
+          <Link href="/#residences" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Residences</Link>
+          <Link href="/#craftsmanship" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>About</Link>
+          <Link href="/#team" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Legacy</Link>
+          <Link href="/#enquire" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Contact</Link>
+        </div>
+        <div className={styles.mobileMenuActions}>
+          <Link href="/#enquire" className={styles.mobileActionPrimary} onClick={() => setMenuOpen(false)}>
+            <span aria-hidden="true">✦</span>&nbsp;Enquire Now
+          </Link>
+          <a href={`tel:${phone.replace(/\s+/g, '')}`} className={styles.mobileActionSecondary} onClick={() => setMenuOpen(false)}>
+            <span aria-hidden="true">☎</span>&nbsp;Call
+          </a>
+        </div>
       </div>
     </nav>
   )

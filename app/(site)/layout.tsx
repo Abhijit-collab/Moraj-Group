@@ -22,6 +22,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         brandLogoSrc={brandLogoSrc}
         brandLogoFallbackSrc={brandLogoFallbackSrc}
         brandLogoAlt={brandLogoAlt}
+        phone={settings?.phone ?? '+91 98205 77144'}
       />
       <main>{children}</main>
     </>
