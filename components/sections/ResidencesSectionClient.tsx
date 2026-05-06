@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
 import Link from 'next/link'
@@ -21,8 +21,6 @@ const FALLBACK_CARDS: IconicProjectCard[] = [
   { _key: 'fallback-8', title: 'Moraj Crown', location: 'Kamothe' },
 ]
 
-const AUTO_SCROLL_MS = 5500
-
 function cardImageSrc(card: IconicProjectCard): string | null {
   if (card.s3ImageUrl?.trim()) return card.s3ImageUrl.trim()
   if (card.imageUrl?.trim()) return card.imageUrl.trim()
@@ -31,41 +29,10 @@ function cardImageSrc(card: IconicProjectCard): string | null {
 }
 
 export default function ResidencesSectionClient({ cards = [] }: Props) {
-  const [cardsPerView, setCardsPerView] = useState(4)
-  const [startIndex, setStartIndex] = useState(0)
-  const [autoEpoch, setAutoEpoch] = useState(0)
-  const allCards = cards.length > 0 ? cards : FALLBACK_CARDS
-  const canScroll = allCards.length > cardsPerView
-
-  useEffect(() => {
-    const apply = () => setCardsPerView(window.innerWidth <= 768 ? 2 : 4)
-    apply()
-    window.addEventListener('resize', apply)
-    return () => window.removeEventListener('resize', apply)
-  }, [])
-
-  useEffect(() => {
-    if (!canScroll || allCards.length === 0) return
-    const id = window.setInterval(() => {
-      setStartIndex((prev) => (prev + cardsPerView) % allCards.length)
-    }, AUTO_SCROLL_MS)
-    return () => window.clearInterval(id)
-  }, [allCards.length, canScroll, cardsPerView, autoEpoch])
-
-  const visibleCards = useMemo(() => {
-    if (allCards.length === 0) return []
-    return Array.from({ length: Math.min(cardsPerView, allCards.length) }, (_, i) => allCards[(startIndex + i) % allCards.length])
-  }, [allCards, cardsPerView, startIndex])
-
-  const moveCards = (direction: 'left' | 'right') => {
-    if (!canScroll) return
-    const nextIndex =
-      direction === 'right'
-        ? (startIndex + cardsPerView) % allCards.length
-        : (startIndex - cardsPerView + allCards.length) % allCards.length
-    setStartIndex(nextIndex)
-    setAutoEpoch((v) => v + 1)
-  }
+  const baseItems = cards.length > 0 ? cards : FALLBACK_CARDS
+  const items = [...baseItems, ...baseItems]
+  const durationSec = Math.max(28, Math.round(baseItems.length * 6.5))
+  const [direction, setDirection] = useState<'normal' | 'reverse'>('normal')
 
   return (
     <section className={styles.section} id="residences" data-reveal data-reveal-stagger="true">
@@ -75,9 +42,10 @@ export default function ResidencesSectionClient({ cards = [] }: Props) {
       </div>
 
       <div className={styles.carouselWrap}>
-        <div className={styles.grid}>
-          {visibleCards.map((r, i) => (
-            <div key={r._key ?? `${r.title}-${i}`} className={styles.tileCell}>
+        <div className={styles.viewport}>
+          <div className={styles.track} style={{ animationDuration: `${durationSec}s`, animationDirection: direction }}>
+            {items.map((r, i) => (
+              <div key={`${r._key ?? r.title}-${i}`} className={styles.tileCell}>
               <div className={styles.tile}>
                 <div className={styles.imgWrap}>
                   {cardImageSrc(r) ? (
@@ -93,30 +61,28 @@ export default function ResidencesSectionClient({ cards = [] }: Props) {
                 </div>
                 <span className={styles.tileAccent} aria-hidden="true" />
               </div>
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-
-        {canScroll && (
-          <>
-            <button
-              type="button"
-              className={`${styles.arrow} ${styles.arrowLeft}`}
-              onClick={() => moveCards('left')}
-              aria-label="Scroll left"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              className={`${styles.arrow} ${styles.arrowRight}`}
-              onClick={() => moveCards('right')}
-              aria-label="Scroll right"
-            >
-              →
-            </button>
-          </>
-        )}
+        <div className={styles.mobileArrows}>
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={() => setDirection('reverse')}
+            aria-label="Move carousel left"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={() => setDirection('normal')}
+            aria-label="Move carousel right"
+          >
+            →
+          </button>
+        </div>
       </div>
 
       <div className={styles.vaWrap}>

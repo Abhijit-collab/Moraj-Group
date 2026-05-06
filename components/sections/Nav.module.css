@@ -56,5 +56,10 @@
 @media (max-width: 768px) {
   .nav { padding: 0 24px; }
   .logoIcon { width: 28px; height: 28px; }
+  .links { gap: 14px; }
+  .link { font-size: 11px; letter-spacing: .08em; }
+  .cta { padding: 8px 14px; font-size: 10px; letter-spacing: .1em; }
+  .logo { font-size: 18px; letter-spacing: .14em; }
+  .links .link:not(.desktopLink) { display: none; }
   .desktopLink { display: none; }
 }

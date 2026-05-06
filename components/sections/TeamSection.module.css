@@ -14,6 +14,7 @@
   max-width: 940px;
   margin: 0 auto;
 }
+.gridWrap { max-width: 940px; margin: 0 auto; }
 .member {
   background: var(--cream2);
   overflow: hidden;
@@ -50,6 +51,30 @@
   line-height: 1.72;
   color: var(--mid);
 }
+.bioCollapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bioToggle {
+  margin-top: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--light);
+  background: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mid);
+}
+.bioArrow {
+  font-size: 14px;
+  line-height: 1;
+  transition: transform .25s ease;
+}
+.bioArrowOpen { transform: rotate(180deg); }
 
 .scrollHint {
   display: flex;
@@ -69,6 +94,19 @@
   font-size: 16px;
   color: var(--mid);
 }
+.mobileArrows { display: none; }
+.mobileArrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--light);
+  background: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mid);
+  font-size: 18px;
+}
 
 @keyframes cardShine {
   from { transform: translateX(-130%); }
@@ -78,5 +116,16 @@
 @media (max-width: 768px) {
   .section { padding: 56px 24px; }
   .top { grid-template-columns: 1fr; gap: 32px; }
-  .grid { grid-template-columns: 1fr 1fr; }
+  .gridWrap { max-width: 100%; }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .mobileArrows {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .bioCollapsed { -webkit-line-clamp: 2; }
 }
