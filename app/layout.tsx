@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import PageLoader from '@/components/animations/PageLoader'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -33,7 +32,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <PageLoader />
         {children}
         {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>

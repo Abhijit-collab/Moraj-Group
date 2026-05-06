@@ -72,6 +72,20 @@ button {
   pointer-events: none;
 }
 
+.pageLoaderInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pageLoaderLogo {
+  width: clamp(48px, 6vw, 74px);
+  height: clamp(48px, 6vw, 74px);
+  object-fit: contain;
+  border-radius: 2px;
+  animation: loaderWordIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .pageLoaderWord {
   font-family: var(--serif);
   font-size: clamp(42px, 8vw, 72px);

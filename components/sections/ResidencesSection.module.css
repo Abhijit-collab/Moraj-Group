@@ -3,29 +3,36 @@
 .overline { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; display: block; margin-bottom: 13px; }
 .h2 { font-family: var(--serif); font-size: clamp(30px, 4vw, 48px); font-weight: 400; font-style: italic; color: var(--ink); line-height: 1.06; }
 
-.carouselWrap { padding: 0 10px; }
+.carouselWrap { padding: 0 10px; position: relative; }
+.arrow {
+  width: 48px; height: 48px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.55);
+  background: rgba(16,16,20,.34);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff; cursor: pointer; font-size: 22px; line-height: 1;
+  position: absolute; top: 37%;
+  transform: translateY(-50%);
+  z-index: 3;
+  box-shadow: 0 14px 30px rgba(0,0,0,.2);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.arrow:hover {
+  background: rgba(212,80,58,.82);
+  border-color: rgba(212,80,58,.95);
+  transform: translateY(-50%) scale(1.04);
+}
+.arrow:active { transform: translateY(-50%) scale(0.98); }
+.arrowLeft { left: 2px; }
+.arrowRight { right: 2px; }
 
-/* Testimonials-style infinite row */
-.viewport { overflow: hidden; }
-.track {
-  display: flex;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  width: max-content;
-  animation: iconicMarquee linear infinite;
-}
-.track:hover { animation-play-state: paused; }
-
-@keyframes iconicMarquee {
-  from { transform: translateX(0); }
-  /* half the flex row = one copy of the list; 5px = half of 10px gap seam */
-  to { transform: translateX(calc(-50% - 5px)); }
 }
 
-.tileCell {
-  flex: 0 0 auto;
-  width: min(280px, calc((100vw - 120px) / 4));
-  min-width: 0;
-}
+.tileCell { min-width: 0; }
 
 .tile { text-decoration: none; display: block; }
 .imgWrap { width: 100%; aspect-ratio: 3/4; position: relative; overflow: hidden; background: var(--cream2); }
@@ -59,10 +66,8 @@
 @media (max-width: 768px) {
   .carouselWrap { padding: 0 16px; }
   .head { padding: 0 24px; }
-  .tileCell { width: min(200px, 46vw); }
-  .track { gap: 8px; animation-duration: 20s !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .track { animation: none; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .arrow { top: 34%; }
+  .arrowLeft { left: 8px; }
+  .arrowRight { right: 8px; }
 }

@@ -1,5 +1,6 @@
 import Nav from '@/components/sections/Nav'
 import ScrollRevealObserver from '@/components/animations/ScrollRevealObserver'
+import PageLoader from '@/components/animations/PageLoader'
 import { getSanityClient, isSanityConfigured } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
 import { devHomepageContent } from '@/lib/sanity-dev-data'
@@ -15,6 +16,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <>
+      <PageLoader logoSrc={brandLogoSrc} logoFallbackSrc={brandLogoFallbackSrc} logoAlt={brandLogoAlt} />
       <ScrollRevealObserver />
       <Nav
         brandLogoSrc={brandLogoSrc}
