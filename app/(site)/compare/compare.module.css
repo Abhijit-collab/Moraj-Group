@@ -30,8 +30,8 @@
 
 /* 2) Hero */
 .compareTheme :global([class*='HeroSection_hero']) {
-  margin-top: 80px;
-  height: calc(100vh - 80px);
+  margin-top: 0;
+  height: 100vh;
 }
 .compareTheme :global([class*='HeroSection_h1']) {
   font-size: clamp(52px, 7vw, 88px);
@@ -430,8 +430,8 @@
 
 @media (max-width: 768px) {
   .compareTheme :global([class*='HeroSection_hero']) {
-    margin-top: 72px;
-    height: calc(100vh - 72px);
+    margin-top: 0;
+    height: 100vh;
   }
   .compareTheme :global([class*='IntroSection_h2']) {
     font-size: 36px;
