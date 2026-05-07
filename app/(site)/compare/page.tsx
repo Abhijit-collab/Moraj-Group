@@ -42,9 +42,19 @@ export default async function CompareHomePage() {
     : { ...devHomepageContent, iconicProjectsContent: null as IconicProjectsContent | null }
 
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
-  const compareHero = hero
-    ? { ...hero, heading: 'MORAJ GROUP', headingItalic: 'A Legacy of Trust and Excellence Since 1985' }
-    : { heading: 'MORAJ GROUP', headingItalic: 'A Legacy of Trust and Excellence Since 1985' }
+  const fallbackSubheading = devHomepageContent.hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
+  const fallbackCtaLabel = devHomepageContent.hero?.ctaLabel ?? 'Explore Residences'
+  const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '#residences'
+  const compareHero: Hero = {
+    heading: 'MORAJ GROUP',
+    headingItalic: 'A Legacy of Trust and Excellence Since 1985',
+    subheading: hero?.subheading ?? fallbackSubheading,
+    ctaLabel: hero?.ctaLabel ?? fallbackCtaLabel,
+    ctaHref: hero?.ctaHref ?? fallbackCtaHref,
+    videoLabel: hero?.videoLabel,
+    videoHref: hero?.videoHref,
+    heroVideoUrl: hero?.heroVideoUrl,
+  }
 
   return (
     <div className={styles.compareTheme}>
