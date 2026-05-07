@@ -8,7 +8,7 @@ export default function CraftsmanshipSection({ settings }: Props) {
   const p2 = (settings as any)?.craftParagraph2 ?? 'This integrated approach has been our foundation for over four decades, and it is why every Moraj residence delivers exactly what was promised — on time, without exception.'
   const mediaLabel =
     settings?.craftMediaLabel?.trim() || 'Now Launching in Panvel–Sanpada'
-  const craftVideoUrl = settings?.craftVideoUrl?.trim()
+  const craftVideoUrl = settings?.craftVideoUrl?.trim() || settings?.craftVideoFileUrl?.trim()
 
   return (
     <section className={styles.section} id="craftsmanship" data-reveal data-craft>

@@ -6,6 +6,7 @@ import homepageDevelopmentCard from './homepageDevelopmentCard'
 import iconicProjectCard from './iconicProjectCard'
 import iconicProjectsContent from './iconicProjectsContent'
 import siteSettings from './siteSettings'
+import projectDetail from './projectDetail'
 
 export const schemaTypes = [
   hero,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   iconicProjectCard,
   iconicProjectsContent,
   siteSettings,
+  projectDetail,
 ]

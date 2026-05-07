@@ -89,6 +89,48 @@ export const iconicProjectsContentQuery = groq`
   }
 `
 
+export const projectDetailBySlugQuery = groq`
+  *[_type == "projectDetail" && slug.current == $slug][0] {
+    projectName,
+    slug,
+    heroMeta,
+    heroBackgroundUrl,
+    "heroBackgroundMediaUrl": heroBackgroundMedia.asset->url,
+    heroPrimaryCtaLabel,
+    heroPrimaryCtaHref,
+    heroSecondaryCtaLabel,
+    heroSecondaryCtaHref,
+    "galleryHeroImageUrl": coalesce(galleryHeroImageUrl, galleryHeroImage.asset->url),
+    galleryThumbs[] {
+      _type,
+      asset,
+      alt
+    },
+    galleryMoreText,
+    specCards[] {
+      value,
+      label
+    },
+    description,
+    mapEmbedUrl,
+    mapEmbedCode,
+    locationHighlights[] {
+      title,
+      value
+    },
+    amenities,
+    floorPlans[] {
+      label,
+      imageUrl,
+      image
+    },
+    price,
+    priceMeta,
+    reraId,
+    enquireHeading
+  }
+`
+
 // ─── Site Settings ───────────────────────────
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
@@ -106,6 +148,7 @@ export const siteSettingsQuery = groq`
     introParagraph2,
     craftMediaLabel,
     craftVideoUrl,
+    "craftVideoFileUrl": craftVideo.asset->url,
     iconicProjects[]{
       _key,
       title,

@@ -49,6 +49,11 @@ export default function Footer({ settings }: Props) {
 
       <div className={styles.bar}>
         <span className={styles.copy}>© {new Date().getFullYear()} Moraj Infratech Pvt. Ltd. All rights reserved.</span>
+        <div className={styles.legal}>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-of-use">Terms of Use</a>
+          <a href="/disclaimer">Disclaimer</a>
+        </div>
       </div>
     </footer>
   )

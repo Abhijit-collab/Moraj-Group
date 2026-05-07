@@ -82,6 +82,13 @@ export default defineType({
       type: 'url',
       description: 'Paste a direct MP4 URL. If empty, placeholder panel is shown.',
     }),
+    defineField({
+      name: 'craftVideo',
+      title: 'Craftsmanship — Video (Upload from local PC)',
+      type: 'file',
+      options: { accept: 'video/mp4,video/webm' },
+      description: 'Alternative to S3 URL. Upload video directly from your computer.',
+    }),
     defineField({ name: 'craftParagraph1', title: 'Craftsmanship — Paragraph 1', type: 'text', rows: 3 }),
     defineField({ name: 'craftParagraph2', title: 'Craftsmanship — Paragraph 2', type: 'text', rows: 3 }),
     defineField({

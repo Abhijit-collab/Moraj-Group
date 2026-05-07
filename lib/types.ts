@@ -56,6 +56,48 @@ export interface IconicProjectsContent {
   cards?: IconicProjectCard[]
 }
 
+export interface ProjectDetailSpec {
+  value?: string
+  label?: string
+}
+
+export interface ProjectDetailLoc {
+  title?: string
+  value?: string
+}
+
+export interface ProjectDetailFloorPlan {
+  label?: string
+  imageUrl?: string
+  image?: SanityImage | null
+}
+
+export interface ProjectDetail {
+  projectName: string
+  slug?: Slug
+  heroMeta?: string
+  heroBackgroundUrl?: string
+  heroBackgroundMediaUrl?: string
+  heroPrimaryCtaLabel?: string
+  heroPrimaryCtaHref?: string
+  heroSecondaryCtaLabel?: string
+  heroSecondaryCtaHref?: string
+  galleryHeroImageUrl?: string
+  galleryThumbs?: SanityImage[]
+  galleryMoreText?: string
+  specCards?: ProjectDetailSpec[]
+  description?: string
+  mapEmbedUrl?: string
+  mapEmbedCode?: string
+  locationHighlights?: ProjectDetailLoc[]
+  amenities?: string[]
+  floorPlans?: ProjectDetailFloorPlan[]
+  price?: string
+  priceMeta?: string[]
+  reraId?: string
+  enquireHeading?: string
+}
+
 export interface Residence {
   _id: string
   title: string
@@ -106,6 +148,7 @@ export interface SiteSettings {
   introParagraph2: string
   craftMediaLabel?: string
   craftVideoUrl?: string
+  craftVideoFileUrl?: string
   iconicProjects?: IconicProjectCard[]
   homepageDevelopments?: HomepageDevelopmentCardRaw[]
 }

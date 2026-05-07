@@ -34,6 +34,11 @@ function cardImageSrc(card: IconicProjectCard): string | null {
   return null
 }
 
+function detailsHref(card: IconicProjectCard): string {
+  const title = card.title?.toLowerCase().trim() ?? ''
+  return title === 'moraj opulence' ? '/moraj-opulence' : '/residences'
+}
+
 export default function CompareResidencesSection({ cards = [] }: Props) {
   const items = cards.length > 0 ? cards : FALLBACK_CARDS
   const splitIndex = Math.ceil(items.length / 2)
@@ -71,6 +76,7 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
           const detailIndex = activeTab === 'upcoming' ? i : splitIndex + i
           const details = DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length]
           const src = cardImageSrc(card)
+          const href = detailsHref(card)
           return (
             <article
               key={card._key ?? `${activeTab}-${card.title}-${i}`}
@@ -103,10 +109,10 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                 </div>
               </div>
               <div className={styles.actions}>
-                <a href="/residences" className={styles.btnPrimary}>View Details</a>
+                <a href={href} className={styles.btnPrimary}>View Details</a>
                 <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
               </div>
-              <a href="/residences" className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
+              <a href={href} className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
                 <span />
               </a>
             </article>
