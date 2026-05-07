@@ -60,7 +60,6 @@ export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj 
             }}
           />
         )}
-        <div className="pageLoaderWord">Moraj</div>
       </div>
     </div>
   )

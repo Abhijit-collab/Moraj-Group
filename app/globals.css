@@ -80,16 +80,16 @@ button {
 }
 
 .pageLoaderLogo {
-  width: clamp(48px, 6vw, 74px);
-  height: clamp(48px, 6vw, 74px);
+  width: clamp(78px, 10vw, 128px);
+  height: clamp(78px, 10vw, 128px);
   object-fit: contain;
   border-radius: 2px;
   animation: loaderWordIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .pageLoader.pageLoaderCompare .pageLoaderLogo {
-  width: clamp(70px, 9vw, 108px);
-  height: clamp(70px, 9vw, 108px);
+  width: clamp(92px, 12vw, 152px);
+  height: clamp(92px, 12vw, 152px);
 }
 
 .pageLoaderWord {
