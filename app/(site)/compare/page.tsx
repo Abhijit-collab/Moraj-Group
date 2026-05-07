@@ -42,10 +42,13 @@ export default async function CompareHomePage() {
     : { ...devHomepageContent, iconicProjectsContent: null as IconicProjectsContent | null }
 
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
+  const compareHero = hero
+    ? { ...hero, heading: 'MORAJ GROUP', headingItalic: 'A Legacy of Trust and Excellence Since 1985' }
+    : { heading: 'MORAJ GROUP', headingItalic: 'A Legacy of Trust and Excellence Since 1985' }
 
   return (
     <div className={styles.compareTheme}>
-      <HeroSection hero={hero} />
+      <HeroSection hero={compareHero} />
       <StatsBar stats={settings?.stats} />
       <IntroSection settings={settings} />
       <CompareResidencesSection cards={iconicDevelopments} />

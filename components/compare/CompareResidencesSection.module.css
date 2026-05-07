@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  padding: 0 16px;
+  padding: 0 115px;
   align-items: stretch;
   grid-auto-rows: 1fr;
 }
@@ -97,12 +97,12 @@
 .cardOverlay span { display: none; }
 
 @media (max-width: 1024px) {
-  .grid { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; padding: 0 16px; }
 }
 
 @media (max-width: 768px) {
   .head { padding: 0 24px; }
-  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .grid { grid-template-columns: 1fr; gap: 10px; }
   .name { font-size: 30px; }
   .location { font-size: 20px; }
 }

@@ -4,6 +4,12 @@ import { useEffect } from 'react'
 
 export default function ScrollRevealObserver() {
   useEffect(() => {
+    // Always open/reload from top instead of restoring previous scroll position.
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+
     const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
     if (targets.length === 0) return
 

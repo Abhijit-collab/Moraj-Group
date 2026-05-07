@@ -28,8 +28,8 @@ export default function StatsBar({ stats }: Props) {
     const el = barRef.current
     if (!el) return
     let started = false
-    const durations = 1200
-    const stagger = 150
+    const durations = 3200
+    const stagger = 320
     const starts: number[] = []
     const rafIds: number[] = []
 
@@ -39,7 +39,9 @@ export default function StatsBar({ stats }: Props) {
       starts[index] = start
       const tick = (now: number) => {
         const progress = Math.min(1, (now - starts[index]) / durations)
-        const eased = 1 - Math.pow(1 - progress, 3)
+        const eased = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2
         const value = target >= 10 ? Math.round(target * eased) : Number((target * eased).toFixed(1))
         setCounts((prev) => {
           const next = [...prev]

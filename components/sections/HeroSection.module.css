@@ -20,7 +20,7 @@
 }
 .dim {
   position: absolute; inset: 0; z-index: 1;
-  background: rgba(0,0,0,.42);
+  background: rgba(0,0,0,.68);
 }
 
 .droneBadge {
@@ -51,7 +51,12 @@
   line-height: 1.06; margin-bottom: 36px;
 }
 .h1 em { font-style: italic; }
-.hLine { display: inline-block; overflow: hidden; }
+.hLine {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
 .hWord {
   display: inline-block;
   opacity: 0;
@@ -95,4 +100,9 @@
   .droneBadge { top: 72px; right: 20px; }
   .body { padding: 0 24px; }
   .h1 { font-size: 34px; }
+  .cta {
+    font-size: 10px;
+    padding: 11px 30px;
+    letter-spacing: .14em;
+  }
 }

@@ -55,7 +55,6 @@ export default function Nav({
             }}
           />
         )}
-        <span>Moraj</span>
       </Link>
 
       <div className={styles.links}>

@@ -21,9 +21,10 @@
   font-family: var(--serif); font-size: 22px; font-weight: 300;
   color: #fff; letter-spacing: .2em; text-transform: uppercase;
   text-decoration: none; transition: color .4s;
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 0;
+  margin-left: 10px;
 }
-.logoIcon { width: 36px; height: 36px; object-fit: contain; border-radius: 2px; }
+.logoIcon { width: 52px; height: 52px; object-fit: contain; border-radius: 2px; }
 .links { display: flex; gap: 32px; align-items: center; flex-shrink: 0; }
 .link {
   position: relative;
@@ -60,8 +61,8 @@
   letter-spacing: .22em;
 }
 .compareNav .logoIcon {
-  width: 139px;
-  height: 83px;
+  width: 160px;
+  height: 89px;
 }
 .compareNav .cta {
   font-size: 12px;
@@ -80,7 +81,8 @@
 
 @media (max-width: 768px) {
   .nav { padding: 0 24px; }
-  .logoIcon { width: 28px; height: 28px; }
+  .logo { margin-left: 16px; }
+  .logoIcon { width: 42px; height: 42px; }
   .links { display: none; }
   .link { font-size: 11px; letter-spacing: .08em; }
   .cta { padding: 8px 14px; font-size: 10px; letter-spacing: .1em; }
@@ -125,7 +127,7 @@
     left: 0;
     right: 0;
     height: calc(100dvh - 68px);
-    background: #363131;
+    background: #000000;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -193,7 +195,7 @@
     letter-spacing: .16em;
   }
   .compareNav .logoIcon {
-    width: 40px;
-    height: 40px;
+    width: 54px;
+    height: 54px;
   }
 }

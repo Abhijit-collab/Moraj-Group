@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 interface Props {
   logoSrc?: string
@@ -12,6 +13,8 @@ type LoaderPhase = 'visible' | 'hiding' | 'unmounted'
 
 export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj logo' }: Props) {
   const [phase, setPhase] = useState<LoaderPhase>('visible')
+  const pathname = usePathname()
+  const isCompare = pathname?.startsWith('/compare')
 
   useEffect(() => {
     const t = window.setTimeout(() => setPhase('hiding'), 1500)
@@ -36,7 +39,7 @@ export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj 
 
   return (
     <div
-      className={`pageLoader ${hiding ? 'pageLoaderHidden' : ''}`}
+      className={`pageLoader ${isCompare ? 'pageLoaderCompare' : ''} ${hiding ? 'pageLoaderHidden' : ''}`}
       aria-hidden={hiding}
       onTransitionEnd={onTransitionEnd}
     >

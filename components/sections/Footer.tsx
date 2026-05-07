@@ -19,7 +19,6 @@ export default function Footer({ settings }: Props) {
                 className={styles.logoIcon}
               />
             )}
-            <div className={styles.logo}>Moraj</div>
           </div>
           <div className={styles.logoSub}>Group · Est. 1985</div>
           <p className={styles.desc}>

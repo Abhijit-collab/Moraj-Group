@@ -87,6 +87,11 @@ button {
   animation: loaderWordIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.pageLoader.pageLoaderCompare .pageLoaderLogo {
+  width: clamp(70px, 9vw, 108px);
+  height: clamp(70px, 9vw, 108px);
+}
+
 .pageLoaderWord {
   font-family: var(--serif);
   font-size: clamp(42px, 8vw, 72px);
