@@ -33,6 +33,9 @@ function cardImageSrc(card: IconicProjectCard): string | null {
 
 export default function CompareResidencesSection({ cards = [] }: Props) {
   const items = cards.length > 0 ? cards : FALLBACK_CARDS
+  const splitIndex = Math.ceil(items.length / 2)
+  const ongoingItems = items.slice(0, splitIndex)
+  const completedItems = items.slice(splitIndex)
 
   return (
     <section className={styles.section} id="residences">
@@ -41,51 +44,104 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
         <h2 className={styles.h2}>Iconic Developments</h2>
       </div>
 
-      <div className={styles.grid}>
-        {items.map((card, i) => {
-          const details = DETAIL_FALLBACKS[i % DETAIL_FALLBACKS.length]
-          const src = cardImageSrc(card)
-          return (
-            <article
-              key={card._key ?? `${card.title}-${i}`}
-              className={styles.card}
-            >
-              <div className={styles.imageWrap}>
-                <span className={styles.badge}>{details.type}</span>
-                {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
-              </div>
-              <div className={styles.caption}>
-                <div className={styles.name}>{card.title}</div>
-                <div className={styles.location}>{card.location ? card.location.split(',')[0] : '—'}</div>
+      <div className={styles.group}>
+        <h3 className={styles.groupTitle}>Ongoing</h3>
+        <div className={styles.grid}>
+          {ongoingItems.map((card, i) => {
+            const details = DETAIL_FALLBACKS[i % DETAIL_FALLBACKS.length]
+            const src = cardImageSrc(card)
+            return (
+              <article
+                key={card._key ?? `${card.title}-${i}`}
+                className={styles.card}
+              >
+                <div className={styles.imageWrap}>
+                  <span className={styles.badge}>{details.type}</span>
+                  {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
+                </div>
+                <div className={styles.caption}>
+                  <div className={styles.name}>{card.title}</div>
+                  <div className={styles.location}>{card.location ? card.location.split(',')[0] : '—'}</div>
 
-                <div className={styles.meta}>
-                  <div className={styles.metaRow}>
-                    <span className={styles.metaIcon}>▣</span>
-                    <span>{details.config}</span>
-                    <span className={styles.metaIcon}>◷</span>
-                    <span>{details.endDate}</span>
-                  </div>
-                  <div className={styles.metaRow}>
-                    <span className={styles.metaIcon}>▤</span>
-                    <span className={styles.reraWrap}>
-                      <span className={styles.reraLabel}>RERA ID :</span>
-                      <span className={styles.reraValue}>{details.rera}</span>
-                    </span>
-                    <span className={styles.metaIcon}>▧</span>
-                    <span>{details.area}</span>
+                  <div className={styles.meta}>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaIcon}>▣</span>
+                      <span>{details.config}</span>
+                      <span className={styles.metaIcon}>◷</span>
+                      <span>{details.endDate}</span>
+                    </div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaIcon}>▤</span>
+                      <span className={styles.reraWrap}>
+                        <span className={styles.reraLabel}>RERA ID :</span>
+                        <span className={styles.reraValue}>{details.rera}</span>
+                      </span>
+                      <span className={styles.metaIcon}>▧</span>
+                      <span>{details.area}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.actions}>
-                <a href="/residences" className={styles.btnPrimary}>View Details</a>
-                <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
-              </div>
-              <a href="/residences" className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
-                <span />
-              </a>
-            </article>
-          )
-        })}
+                <div className={styles.actions}>
+                  <a href="/residences" className={styles.btnPrimary}>View Details</a>
+                  <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
+                </div>
+                <a href="/residences" className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
+                  <span />
+                </a>
+              </article>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className={styles.group}>
+        <h3 className={styles.groupTitle}>Completed</h3>
+        <div className={styles.grid}>
+          {completedItems.map((card, i) => {
+            const details = DETAIL_FALLBACKS[(splitIndex + i) % DETAIL_FALLBACKS.length]
+            const src = cardImageSrc(card)
+            return (
+              <article
+                key={card._key ?? `${card.title}-${splitIndex + i}`}
+                className={styles.card}
+              >
+                <div className={styles.imageWrap}>
+                  <span className={styles.badge}>{details.type}</span>
+                  {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
+                </div>
+                <div className={styles.caption}>
+                  <div className={styles.name}>{card.title}</div>
+                  <div className={styles.location}>{card.location ? card.location.split(',')[0] : '—'}</div>
+
+                  <div className={styles.meta}>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaIcon}>▣</span>
+                      <span>{details.config}</span>
+                      <span className={styles.metaIcon}>◷</span>
+                      <span>{details.endDate}</span>
+                    </div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaIcon}>▤</span>
+                      <span className={styles.reraWrap}>
+                        <span className={styles.reraLabel}>RERA ID :</span>
+                        <span className={styles.reraValue}>{details.rera}</span>
+                      </span>
+                      <span className={styles.metaIcon}>▧</span>
+                      <span>{details.area}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.actions}>
+                  <a href="/residences" className={styles.btnPrimary}>View Details</a>
+                  <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
+                </div>
+                <a href="/residences" className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
+                  <span />
+                </a>
+              </article>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

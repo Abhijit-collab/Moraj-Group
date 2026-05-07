@@ -60,7 +60,6 @@ export default async function CompareHomePage() {
     <div className={styles.compareTheme}>
       <HeroSection hero={compareHero} />
       <StatsBar stats={settings?.stats} />
-      <IntroSection settings={settings} />
       <CompareResidencesSection cards={iconicDevelopments} />
       <CraftsmanshipSection settings={settings} />
       <div className={styles.foundersCardsSection}>
@@ -96,6 +95,7 @@ export default async function CompareHomePage() {
         <div className={styles.foundersLabel}>Our Founders</div>
       </div>
       <TeamSection team={team} settings={settings} mobileLayout="stack" />
+      <IntroSection settings={settings} />
       <TestimonialsSection testimonials={testimonials} />
       <PressSection logos={settings?.pressLogos} />
       <EnquireSection settings={settings} residences={residences} />

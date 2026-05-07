@@ -29,6 +29,10 @@
 .compareTheme :global(p) { font-weight: 400; }
 
 /* 2) Hero */
+.compareTheme :global([class*='HeroSection_hero']) {
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+}
 .compareTheme :global([class*='HeroSection_h1']) {
   font-size: clamp(52px, 7vw, 88px);
   font-weight: 400;
@@ -364,8 +368,10 @@
 
 /* 9) Stats */
 .compareTheme :global([class*='StatsBar_num']) {
+  font-family: var(--sans);
   font-size: 60px;
   font-weight: 400;
+  letter-spacing: normal;
   color: #ffffff;
 }
 .compareTheme :global([class*='StatsBar_bar']) {
@@ -423,6 +429,10 @@
 }
 
 @media (max-width: 768px) {
+  .compareTheme :global([class*='HeroSection_hero']) {
+    margin-top: 72px;
+    height: calc(100vh - 72px);
+  }
   .compareTheme :global([class*='IntroSection_h2']) {
     font-size: 36px;
   }
