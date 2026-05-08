@@ -82,6 +82,7 @@ export const iconicProjectsContentQuery = groq`
       _key,
       title,
       location,
+      status,
       s3ImageUrl,
       image,
       "imageUrl": image.asset->url
@@ -154,6 +155,7 @@ export const siteSettingsQuery = groq`
       _key,
       title,
       location,
+      status,
       s3ImageUrl,
       image,
       "imageUrl": image.asset->url

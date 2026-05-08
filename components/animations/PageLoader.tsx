@@ -14,7 +14,7 @@ type LoaderPhase = 'visible' | 'hiding' | 'unmounted'
 export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj logo' }: Props) {
   const [phase, setPhase] = useState<LoaderPhase>('visible')
   const pathname = usePathname()
-  const isCompare = pathname?.startsWith('/compare')
+  const isCompare = pathname === '/'
 
   useEffect(() => {
     const t = window.setTimeout(() => setPhase('hiding'), 1500)

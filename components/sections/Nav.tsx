@@ -21,7 +21,7 @@ export default function Nav({
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isCompare = pathname?.startsWith('/compare') || pathname?.startsWith('/moraj-opulence')
+  const isCompare = pathname === '/' || pathname?.startsWith('/moraj-opulence')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -58,12 +58,12 @@ export default function Nav({
       </Link>
 
       <div className={styles.links}>
-        <Link href="/compare" className={`${styles.link} ${styles.desktopLink}`}>Home</Link>
+        <Link href="/" className={`${styles.link} ${styles.desktopLink}`}>Home</Link>
         <Link href="/#residences" className={`${styles.link} ${styles.desktopLink}`}>Residences</Link>
+        <Link href="/blogs" className={`${styles.link} ${styles.desktopLink}`}>Blogs</Link>
         <Link href="/#craftsmanship" className={`${styles.link} ${styles.desktopLink}`}>About</Link>
-        <Link href="/#team" className={`${styles.link} ${styles.desktopLink}`}>Legacy</Link>
+        <Link href="/#team" className={`${styles.link} ${styles.desktopLink}`}>Career</Link>
         <Link href="/#enquire" className={styles.link}>Contact</Link>
-        <Link href="/#enquire" className={styles.cta}>Enquire Now</Link>
       </div>
 
       <button
@@ -80,10 +80,11 @@ export default function Nav({
 
       <div className={`${styles.mobileMenuPanel} ${menuOpen ? styles.mobileMenuPanelOpen : ''}`}>
         <div className={styles.mobileMenuList}>
-          <Link href="/compare" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link href="/" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/#residences" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Residences</Link>
+          <Link href="/blogs" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Blogs</Link>
           <Link href="/#craftsmanship" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>About</Link>
-          <Link href="/#team" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Legacy</Link>
+          <Link href="/#team" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Career</Link>
           <Link href="/#enquire" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Contact</Link>
         </div>
         <div className={styles.mobileMenuActions}>

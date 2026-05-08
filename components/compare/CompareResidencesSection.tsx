@@ -41,9 +41,14 @@ function detailsHref(card: IconicProjectCard): string {
 
 export default function CompareResidencesSection({ cards = [] }: Props) {
   const items = cards.length > 0 ? cards : FALLBACK_CARDS
+  const hasAnyStatus = items.some((item) => item.status === 'upcoming' || item.status === 'completed')
   const splitIndex = Math.ceil(items.length / 2)
-  const ongoingItems = items.slice(0, splitIndex)
-  const completedItems = items.slice(splitIndex)
+  const ongoingItems = hasAnyStatus
+    ? items.filter((item) => item.status === 'upcoming')
+    : items.slice(0, splitIndex)
+  const completedItems = hasAnyStatus
+    ? items.filter((item) => item.status === 'completed')
+    : items.slice(splitIndex)
   const [activeTab, setActiveTab] = useState<'upcoming' | 'completed'>('upcoming')
   const visibleItems = activeTab === 'upcoming' ? ongoingItems : completedItems
 
@@ -73,7 +78,7 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
 
       <div className={styles.grid}>
         {visibleItems.map((card, i) => {
-          const detailIndex = activeTab === 'upcoming' ? i : splitIndex + i
+          const detailIndex = hasAnyStatus ? i : activeTab === 'upcoming' ? i : splitIndex + i
           const details = DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length]
           const src = cardImageSrc(card)
           const href = detailsHref(card)
@@ -126,6 +131,9 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
       {activeTab === 'upcoming' && ongoingItems.length === 0 && (
         <div className={styles.emptyState}>Upcoming projects will appear here soon.</div>
       )}
+      <div className={styles.viewAllWrap}>
+        <a href="/residences" className={styles.viewAllLink}>View all Properties</a>
+      </div>
     </section>
   )
 }

@@ -13,15 +13,15 @@ import type { Hero, Residence, TeamMember, Testimonial, SiteSettings, IconicProj
 import HeroSection from '@/components/sections/HeroSection'
 import StatsBar from '@/components/sections/StatsBar'
 import IntroSection from '@/components/sections/IntroSection'
-import ResidencesSection from '@/components/sections/ResidencesSection'
+import CompareResidencesSection from '@/components/compare/CompareResidencesSection'
 import CraftsmanshipSection from '@/components/sections/CraftsmanshipSection'
 import TeamSection from '@/components/sections/TeamSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import PressSection from '@/components/sections/PressSection'
 import EnquireSection from '@/components/sections/EnquireSection'
 import Footer from '@/components/sections/Footer'
+import styles from './compare/compare.module.css'
 
-// Revalidate page every 60 seconds (ISR)
 export const revalidate = 60
 
 export default async function HomePage() {
@@ -41,19 +41,64 @@ export default async function HomePage() {
     : { ...devHomepageContent, iconicProjectsContent: null as IconicProjectsContent | null }
 
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
+  const fallbackSubheading = devHomepageContent.hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
+  const fallbackCtaLabel = devHomepageContent.hero?.ctaLabel ?? 'Explore Residences'
+  const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '#residences'
+  const compareHero: Hero = {
+    heading: 'MORAJ GROUP',
+    headingItalic: 'A Legacy of Trust and Excellence Since 1985',
+    subheading: hero?.subheading ?? fallbackSubheading,
+    ctaLabel: hero?.ctaLabel ?? fallbackCtaLabel,
+    ctaHref: hero?.ctaHref ?? fallbackCtaHref,
+    videoLabel: hero?.videoLabel,
+    videoHref: hero?.videoHref,
+    heroVideoUrl: hero?.heroVideoUrl,
+  }
 
   return (
-    <>
-      <HeroSection hero={hero} />
+    <div className={styles.compareTheme}>
+      <HeroSection hero={compareHero} />
       <StatsBar stats={settings?.stats} />
-      <IntroSection settings={settings} />
-      <ResidencesSection cards={iconicDevelopments} />
+      <CompareResidencesSection cards={iconicDevelopments} />
       <CraftsmanshipSection settings={settings} />
-      <TeamSection team={team} settings={settings} />
+      <div className={styles.foundersCardsSection}>
+        <div className={styles.foundersPlaceholder}>
+          <div className={styles.founderCardSlot}>
+            <div className={styles.founderCardBody}>
+              <div className={styles.founderCardTitle}>In-house design</div>
+              <p className={styles.founderCardDesc}>Architecture and execution under one roof</p>
+            </div>
+          </div>
+          <div className={styles.founderCardSlot}>
+            <div className={styles.founderCardBody}>
+              <div className={styles.founderCardTitle}>On-time delivery</div>
+              <p className={styles.founderCardDesc}>30+ projects handed over as promised</p>
+            </div>
+          </div>
+          <div className={styles.founderCardSlot}>
+            <div className={styles.founderCardBody}>
+              <div className={styles.founderCardTitle}>International standards</div>
+              <p className={styles.founderCardDesc}>Global construction benchmarks applied</p>
+            </div>
+          </div>
+          <div className={styles.founderCardSlot}>
+            <div className={styles.founderCardBody}>
+              <div className={styles.founderCardTitle}>Lifestyle-first</div>
+              <p className={styles.founderCardDesc}>Spaces designed for how families truly live</p>
+            </div>
+          </div>
+        </div>
+        <div className={styles.foundersDivider} role="presentation" />
+      </div>
+      <div className={styles.foundersHead}>
+        <div className={styles.foundersLabel}>Our Founders</div>
+      </div>
+      <TeamSection team={team} settings={settings} mobileLayout="stack" />
+      <IntroSection settings={settings} />
       <TestimonialsSection testimonials={testimonials} />
       <PressSection logos={settings?.pressLogos} />
       <EnquireSection settings={settings} residences={residences} />
       <Footer settings={settings} />
-    </>
+    </div>
   )
 }

@@ -18,6 +18,21 @@ export default defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: 'status',
+      title: 'Project Status',
+      type: 'string',
+      initialValue: 'upcoming',
+      options: {
+        list: [
+          { title: 'Upcoming', value: 'upcoming' },
+          { title: 'Completed', value: 'completed' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: 's3ImageUrl',
       title: 'Image URL (S3)',
       type: 'url',

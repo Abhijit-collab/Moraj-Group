@@ -47,6 +47,7 @@ export interface IconicProjectCard {
   _key?: string
   title: string
   location: string
+  status?: 'upcoming' | 'completed'
   s3ImageUrl?: string
   image?: SanityImage | null
   imageUrl?: string
