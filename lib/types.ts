@@ -75,7 +75,8 @@ export interface ProjectDetailFloorPlan {
 export interface ProjectDetail {
   projectName: string
   slug?: Slug
-  heroMeta?: string
+  heroSubtitle?: string
+  heroAddress?: string
   heroBackgroundUrl?: string
   heroBackgroundMediaUrl?: string
   heroPrimaryCtaLabel?: string

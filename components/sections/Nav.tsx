@@ -58,6 +58,7 @@ export default function Nav({
       </Link>
 
       <div className={styles.links}>
+        <Link href="/compare" className={`${styles.link} ${styles.desktopLink}`}>Home</Link>
         <Link href="/#residences" className={`${styles.link} ${styles.desktopLink}`}>Residences</Link>
         <Link href="/#craftsmanship" className={`${styles.link} ${styles.desktopLink}`}>About</Link>
         <Link href="/#team" className={`${styles.link} ${styles.desktopLink}`}>Legacy</Link>
@@ -79,6 +80,7 @@ export default function Nav({
 
       <div className={`${styles.mobileMenuPanel} ${menuOpen ? styles.mobileMenuPanelOpen : ''}`}>
         <div className={styles.mobileMenuList}>
+          <Link href="/compare" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/#residences" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Residences</Link>
           <Link href="/#craftsmanship" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>About</Link>
           <Link href="/#team" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Legacy</Link>

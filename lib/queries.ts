@@ -93,7 +93,8 @@ export const projectDetailBySlugQuery = groq`
   *[_type == "projectDetail" && slug.current == $slug][0] {
     projectName,
     slug,
-    heroMeta,
+    heroSubtitle,
+    heroAddress,
     heroBackgroundUrl,
     "heroBackgroundMediaUrl": heroBackgroundMedia.asset->url,
     heroPrimaryCtaLabel,

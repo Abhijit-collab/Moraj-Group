@@ -19,10 +19,17 @@ export default defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'heroMeta',
-      title: 'Hero Meta Line',
+      name: 'heroSubtitle',
+      title: 'Hero Subtitle',
       type: 'string',
-      description: 'Example: Panvel | 3 & 4 BHK Residences | RERA Registered',
+      description: 'Line shown below project title (example: 3 & 4 BHK Residences).',
+      initialValue: '3 & 4 BHK Residences',
+    }),
+    defineField({
+      name: 'heroAddress',
+      title: 'Hero Address',
+      type: 'string',
+      description: 'Address line shown below project title in hero.',
     }),
     defineField({
       name: 'heroBackgroundUrl',

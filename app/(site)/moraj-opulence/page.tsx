@@ -27,7 +27,8 @@ export default async function MorajOpulencePage() {
     : [devHomepageContent.settings, null]
 
   const title = project?.projectName ?? 'Moraj Opulence'
-  const heroMeta = project?.heroMeta ?? 'Panvel | 3 & 4 BHK Residences | RERA Registered'
+  const heroSubtitle = project?.heroSubtitle ?? '3 & 4 BHK Residences'
+  const heroAddress = project?.heroAddress ?? 'Panvel, Navi Mumbai'
   const heroPrimaryCtaLabel = project?.heroPrimaryCtaLabel ?? 'Book a Site Visit'
   const heroPrimaryCtaHref = project?.heroPrimaryCtaHref ?? '#enquire'
   const heroSecondaryCtaLabel = project?.heroSecondaryCtaLabel ?? 'Download Brochure'
@@ -79,10 +80,25 @@ export default async function MorajOpulencePage() {
   return (
     <div className={compareStyles.compareTheme}>
       <main className={styles.page}>
-        <section className={styles.hero} style={heroBg ? { backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.42) 100%), url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}>
+        <section
+          className={styles.hero}
+          style={
+            heroBg
+              ? {
+                  backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.42) 100%), url(${heroBg})`,
+                  backgroundSize: 'cover, cover',
+                  backgroundPosition: 'center, center 58%',
+                  backgroundRepeat: 'no-repeat, no-repeat',
+                  backgroundColor: '#0e0e0f',
+                }
+              : undefined
+          }
+        >
           <div className={styles.heroInner}>
-            <div className={styles.heroMeta}>{heroMeta}</div>
             <h1 className={styles.heroTitle}>{title}</h1>
+            <div className={styles.heroSubtitle}>{heroSubtitle}</div>
+            <div className={styles.heroAddress}>{heroAddress}</div>
+            <div className={styles.heroRera}>Rera ID : {reraId}</div>
             <div className={styles.heroActions}>
               <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
               <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
