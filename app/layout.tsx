@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { getSanityClient, isSanityConfigured } from '@/lib/sanity'
+import { siteFaviconQuery } from '@/lib/queries'
 import './globals.css'
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   title: { default: 'Moraj Group — Crafting Homes That Define Generations', template: '%s | Moraj Group' },
   description: 'Since 1985, Moraj Group has shaped the residential landscape of Navi Mumbai. Discover iconic residences built with integrity, craftsmanship and care.',
   keywords: ['Moraj Group', 'Navi Mumbai real estate', 'luxury apartments Panvel', 'Moraj Opulence', 'residential developer Navi Mumbai'],
@@ -16,6 +18,24 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  if (!isSanityConfigured) {
+    return baseMetadata
+  }
+  try {
+    const faviconUrl = await getSanityClient().fetch<string | null>(siteFaviconQuery)
+    if (faviconUrl) {
+      return {
+        ...baseMetadata,
+        icons: { icon: faviconUrl, shortcut: faviconUrl, apple: faviconUrl },
+      }
+    }
+  } catch {
+    // Studio or network unavailable — use defaults
+  }
+  return baseMetadata
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

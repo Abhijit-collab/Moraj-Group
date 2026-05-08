@@ -44,6 +44,14 @@ export default defineConfig({
                   .schemaType('iconicProjectsContent')
                   .documentId('iconicProjectsContent')
               ),
+            S.listItem()
+              .title('Press')
+              .id('pressContent')
+              .child(
+                S.document()
+                  .schemaType('pressContent')
+                  .documentId('pressContent')
+              ),
             S.documentTypeListItem('projectDetail').title('Project Detail Pages'),
             S.documentTypeListItem('teamMember').title('Team Members'),
             S.documentTypeListItem('testimonial').title('Testimonials'),

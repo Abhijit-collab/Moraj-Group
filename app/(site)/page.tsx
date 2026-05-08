@@ -6,9 +6,18 @@ import {
   teamQuery,
   testimonialsQuery,
   iconicProjectsContentQuery,
+  pressContentQuery,
   siteSettingsQuery,
 } from '@/lib/queries'
-import type { Hero, Residence, TeamMember, Testimonial, SiteSettings, IconicProjectsContent } from '@/lib/types'
+import type {
+  Hero,
+  Residence,
+  TeamMember,
+  Testimonial,
+  SiteSettings,
+  IconicProjectsContent,
+  PressContent,
+} from '@/lib/types'
 
 import HeroSection from '@/components/sections/HeroSection'
 import StatsBar from '@/components/sections/StatsBar'
@@ -25,20 +34,26 @@ import styles from './compare/compare.module.css'
 export const revalidate = 60
 
 export default async function HomePage() {
-  const { hero, residences, team, testimonials, settings, iconicProjectsContent } = isSanityConfigured
+  const { hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent } = isSanityConfigured
     ? await (async () => {
         const c = getSanityClient()
-        const [hero, residences, team, testimonials, settings, iconicProjectsContent] = await Promise.all([
-          c.fetch<Hero>(heroQuery),
-          c.fetch<Residence[]>(residencesQuery),
-          c.fetch<TeamMember[]>(teamQuery),
-          c.fetch<Testimonial[]>(testimonialsQuery),
-          c.fetch<SiteSettings>(siteSettingsQuery),
-          c.fetch<IconicProjectsContent | null>(iconicProjectsContentQuery),
-        ])
-        return { hero, residences, team, testimonials, settings, iconicProjectsContent }
+        const [hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent] =
+          await Promise.all([
+            c.fetch<Hero>(heroQuery),
+            c.fetch<Residence[]>(residencesQuery),
+            c.fetch<TeamMember[]>(teamQuery),
+            c.fetch<Testimonial[]>(testimonialsQuery),
+            c.fetch<SiteSettings>(siteSettingsQuery),
+            c.fetch<IconicProjectsContent | null>(iconicProjectsContentQuery),
+            c.fetch<PressContent | null>(pressContentQuery),
+          ])
+        return { hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent }
       })()
-    : { ...devHomepageContent, iconicProjectsContent: null as IconicProjectsContent | null }
+    : {
+        ...devHomepageContent,
+        iconicProjectsContent: null as IconicProjectsContent | null,
+        pressContent: null as PressContent | null,
+      }
 
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
   const fallbackSubheading = devHomepageContent.hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
@@ -96,7 +111,7 @@ export default async function HomePage() {
       <TeamSection team={team} settings={settings} mobileLayout="stack" />
       <IntroSection settings={settings} />
       <TestimonialsSection testimonials={testimonials} />
-      <PressSection logos={settings?.pressLogos} />
+      <PressSection press={pressContent?.logos} logos={pressContent?.fallbackPublicationNames} />
       <EnquireSection settings={settings} residences={residences} />
       <Footer settings={settings} />
     </div>

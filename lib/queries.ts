@@ -90,6 +90,17 @@ export const iconicProjectsContentQuery = groq`
   }
 `
 
+export const pressContentQuery = groq`
+  *[_type == "pressContent" && _id == "pressContent"][0] {
+    logos[]{
+      _key,
+      logoUrl,
+      alt
+    },
+    fallbackPublicationNames
+  }
+`
+
 export const projectDetailBySlugQuery = groq`
   *[_type == "projectDetail" && slug.current == $slug][0] {
     projectName,
@@ -134,6 +145,8 @@ export const projectDetailBySlugQuery = groq`
 `
 
 // ─── Site Settings ───────────────────────────
+export const siteFaviconQuery = groq`*[_type == "siteSettings"][0].faviconUrl`
+
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     phone,
@@ -143,7 +156,7 @@ export const siteSettingsQuery = groq`
     brandLogo,
     "brandLogoUrl": brandLogo.asset->url,
     brandLogoExternalUrl,
-    pressLogos,
+    faviconUrl,
     stats,
     introPhilosophy,
     introParagraph1,

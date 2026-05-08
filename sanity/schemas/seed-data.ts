@@ -20,7 +20,6 @@ export const SEED = {
     introPhilosophy: 'Our Philosophy',
     introParagraph1: 'Since 1985, Moraj Group has shaped the residential landscape of Navi Mumbai. As a fully integrated developer — architecture, engineering, interiors — we have never compromised on quality or delivery.',
     introParagraph2: 'Every residence we build reflects international construction standards, thoughtful spatial design, and a relentless commitment to the families who call our homes their own.',
-    pressLogos: ['Times of India', 'Hindustan Times', 'Maharashtra Times', 'DNA India', 'Lokmat'],
     legacyQuote: '"Honesty and quality are not features — they are the foundation on which every Moraj home stands. That belief has not changed in forty years."',
     craftParagraph1: 'Unlike most developers, Moraj Group controls every stage of construction under one roof. From architecture and structural engineering to interior design and finishing — no contractor handles what we can do better ourselves.',
     craftParagraph2: 'This integrated approach has been our foundation for over four decades, and it is why every Moraj residence delivers exactly what was promised — on time, without exception.',
@@ -32,6 +31,12 @@ export const SEED = {
     ],
     enquireHeading: 'Your dream home is waiting for you.',
     enquireSub: 'Schedule a complimentary site visit. Our team will guide you through every detail — no pressure, just possibilities.',
+  },
+
+  /** Create as document _id `pressContent`, type `pressContent`. */
+  pressContent: {
+    logos: [],
+    fallbackPublicationNames: ['Times of India', 'Hindustan Times', 'Maharashtra Times', 'DNA India', 'Lokmat'],
   },
 
   hero: {

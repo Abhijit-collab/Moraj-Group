@@ -135,6 +135,17 @@ export interface Testimonial {
   rating: number
 }
 
+export interface PressLogo {
+  _key?: string
+  logoUrl: string
+  alt?: string
+}
+
+export interface PressContent {
+  logos?: PressLogo[]
+  fallbackPublicationNames?: string[]
+}
+
 export interface SiteSettings {
   phone: string
   email: string
@@ -143,7 +154,7 @@ export interface SiteSettings {
   brandLogo?: SanityImage | null
   brandLogoUrl?: string
   brandLogoExternalUrl?: string
-  pressLogos: string[]
+  faviconUrl?: string
   stats: { label: string; value: string; unit: string }[]
   introPhilosophy: string
   introParagraph1: string

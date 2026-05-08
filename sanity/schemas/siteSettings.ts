@@ -23,6 +23,13 @@ export default defineType({
       description: 'If provided, this URL is used instead of the uploaded logo.',
     }),
     defineField({
+      name: 'faviconUrl',
+      title: 'Favicon URL (S3)',
+      type: 'url',
+      description: 'Direct URL to .ico or .png favicon (e.g. S3). Shown in browser tabs.',
+      validation: (Rule) => Rule.uri({ allowRelative: false, scheme: ['http', 'https'] }),
+    }),
+    defineField({
       name: 'stats',
       title: 'Homepage Stats',
       type: 'array',
@@ -56,13 +63,6 @@ export default defineType({
         'New content list for Iconic Projects cards (only project name, location, and image).',
       type: 'array',
       of: [{ type: 'iconicProjectCard' }],
-    }),
-    defineField({
-      name: 'pressLogos',
-      title: 'Press — Publication Names',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: { layout: 'tags' },
     }),
     defineField({
       name: 'craftHeading',

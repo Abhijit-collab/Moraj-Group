@@ -2,8 +2,22 @@
 .label { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); white-space: nowrap; font-weight: 600; }
 .sep { width: 1px; height: 20px; background: var(--light); flex-shrink: 0; }
 .logosViewport { flex: 1; min-width: 0; overflow: visible; }
-.logosTrack { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-.logo {
+.logosTrack { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; }
+.logosTrackDesktop { display: flex; }
+.logosTrackMobile { display: none; }
+
+/* Publication logos from CMS — no box, no border */
+.logoImg {
+  display: block;
+  height: 52px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Fallback text labels — boxed (legacy) */
+.logoText {
   font-family: var(--serif);
   font-size: 17px;
   color: #443d36;
@@ -13,19 +27,23 @@
   padding: 8px 14px;
   line-height: 1.2;
 }
+
 @keyframes pressScroll {
   from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - 6px)); }
+  to { transform: translateX(calc(-50% - 24px)); }
 }
 
 @media (max-width: 768px) {
   .press { padding: 24px; gap: 20px; }
   .sep { display: none; }
   .logosViewport { overflow: hidden; width: 100%; }
-  .logosTrack {
-    width: max-content;
+  .logosTrackDesktop { display: none; }
+  .logosTrackMobile {
+    display: flex;
     flex-wrap: nowrap;
-    animation: pressScroll 20s linear infinite;
+    width: max-content;
+    animation: pressScroll 22s linear infinite;
   }
-  .logosTrack:hover { animation-play-state: paused; }
+  .logosTrackMobile:hover { animation-play-state: paused; }
+  .logoImg { height: 44px; max-width: 170px; }
 }
