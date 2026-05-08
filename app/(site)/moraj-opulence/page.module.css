@@ -25,9 +25,7 @@
 .heroInner {
   min-width: 0;
   padding: 240px 52px 46px 52px;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(184, 134, 11, 0.38) 0%, rgba(184, 134, 11, 0.2) 32%, transparent 58%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.68) 0%, rgba(0, 0, 0, 0.42) 100%);
+  background: #000000;
 }
 
 .heroMedia {
