@@ -4,6 +4,7 @@ import { projectDetailBySlugQuery, siteSettingsQuery } from '@/lib/queries'
 import type { ProjectDetail, SiteSettings } from '@/lib/types'
 import Link from 'next/link'
 import Footer from '@/components/sections/Footer'
+import FloorPlansLightbox from './FloorPlansLightbox'
 import compareStyles from '../compare/compare.module.css'
 import styles from './page.module.css'
 
@@ -16,6 +17,19 @@ function parseMapEmbedSrc(raw?: string): string {
   const iframeSrcMatch = trimmed.match(/src\s*=\s*["']([^"']+)["']/i)
   if (iframeSrcMatch?.[1]) return iframeSrcMatch[1]
   return trimmed
+}
+
+function getAmenityIcon(label: string): string {
+  const value = label.toLowerCase()
+  if (value.includes('gym')) return '🏋️'
+  if (value.includes('pool')) return '🏊'
+  if (value.includes('club')) return '🏛️'
+  if (value.includes('children') || value.includes('play')) return '🛝'
+  if (value.includes('jog') || value.includes('track')) return '🏃'
+  if (value.includes('indoor') || value.includes('games')) return '🎯'
+  if (value.includes('yoga')) return '🧘'
+  if (value.includes('hall')) return '🏢'
+  return '◆'
 }
 
 export default async function MorajOpulencePage() {
@@ -71,6 +85,15 @@ export default async function MorajOpulencePage() {
   const floorPlans = project?.floorPlans?.length
     ? project.floorPlans
     : [{ label: 'Type A | 980 sq.ft.' }, { label: 'Type B | 1540 sq.ft.' }]
+  const floorPlansWithImages = floorPlans
+    .map((plan) => {
+      const imageUrl = plan.imageUrl || (plan.image ? urlFor(plan.image).width(1200).fit('max').url() : '')
+      return {
+        label: plan.label ?? 'Floor Plan',
+        imageUrl,
+      }
+    })
+    .filter((plan) => Boolean(plan.imageUrl))
   const price = project?.price ?? '₹ 1.85 Cr'
   const priceMeta = project?.priceMeta?.length ? project.priceMeta : ['3 & 4 BHK', '980 - 1540 sq.ft.', 'Jun 2031', 'New Launch']
   const reraId = project?.reraId ?? '—'
@@ -80,29 +103,22 @@ export default async function MorajOpulencePage() {
   return (
     <div className={compareStyles.compareTheme}>
       <main className={styles.page}>
-        <section
-          className={styles.hero}
-          style={
-            heroBg
-              ? {
-                  backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.42) 100%), url(${heroBg})`,
-                  backgroundSize: 'cover, cover',
-                  backgroundPosition: 'center, center 58%',
-                  backgroundRepeat: 'no-repeat, no-repeat',
-                  backgroundColor: '#0e0e0f',
-                }
-              : undefined
-          }
-        >
-          <div className={styles.heroInner}>
-            <h1 className={styles.heroTitle}>{title}</h1>
-            <div className={styles.heroSubtitle}>{heroSubtitle}</div>
-            <div className={styles.heroAddress}>{heroAddress}</div>
-            <div className={styles.heroRera}>Rera ID : {reraId}</div>
-            <div className={styles.heroActions}>
-              <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
-              <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
+        <section className={styles.hero}>
+          <div className={styles.heroSplit}>
+            <div className={styles.heroInner}>
+              <h1 className={styles.heroTitle}>{title}</h1>
+              <div className={styles.heroSubtitle}>{heroSubtitle}</div>
+              <div className={styles.heroAddress}>{heroAddress}</div>
+              <div className={styles.heroRera}>Rera ID : {reraId}</div>
+              <div className={styles.heroActions}>
+                <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
+                <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
+              </div>
             </div>
+            <div
+              className={styles.heroMedia}
+              style={heroBg ? { backgroundImage: `url(${heroBg})` } : undefined}
+            />
           </div>
         </section>
 
@@ -114,6 +130,12 @@ export default async function MorajOpulencePage() {
               <Link href="/residences">Residences</Link>
               <span>/</span>
               <span>{title}</span>
+            </div>
+            <div className={styles.mobilePriceCard}>
+              <div className={styles.price}>{price}</div>
+              <div className={styles.priceMeta}>
+                {priceMeta.map((item, i) => <span key={`mobile-${item}-${i}`}>{item}</span>)}
+              </div>
             </div>
             <div className={styles.sectionNav}>
               <a href="#gallery">Gallery</a>
@@ -165,27 +187,27 @@ export default async function MorajOpulencePage() {
               <h2 className={styles.sectionTitle}>Amenities</h2>
               <div className={styles.amenities}>
                 {amenities.map((a) => (
-                  <div key={a}>{a}</div>
+                  <div key={a}>
+                    <span className={styles.amenityIcon} aria-hidden="true">{getAmenityIcon(a)}</span>
+                    <span>{a}</span>
+                  </div>
                 ))}
               </div>
             </div>
 
             <div id="floor-plans" className={styles.section}>
               <h2 className={styles.sectionTitle}>Floor Plans</h2>
-              <div className={styles.floorPlans}>
-                {floorPlans.map((plan, i) => {
-                  const imgSrc = plan.imageUrl || (plan.image ? urlFor(plan.image).width(900).height(520).fit('crop').url() : '')
-                  return (
-                    <div
-                      key={`${plan.label}-${i}`}
-                      className={styles.floorPlan}
-                      style={imgSrc ? { backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-                    >
+              {floorPlansWithImages.length > 0 ? (
+                <FloorPlansLightbox plans={floorPlansWithImages} />
+              ) : (
+                <div className={styles.floorPlans}>
+                  {floorPlans.map((plan, i) => (
+                    <div key={`${plan.label}-${i}`} className={styles.floorPlan}>
                       {plan.label}
                     </div>
-                  )
-                })}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
