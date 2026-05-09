@@ -135,6 +135,19 @@ export interface Testimonial {
   rating: number
 }
 
+export interface BlogPost {
+  _id: string
+  title: string
+  slug: Slug
+  excerpt?: string
+  contentText?: string
+  author?: string
+  publishedAt?: string
+  coverImage?: SanityImage | null
+  coverImageUrl?: string
+  coverImageExternalUrl?: string
+}
+
 export interface PressLogo {
   _key?: string
   logoUrl: string

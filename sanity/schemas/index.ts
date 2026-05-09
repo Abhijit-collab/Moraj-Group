@@ -9,6 +9,7 @@ import teamMember from './teamMember'
 import testimonial from './testimonial'
 import siteSettings from './siteSettings'
 import projectDetail from './projectDetail'
+import blogPost from './blogPost'
 
 /** Object types used by documents must be listed before those documents (Studio resolves `of: [{ type: '…' }]` reliably). */
 export const schemaTypes = [
@@ -23,4 +24,5 @@ export const schemaTypes = [
   testimonial,
   siteSettings,
   projectDetail,
+  blogPost,
 ]

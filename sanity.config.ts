@@ -52,6 +52,7 @@ export default defineConfig({
                   .schemaType('pressContent')
                   .documentId('pressContent')
               ),
+            S.documentTypeListItem('blogPost').title('Blogs'),
             S.documentTypeListItem('projectDetail').title('Project Detail Pages'),
             S.documentTypeListItem('teamMember').title('Team Members'),
             S.documentTypeListItem('testimonial').title('Testimonials'),

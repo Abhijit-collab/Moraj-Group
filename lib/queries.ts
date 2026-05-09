@@ -76,6 +76,20 @@ export const testimonialsQuery = groq`
   }
 `
 
+export const blogPostsQuery = groq`
+  *[_type == "blogPost" && !(_id in path("drafts.**"))] | order(publishedAt desc, _createdAt desc) {
+    _id,
+    title,
+    slug,
+    "contentText": pt::text(content),
+    author,
+    publishedAt,
+    coverImage,
+    "coverImageUrl": coverImage.asset->url,
+    coverImageExternalUrl
+  }
+`
+
 export const iconicProjectsContentQuery = groq`
   *[_type == "iconicProjectsContent" && _id == "iconicProjectsContent"][0] {
     cards[]{

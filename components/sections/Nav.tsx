@@ -21,7 +21,7 @@ export default function Nav({
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isCompare = pathname === '/' || pathname?.startsWith('/moraj-opulence')
+  const isCompare = pathname === '/' || pathname?.startsWith('/moraj-opulence') || pathname?.startsWith('/blogs')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
