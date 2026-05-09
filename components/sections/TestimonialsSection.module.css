@@ -22,6 +22,9 @@
   padding: 24px 22px 26px;
   border: 1px solid var(--light);
   background: var(--white);
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
 }
 .arrow {
   width: 44px;
@@ -42,7 +45,16 @@
   border-color: #c7aa66;
 }
 .qm { font-family: var(--serif); font-size: 52px; font-weight: 300; color: var(--light); line-height: .8; display: block; margin-bottom: 18px; }
-.quote { font-family: var(--serif); font-size: 21px; font-weight: 700; font-style: italic; color: var(--ink); line-height: 1.75; margin-bottom: 22px; }
+.quote {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.75;
+  margin-bottom: 22px;
+  flex: 1;
+}
 .name { font-size: 18px; color: var(--ink); font-weight: 700; }
 .loc { font-size: 15px; color: var(--mid); font-weight: 700; margin-top: 3px; }
 .stars { color: #c4a870; font-size: 20px; letter-spacing: 5px; margin-top: 6px; }
