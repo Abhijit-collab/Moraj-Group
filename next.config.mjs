@@ -16,6 +16,18 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/studio',
+        destination: 'http://localhost:3333/',
+      },
+      {
+        source: '/studio/:path*',
+        destination: 'http://localhost:3333/:path*',
+      },
+    ]
+  },
 }
 
 export default nextConfig
