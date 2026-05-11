@@ -21,7 +21,11 @@ export default function Nav({
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isCompare = pathname === '/' || pathname?.startsWith('/moraj-opulence') || pathname?.startsWith('/blogs')
+  const isCompare =
+    pathname === '/' ||
+    pathname?.startsWith('/moraj-opulence') ||
+    pathname?.startsWith('/blogs') ||
+    pathname?.startsWith('/career')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -62,7 +66,7 @@ export default function Nav({
         <Link href="/#residences" className={`${styles.link} ${styles.desktopLink}`}>Residences</Link>
         <Link href="/blogs" className={`${styles.link} ${styles.desktopLink}`}>Blogs</Link>
         <Link href="/#craftsmanship" className={`${styles.link} ${styles.desktopLink}`}>About</Link>
-        <Link href="/#team" className={`${styles.link} ${styles.desktopLink}`}>Career</Link>
+        <Link href="/career" className={`${styles.link} ${styles.desktopLink}`}>Career</Link>
         <Link href="/#enquire" className={styles.link}>Contact</Link>
       </div>
 
@@ -84,7 +88,7 @@ export default function Nav({
           <Link href="/#residences" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Residences</Link>
           <Link href="/blogs" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Blogs</Link>
           <Link href="/#craftsmanship" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>About</Link>
-          <Link href="/#team" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Career</Link>
+          <Link href="/career" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Career</Link>
           <Link href="/#enquire" className={styles.mobileMenuLink} onClick={() => setMenuOpen(false)}>Contact</Link>
         </div>
         <div className={styles.mobileMenuActions}>

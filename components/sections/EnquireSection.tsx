@@ -64,14 +64,24 @@ export default function EnquireSection({ settings, residences }: Props) {
               <input className={styles.field} name="name" placeholder="Full name" value={form.name} onChange={onChange} required />
               <input className={styles.field} name="phone" placeholder="Mobile number" value={form.phone} onChange={onChange} required />
             </div>
-            <input className={styles.field} name="email" type="email" placeholder="Email address" value={form.email} onChange={onChange} />
+            <input
+              className={styles.field}
+              name="email"
+              type="email"
+              placeholder="Email address"
+              value={form.email}
+              onChange={onChange}
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="Please enter a valid email address, for example name@example.com"
+              required
+            />
             <select className={styles.field} name="residence" value={form.residence} onChange={onChange} required>
               <option value="">Select a residence</option>
               {residences.map((r) => (
                 <option key={r._id} value={r.title}>{r.title}</option>
               ))}
             </select>
-            <input className={styles.field} name="date" type="text" placeholder="Preferred visit date" value={form.date} onChange={onChange} />
+            <input className={styles.field} name="date" type="text" placeholder="Preferred visit date" value={form.date} onChange={onChange} required />
             <button type="submit" className={styles.submit} disabled={status === 'sending'}>
               <span>{status === 'sending' ? 'Sending…' : 'Request a site visit'}</span>
             </button>

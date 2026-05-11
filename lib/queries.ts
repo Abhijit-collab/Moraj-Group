@@ -115,6 +115,14 @@ export const pressContentQuery = groq`
   }
 `
 
+export const careerContentQuery = groq`
+  *[_type == "careerContent"] | order(_id desc, _updatedAt desc)[0] {
+    heroImageExternalUrl,
+    heroImage,
+    "heroImageUrl": heroImage.asset->url
+  }
+`
+
 export const projectDetailBySlugQuery = groq`
   *[_type == "projectDetail" && slug.current == $slug][0] {
     projectName,

@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+studio-standalone/node_modules/
 /.pnp
 .pnp.js
 

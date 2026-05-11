@@ -5,6 +5,7 @@ import type { ProjectDetail, SiteSettings } from '@/lib/types'
 import Link from 'next/link'
 import Footer from '@/components/sections/Footer'
 import FloorPlansLightbox from './FloorPlansLightbox'
+import ProjectEnquireForm from './ProjectEnquireForm'
 import compareStyles from '../compare/compare.module.css'
 import styles from './page.module.css'
 
@@ -221,13 +222,7 @@ export default async function MorajOpulencePage() {
 
             <div className={styles.reraCard}>Rera ID : {reraId}</div>
 
-            <form className={styles.enquireCard} id="enquire">
-              <h3>{enquireHeading}</h3>
-              <input placeholder="Full Name" />
-              <input placeholder="Email Address" />
-              <input placeholder="Phone Number" />
-              <button type="button">Request Callback</button>
-            </form>
+            <ProjectEnquireForm heading={enquireHeading} />
           </aside>
         </section>
       </main>

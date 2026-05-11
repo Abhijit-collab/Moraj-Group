@@ -159,6 +159,12 @@ export interface PressContent {
   fallbackPublicationNames?: string[]
 }
 
+export interface CareerContent {
+  heroImageExternalUrl?: string
+  heroImage?: SanityImage | null
+  heroImageUrl?: string
+}
+
 export interface SiteSettings {
   phone: string
   email: string
