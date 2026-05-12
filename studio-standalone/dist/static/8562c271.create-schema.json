@@ -226,6 +226,104 @@
         "title": "Project Status"
       },
       {
+        "initialValue": "RESIDENTIAL",
+        "options": {
+          "list": [
+            {
+              "title": "Residential",
+              "value": "RESIDENTIAL"
+            },
+            {
+              "title": "Commercial",
+              "value": "COMMERCIAL"
+            }
+          ],
+          "layout": "radio",
+          "direction": "horizontal"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "RESIDENTIAL",
+                  "COMMERCIAL"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "propertyType",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "configuration",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "endDate",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "reraId",
+        "type": "string",
+        "title": "RERA ID"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "area",
+        "type": "string"
+      },
+      {
         "validation": [
           {
             "rules": [

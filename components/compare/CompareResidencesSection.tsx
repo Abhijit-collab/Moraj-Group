@@ -1,6 +1,6 @@
- 'use client'
+'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
 import styles from './CompareResidencesSection.module.css'
@@ -27,6 +27,9 @@ const DETAIL_FALLBACKS = [
   { type: 'RESIDENTIAL', endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
 ]
 
+const DOT_COUNT = 4
+const CARDS_PER_SLIDE = 3
+
 function cardImageSrc(card: IconicProjectCard): string | null {
   if (card.s3ImageUrl?.trim()) return card.s3ImageUrl.trim()
   if (card.imageUrl?.trim()) return card.imageUrl.trim()
@@ -37,6 +40,16 @@ function cardImageSrc(card: IconicProjectCard): string | null {
 function detailsHref(card: IconicProjectCard): string {
   const title = card.title?.toLowerCase().trim() ?? ''
   return title === 'moraj opulence' ? '/moraj-opulence' : '/residences'
+}
+
+function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS)[number]) {
+  return {
+    type: card.propertyType?.trim() || fallback.type,
+    endDate: card.endDate?.trim() || fallback.endDate,
+    rera: card.reraId?.trim() || fallback.rera,
+    config: card.configuration?.trim() || fallback.config,
+    area: card.area?.trim() || fallback.area,
+  }
 }
 
 export default function CompareResidencesSection({ cards = [] }: Props) {
@@ -50,7 +63,20 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
     ? items.filter((item) => item.status === 'completed')
     : items.slice(splitIndex)
   const [activeTab, setActiveTab] = useState<'upcoming' | 'completed'>('upcoming')
+  const [activeSlide, setActiveSlide] = useState(0)
   const visibleItems = activeTab === 'upcoming' ? ongoingItems : completedItems
+  const slideCount = Math.min(DOT_COUNT, Math.max(1, visibleItems.length - CARDS_PER_SLIDE + 1))
+  const slides = Array.from({ length: slideCount }, (_, slideIndex) =>
+    visibleItems.slice(slideIndex, slideIndex + CARDS_PER_SLIDE)
+  )
+
+  useEffect(() => {
+    setActiveSlide(0)
+  }, [activeTab])
+
+  useEffect(() => {
+    if (activeSlide >= slides.length) setActiveSlide(0)
+  }, [activeSlide, slides.length])
 
   return (
     <section className={styles.section} id="residences">
@@ -76,53 +102,83 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
         </button>
       </div>
 
-      <div className={styles.grid}>
-        {visibleItems.map((card, i) => {
-          const detailIndex = hasAnyStatus ? i : activeTab === 'upcoming' ? i : splitIndex + i
-          const details = DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length]
-          const src = cardImageSrc(card)
-          const href = detailsHref(card)
-          return (
-            <article
-              key={card._key ?? `${activeTab}-${card.title}-${i}`}
-              className={styles.card}
-            >
-              <div className={styles.imageWrap}>
-                <span className={styles.badge}>{details.type}</span>
-                {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
-              </div>
-              <div className={styles.caption}>
-                <div className={styles.name}>{card.title}</div>
-                <div className={styles.location}>{card.location ? card.location.split(',')[0] : '—'}</div>
+      <div className={styles.carousel}>
+        <div className={styles.carouselViewport}>
+          <div className={styles.carouselTrack} style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
+            {slides.map((slide, slideIndex) => (
+              <div className={styles.carouselSlide} key={`${activeTab}-slide-${slideIndex}`}>
+                <div className={styles.carouselGrid}>
+                  {slide.map((card, i) => {
+                    const originalIndex = visibleItems.indexOf(card)
+                    const detailIndex = hasAnyStatus
+                      ? originalIndex
+                      : activeTab === 'upcoming'
+                        ? originalIndex
+                        : splitIndex + originalIndex
+                    const details = cardDetails(card, DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length])
+                    const src = cardImageSrc(card)
+                    const href = detailsHref(card)
+                    return (
+                      <article
+                        key={card._key ?? `${activeTab}-${card.title}-${slideIndex}-${i}`}
+                        className={styles.card}
+                      >
+                        <div className={styles.imageWrap}>
+                          <span className={styles.badge}>{details.type}</span>
+                          {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
+                        </div>
+                        <div className={styles.caption}>
+                          <div className={styles.name}>{card.title}</div>
+                          <div className={styles.location}>{card.location ? card.location.split(',')[0] : '—'}</div>
 
-                <div className={styles.meta}>
-                  <div className={styles.metaRow}>
-                    <span className={styles.metaIcon}>▣</span>
-                    <span>{details.config}</span>
-                    <span className={styles.metaIcon}>◷</span>
-                    <span>{details.endDate}</span>
-                  </div>
-                  <div className={styles.metaRow}>
-                    <span className={styles.metaIcon}>▤</span>
-                    <span className={styles.reraWrap}>
-                      <span className={styles.reraLabel}>RERA ID :</span>
-                      <span className={styles.reraValue}>{details.rera}</span>
-                    </span>
-                    <span className={styles.metaIcon}>▧</span>
-                    <span>{details.area}</span>
-                  </div>
+                          <div className={styles.meta}>
+                            <div className={styles.metaRow}>
+                              <span className={styles.metaIcon}>▣</span>
+                              <span>{details.config}</span>
+                              <span className={styles.metaIcon}>◷</span>
+                              <span>{details.endDate}</span>
+                            </div>
+                            <div className={styles.metaRow}>
+                              <span className={styles.metaIcon}>▤</span>
+                              <span className={styles.reraWrap}>
+                                <span className={styles.reraLabel}>RERA ID :</span>
+                                <span className={styles.reraValue}>{details.rera}</span>
+                              </span>
+                              <span className={styles.metaIcon}>▧</span>
+                              <span>{details.area}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className={styles.actions}>
+                          <a href={href} className={styles.btnPrimary}>View Details</a>
+                          <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
+                        </div>
+                        <a href={href} className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
+                          <span />
+                        </a>
+                      </article>
+                    )
+                  })}
                 </div>
               </div>
-              <div className={styles.actions}>
-                <a href={href} className={styles.btnPrimary}>View Details</a>
-                <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
-              </div>
-              <a href={href} className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
-                <span />
-              </a>
-            </article>
-          )
-        })}
+            ))}
+          </div>
+        </div>
+
+        {slides.length > 1 && (
+          <div className={styles.carouselDots} aria-label="Iconic developments carousel navigation">
+            {slides.map((_, index) => (
+              <button
+                key={`${activeTab}-dot-${index}`}
+                type="button"
+                className={`${styles.carouselDot} ${activeSlide === index ? styles.carouselDotActive : ''}`}
+                onClick={() => setActiveSlide(index)}
+                aria-label={`Show slide ${index + 1}`}
+                aria-current={activeSlide === index ? 'true' : undefined}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {activeTab === 'completed' && completedItems.length === 0 && (

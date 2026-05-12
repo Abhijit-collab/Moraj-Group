@@ -70,6 +70,60 @@
   grid-auto-rows: 1fr;
 }
 
+.carousel {
+  width: 100%;
+}
+
+.carouselViewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform .55s cubic-bezier(.22,1,.36,1);
+  will-change: transform;
+}
+
+.carouselSlide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.carouselGrid {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0 115px;
+}
+
+.carouselDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.carouselDot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid #b59a58;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: width .3s cubic-bezier(.22,1,.36,1), background .3s cubic-bezier(.22,1,.36,1), opacity .3s cubic-bezier(.22,1,.36,1);
+  opacity: .65;
+}
+
+.carouselDotActive {
+  width: 28px;
+  background: #b59a58;
+  opacity: 1;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -156,6 +210,7 @@
 
 @media (max-width: 1024px) {
   .grid { grid-template-columns: 1fr; padding: 0 16px; }
+  .carouselGrid { padding: 0 16px; }
   .emptyState { padding: 18px 16px 0; }
   .viewAllWrap { padding: 0 16px; }
 }
@@ -163,6 +218,7 @@
 @media (max-width: 768px) {
   .head { padding: 0 24px; }
   .grid { grid-template-columns: 1fr; gap: 10px; }
+  .carouselGrid { flex-direction: column; gap: 10px; }
   .name { font-size: 30px; }
   .location { font-size: 20px; }
 }

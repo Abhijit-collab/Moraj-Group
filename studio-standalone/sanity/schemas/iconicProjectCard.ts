@@ -22,6 +22,25 @@ export default defineType({
       },
       validation: (r) => r.required(),
     }),
+    defineField({
+      name: 'propertyType',
+      title: 'Property Type',
+      type: 'string',
+      initialValue: 'RESIDENTIAL',
+      options: {
+        list: [
+          { title: 'Residential', value: 'RESIDENTIAL' },
+          { title: 'Commercial', value: 'COMMERCIAL' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({ name: 'configuration', title: 'Configuration', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'endDate', title: 'End Date', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'reraId', title: 'RERA ID', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'area', title: 'Area', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 's3ImageUrl', title: 'Image URL (S3)', type: 'url' }),
     defineField({
       name: 'image',

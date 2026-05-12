@@ -48,6 +48,11 @@ export interface IconicProjectCard {
   title: string
   location: string
   status?: 'upcoming' | 'completed'
+  propertyType?: string
+  configuration?: string
+  endDate?: string
+  reraId?: string
+  area?: string
   s3ImageUrl?: string
   image?: SanityImage | null
   imageUrl?: string

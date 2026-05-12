@@ -58,13 +58,13 @@ export default async function HomePage() {
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
   const fallbackSubheading = devHomepageContent.hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
   const fallbackCtaLabel = devHomepageContent.hero?.ctaLabel ?? 'Explore Residences'
-  const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '#residences'
+  const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '/residences'
   const compareHero: Hero = {
     heading: 'MORAJ GROUP',
     headingItalic: 'A Legacy of Trust and Excellence Since 1985',
     subheading: hero?.subheading ?? fallbackSubheading,
     ctaLabel: hero?.ctaLabel ?? fallbackCtaLabel,
-    ctaHref: hero?.ctaHref ?? fallbackCtaHref,
+    ctaHref: '/residences',
     videoLabel: hero?.videoLabel,
     videoHref: hero?.videoHref,
     heroVideoUrl: hero?.heroVideoUrl,

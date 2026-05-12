@@ -11,7 +11,7 @@ export default function HeroSection({ hero }: Props) {
   const italicWords = italic.split(' ')
   const subheading = hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
   const ctaLabel = hero?.ctaLabel ?? 'Explore Residences'
-  const ctaHref = hero?.ctaHref ?? '#residences'
+  const ctaHref = hero?.ctaHref ?? '/residences'
   const videoSrc = hero?.heroVideoUrl?.trim() || hero?.videoHref?.trim()
 
   return (
