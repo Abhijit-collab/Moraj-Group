@@ -8,9 +8,13 @@ export const heroQuery = groq`
     subheading,
     ctaLabel,
     ctaHref,
-    videoLabel,
     videoHref,
     "heroVideoUrl": heroVideo.asset->url,
+    stats[] {
+      value,
+      unit,
+      label
+    },
   }
 `
 

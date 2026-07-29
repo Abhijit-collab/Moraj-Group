@@ -60,20 +60,20 @@ export default async function HomePage() {
   const fallbackCtaLabel = devHomepageContent.hero?.ctaLabel ?? 'Explore Residences'
   const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '/residences'
   const compareHero: Hero = {
-    heading: 'MORAJ GROUP',
-    headingItalic: 'A Legacy of Trust and Excellence Since 1985',
+    heading: hero?.heading ?? 'MORAJ GROUP',
+    headingItalic: hero?.headingItalic ?? 'A Legacy of Trust and Excellence Since 1985',
     subheading: hero?.subheading ?? fallbackSubheading,
     ctaLabel: hero?.ctaLabel ?? fallbackCtaLabel,
-    ctaHref: '/residences',
-    videoLabel: hero?.videoLabel,
+    ctaHref: hero?.ctaHref ?? '/residences',
     videoHref: hero?.videoHref,
     heroVideoUrl: hero?.heroVideoUrl,
+    stats: hero?.stats,
   }
 
   return (
     <div className={styles.compareTheme}>
       <HeroSection hero={compareHero} />
-      <StatsBar stats={settings?.stats} />
+      <StatsBar stats={compareHero.stats} />
       <CompareResidencesSection cards={iconicDevelopments} />
       <CraftsmanshipSection settings={settings} />
       <div className={styles.foundersCardsSection}>

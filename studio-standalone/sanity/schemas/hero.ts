@@ -25,7 +25,6 @@ export default defineType({
     }),
     defineField({ name: 'ctaLabel', title: 'Primary Button Label', type: 'string', initialValue: 'Explore Residences' }),
     defineField({ name: 'ctaHref', title: 'Primary Button Link', type: 'string', initialValue: '/residences' }),
-    defineField({ name: 'videoLabel', title: 'Video Button Label', type: 'string', initialValue: 'Watch our story' }),
     defineField({
       name: 'videoHref',
       title: 'Hero Background Video URL',
@@ -38,6 +37,12 @@ export default defineType({
       type: 'file',
       options: { accept: 'video/mp4,video/webm' },
       description: 'Preferred over URL. Upload mp4/webm directly to Sanity.',
+    }),
+    defineField({
+      name: 'stats',
+      title: 'Homepage Stats',
+      type: 'array',
+      of: [{ type: 'object', fields: [defineField({ name: 'value', title: 'Number', type: 'string' }), defineField({ name: 'unit', title: 'Unit / Symbol', type: 'string' }), defineField({ name: 'label', title: 'Label', type: 'string' })] }],
     }),
   ],
   preview: {

@@ -8,6 +8,12 @@ export default defineType({
     defineField({ name: 'projectName', title: 'Project Name', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'projectName', maxLength: 96 }, validation: (r) => r.required() }),
     defineField({ name: 'heroSubtitle', title: 'Hero Subtitle', type: 'string', initialValue: '3 & 4 BHK Residences' }),
+    defineField({
+      name: 'heroMeta',
+      title: 'Hero Meta',
+      type: 'string',
+      description: 'Short meta line under the hero (e.g. location · config · RERA)',
+    }),
     defineField({ name: 'heroAddress', title: 'Hero Address', type: 'string' }),
     defineField({ name: 'heroBackgroundUrl', title: 'Hero Background URL (S3)', type: 'url' }),
     defineField({ name: 'heroBackgroundMedia', title: 'Hero Background Media (Upload)', type: 'file', options: { accept: 'image/*,video/mp4,video/webm' } }),

@@ -12,9 +12,9 @@ export interface Hero {
   subheading: string
   ctaLabel: string
   ctaHref: string
-  videoLabel?: string
   videoHref?: string
   heroVideoUrl?: string
+  stats?: { value: string; unit: string; label: string }[]
 }
 
 export type ResidenceStatus = 'new-launch' | 'ongoing' | 'completed'

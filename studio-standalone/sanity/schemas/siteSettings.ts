@@ -17,12 +17,6 @@ export default defineType({
       type: 'url',
       validation: (Rule) => Rule.uri({ allowRelative: false, scheme: ['http', 'https'] }),
     }),
-    defineField({
-      name: 'stats',
-      title: 'Homepage Stats',
-      type: 'array',
-      of: [{ type: 'object', fields: [defineField({ name: 'value', title: 'Number', type: 'string' }), defineField({ name: 'unit', title: 'Unit / Symbol', type: 'string' }), defineField({ name: 'label', title: 'Label', type: 'string' })] }],
-    }),
     defineField({ name: 'introPhilosophy', title: 'Intro — Section Label', type: 'string', initialValue: 'Our Philosophy' }),
     defineField({ name: 'introParagraph1', title: 'Intro — Paragraph 1', type: 'text', rows: 3 }),
     defineField({ name: 'introParagraph2', title: 'Intro — Paragraph 2', type: 'text', rows: 3 }),
