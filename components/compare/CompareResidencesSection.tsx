@@ -38,7 +38,8 @@ function cardImageSrc(card: IconicProjectCard): string | null {
 }
 
 function detailsHref(card: IconicProjectCard): string {
-  if (card.detailSlug?.trim()) return `/projects/${card.detailSlug.trim()}`
+  const slug = card.detailSlug?.trim()
+  if (slug) return `/projects/${slug}`
   return '/residences'
 }
 

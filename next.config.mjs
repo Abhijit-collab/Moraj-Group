@@ -21,7 +21,7 @@ const nextConfig = {
       {
         source: '/moraj-opulence',
         destination: '/projects/moraj-opulence',
-        permanent: true,
+        permanent: false,
       },
     ]
   },
