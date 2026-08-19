@@ -11,6 +11,7 @@ import styles from './page.module.css'
 import type { Metadata } from 'next'
 
 export const revalidate = 60
+export const dynamicParams = true
 
 interface Props {
   params: { slug: string }
@@ -18,8 +19,12 @@ interface Props {
 
 export async function generateStaticParams() {
   if (!isSanityConfigured) return []
-  const slugs = await getSanityClient().fetch<{ slug: string }[]>(allProjectDetailSlugsQuery)
-  return slugs.map((s) => ({ slug: s.slug }))
+  try {
+    const slugs = await getSanityClient().fetch<{ slug: string }[]>(allProjectDetailSlugsQuery)
+    return (slugs ?? []).filter((s) => s?.slug).map((s) => ({ slug: s.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

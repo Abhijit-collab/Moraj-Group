@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
     revalidatePath('/')
     revalidatePath('/residences')
     revalidatePath('/residences/[slug]', 'page')
+    revalidatePath('/projects/[slug]', 'page')
+    revalidatePath('/moraj-opulence')
     return NextResponse.json({ revalidated: true, now: Date.now() })
   } catch {
     return NextResponse.json({ message: 'Error revalidating' }, { status: 500 })
