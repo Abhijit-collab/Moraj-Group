@@ -38,8 +38,8 @@ function cardImageSrc(card: IconicProjectCard): string | null {
 }
 
 function detailsHref(card: IconicProjectCard): string {
-  const title = card.title?.toLowerCase().trim() ?? ''
-  return title === 'moraj opulence' ? '/moraj-opulence' : '/residences'
+  if (card.detailSlug?.trim()) return `/projects/${card.detailSlug.trim()}`
+  return '/residences'
 }
 
 function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS)[number]) {

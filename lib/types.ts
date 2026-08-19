@@ -53,6 +53,7 @@ export interface IconicProjectCard {
   endDate?: string
   reraId?: string
   area?: string
+  detailSlug?: string
   s3ImageUrl?: string
   image?: SanityImage | null
   imageUrl?: string

@@ -24,6 +24,7 @@ export default function Nav({
   const isCompare =
     pathname === '/' ||
     pathname?.startsWith('/moraj-opulence') ||
+    pathname?.startsWith('/projects') ||
     pathname?.startsWith('/residences') ||
     pathname?.startsWith('/blogs') ||
     pathname?.startsWith('/career')

@@ -16,6 +16,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/moraj-opulence',
+        destination: '/projects/moraj-opulence',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {

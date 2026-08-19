@@ -106,6 +106,7 @@ export const iconicProjectsContentQuery = groq`
       endDate,
       reraId,
       area,
+      detailSlug,
       s3ImageUrl,
       image,
       "imageUrl": image.asset->url
@@ -129,6 +130,12 @@ export const careerContentQuery = groq`
     heroImageExternalUrl,
     heroImage,
     "heroImageUrl": heroImage.asset->url
+  }
+`
+
+export const allProjectDetailSlugsQuery = groq`
+  *[_type == "projectDetail" && defined(slug.current)]{
+    "slug": slug.current
   }
 `
 
@@ -205,6 +212,7 @@ export const siteSettingsQuery = groq`
       endDate,
       reraId,
       area,
+      detailSlug,
       s3ImageUrl,
       image,
       "imageUrl": image.asset->url

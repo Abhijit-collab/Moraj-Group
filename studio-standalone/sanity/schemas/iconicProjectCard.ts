@@ -41,6 +41,12 @@ export default defineType({
     defineField({ name: 'endDate', title: 'End Date', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'reraId', title: 'RERA ID', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'area', title: 'Area', type: 'string', validation: (r) => r.required() }),
+    defineField({
+      name: 'detailSlug',
+      title: 'Detail Page Slug',
+      type: 'string',
+      description: 'Slug of the Project Detail page (e.g. moraj-opulence). Leave empty if no detail page exists.',
+    }),
     defineField({ name: 's3ImageUrl', title: 'Image URL (S3)', type: 'url' }),
     defineField({
       name: 'image',
