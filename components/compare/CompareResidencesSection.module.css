@@ -98,30 +98,48 @@
   padding: 0 115px;
 }
 
-.carouselDots {
+.carouselNav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 18px;
   margin-top: 26px;
 }
 
-.carouselDot {
-  width: 9px;
-  height: 9px;
+.carouselPage {
+  min-width: 3.5rem;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #8a7a55;
+  font-weight: 600;
+}
+
+.carouselArrow {
+  width: 44px;
+  height: 44px;
   border: 1px solid #b59a58;
   border-radius: 999px;
   background: transparent;
-  padding: 0;
+  color: #b59a58;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: width .3s cubic-bezier(.22,1,.36,1), background .3s cubic-bezier(.22,1,.36,1), opacity .3s cubic-bezier(.22,1,.36,1);
-  opacity: .65;
+  transition: background .25s ease, color .25s ease, opacity .25s ease, border-color .25s ease;
+  padding: 0;
 }
 
-.carouselDotActive {
-  width: 28px;
+.carouselArrow:hover:not(:disabled) {
   background: #b59a58;
-  opacity: 1;
+  color: #fff;
+}
+
+.carouselArrow:disabled {
+  opacity: .35;
+  cursor: not-allowed;
 }
 
 .card {

@@ -29,7 +29,6 @@ const DETAIL_FALLBACKS = [
   { type: 'RESIDENTIAL', endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
 ]
 
-const DOT_COUNT = 4
 const CARDS_PER_SLIDE = 3
 
 function cardImageSrc(card: IconicProjectCard): string | null {
@@ -68,18 +67,25 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'completed'>('upcoming')
   const [activeSlide, setActiveSlide] = useState(0)
   const visibleItems = activeTab === 'upcoming' ? ongoingItems : completedItems
-  const slideCount = Math.min(DOT_COUNT, Math.max(1, visibleItems.length - CARDS_PER_SLIDE + 1))
+  const slideCount = Math.max(1, Math.ceil(visibleItems.length / CARDS_PER_SLIDE))
   const slides = Array.from({ length: slideCount }, (_, slideIndex) =>
-    visibleItems.slice(slideIndex, slideIndex + CARDS_PER_SLIDE)
-  )
+    visibleItems.slice(slideIndex * CARDS_PER_SLIDE, slideIndex * CARDS_PER_SLIDE + CARDS_PER_SLIDE)
+  ).filter((slide) => slide.length > 0)
+  const totalSlides = Math.max(1, slides.length)
+  const currentSlide = Math.min(activeSlide, totalSlides - 1)
+  const canGoPrev = currentSlide > 0
+  const canGoNext = currentSlide < totalSlides - 1
 
   useEffect(() => {
     setActiveSlide(0)
   }, [activeTab])
 
   useEffect(() => {
-    if (activeSlide >= slides.length) setActiveSlide(0)
-  }, [activeSlide, slides.length])
+    // Stay on the last valid page (keeps ← enabled); do not jump back to page 1
+    if (activeSlide > totalSlides - 1) {
+      setActiveSlide(Math.max(0, totalSlides - 1))
+    }
+  }, [activeSlide, totalSlides])
 
   return (
     <section className={styles.section} id="residences">
@@ -107,7 +113,7 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
 
       <div className={styles.carousel}>
         <div className={styles.carouselViewport}>
-          <div className={styles.carouselTrack} style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
+          <div className={styles.carouselTrack} style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {slides.map((slide, slideIndex) => (
               <div className={styles.carouselSlide} key={`${activeTab}-slide-${slideIndex}`}>
                 <div className={styles.carouselGrid}>
@@ -182,18 +188,29 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
           </div>
         </div>
 
-        {slides.length > 1 && (
-          <div className={styles.carouselDots} aria-label="Iconic developments carousel navigation">
-            {slides.map((_, index) => (
-              <button
-                key={`${activeTab}-dot-${index}`}
-                type="button"
-                className={`${styles.carouselDot} ${activeSlide === index ? styles.carouselDotActive : ''}`}
-                onClick={() => setActiveSlide(index)}
-                aria-label={`Show slide ${index + 1}`}
-                aria-current={activeSlide === index ? 'true' : undefined}
-              />
-            ))}
+        {totalSlides > 1 && (
+          <div className={styles.carouselNav} aria-label="Iconic developments carousel navigation">
+            <button
+              type="button"
+              className={styles.carouselArrow}
+              onClick={() => setActiveSlide((s) => Math.max(0, s - 1))}
+              disabled={!canGoPrev}
+              aria-label="Previous projects"
+            >
+              ←
+            </button>
+            <span className={styles.carouselPage} aria-live="polite">
+              {currentSlide + 1} / {totalSlides}
+            </span>
+            <button
+              type="button"
+              className={styles.carouselArrow}
+              onClick={() => setActiveSlide((s) => Math.min(totalSlides - 1, s + 1))}
+              disabled={!canGoNext}
+              aria-label="Next projects"
+            >
+              →
+            </button>
           </div>
         )}
       </div>
