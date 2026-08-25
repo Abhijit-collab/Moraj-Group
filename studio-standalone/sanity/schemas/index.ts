@@ -1,10 +1,9 @@
 import pressLogo from './pressLogo'
 import pressContent from './pressContent'
-import homepageDevelopmentCard from './homepageDevelopmentCard'
 import iconicProjectCard from './iconicProjectCard'
 import iconicProjectsContent from './iconicProjectsContent'
+import residencesListingContent from './residencesListingContent'
 import hero from './hero'
-import residence from './residence'
 import teamMember from './teamMember'
 import testimonial from './testimonial'
 import siteSettings from './siteSettings'
@@ -14,12 +13,11 @@ import careerContent from './careerContent'
 
 export const schemaTypes = [
   pressLogo,
-  homepageDevelopmentCard,
   iconicProjectCard,
   iconicProjectsContent,
+  residencesListingContent,
   pressContent,
   hero,
-  residence,
   teamMember,
   testimonial,
   siteSettings,

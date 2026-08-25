@@ -18,45 +18,6 @@ export const heroQuery = groq`
   }
 `
 
-// ─── Residences (all, for homepage grid) ────
-export const residencesQuery = groq`
-  *[_type == "residence"] | order(order asc) {
-    _id,
-    title,
-    slug,
-    location,
-    status,
-    tag,
-    heroImage,
-    configuration,
-    area,
-    pricing,
-    description,
-    rera,
-  }
-`
-
-// ─── Single residence ────────────────────────
-export const residenceBySlugQuery = groq`
-  *[_type == "residence" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    location,
-    status,
-    tag,
-    heroImage,
-    gallery,
-    configuration,
-    area,
-    pricing,
-    description,
-    rera,
-    amenities,
-    floorplans,
-  }
-`
-
 // ─── Team ────────────────────────────────────
 export const teamQuery = groq`
   *[_type == "teamMember"] | order(order asc) {
@@ -114,6 +75,26 @@ export const iconicProjectsContentQuery = groq`
   }
 `
 
+export const residencesListingContentQuery = groq`
+  *[_type == "residencesListingContent" && _id == "residencesListingContent"][0] {
+    cards[]{
+      _key,
+      title,
+      location,
+      status,
+      propertyType,
+      configuration,
+      endDate,
+      reraId,
+      area,
+      detailSlug,
+      s3ImageUrl,
+      image,
+      "imageUrl": image.asset->url
+    }
+  }
+`
+
 export const pressContentQuery = groq`
   *[_type == "pressContent" && _id == "pressContent"][0] {
     logos[]{
@@ -152,6 +133,10 @@ export const projectDetailBySlugQuery = groq`
     heroSecondaryCtaLabel,
     heroSecondaryCtaHref,
     "galleryHeroImageUrl": coalesce(galleryHeroImageUrl, galleryHeroImage.asset->url),
+    galleryImages[] {
+      imageUrl,
+      "uploadUrl": image.asset->url
+    },
     galleryThumbs[] {
       _type,
       asset,
@@ -216,23 +201,6 @@ export const siteSettingsQuery = groq`
       s3ImageUrl,
       image,
       "imageUrl": image.asset->url
-    },
-    homepageDevelopments[]{
-      cardType,
-      "residence": residence->{
-        _id,
-        title,
-        slug,
-        location,
-        status,
-        heroImage,
-        rera
-      },
-      customTitle,
-      customLocation,
-      customStatus,
-      customImage,
-      customHref
     },
   }
 `

@@ -17,32 +17,6 @@ export interface Hero {
   stats?: { value: string; unit: string; label: string }[]
 }
 
-export type ResidenceStatus = 'new-launch' | 'ongoing' | 'completed'
-
-/** Minimal residence fields for homepage / listing tiles (Iconic Developments carousel). */
-export interface ResidenceSummary {
-  _id: string
-  title: string
-  slug: Slug
-  location: string
-  status: ResidenceStatus
-  heroImage?: SanityImage | null
-  rera?: string
-  /** If set, used as the tile link (internal path or absolute URL). */
-  href?: string
-}
-
-/** Raw row from `siteSettings.homepageDevelopments` in GROQ (before normalizing). */
-export interface HomepageDevelopmentCardRaw {
-  cardType?: 'residence' | 'custom'
-  residence?: (Partial<ResidenceSummary> & { _id?: string }) | null
-  customTitle?: string
-  customLocation?: string
-  customStatus?: ResidenceStatus
-  customImage?: SanityImage | null
-  customHref?: string
-}
-
 export interface IconicProjectCard {
   _key?: string
   title: string
@@ -60,6 +34,10 @@ export interface IconicProjectCard {
 }
 
 export interface IconicProjectsContent {
+  cards?: IconicProjectCard[]
+}
+
+export interface ResidencesListingContent {
   cards?: IconicProjectCard[]
 }
 
@@ -91,6 +69,7 @@ export interface ProjectDetail {
   heroSecondaryCtaLabel?: string
   heroSecondaryCtaHref?: string
   galleryHeroImageUrl?: string
+  galleryImages?: { imageUrl?: string; uploadUrl?: string }[]
   galleryThumbs?: SanityImage[]
   galleryMoreText?: string
   specCards?: ProjectDetailSpec[]
@@ -104,24 +83,6 @@ export interface ProjectDetail {
   priceMeta?: string[]
   reraId?: string
   enquireHeading?: string
-}
-
-export interface Residence {
-  _id: string
-  title: string
-  slug: Slug
-  location: string
-  status: ResidenceStatus
-  tag?: string
-  heroImage: SanityImage
-  gallery?: SanityImage[]
-  configuration: string
-  area: string
-  pricing: string
-  description: string
-  rera?: string
-  amenities?: string[]
-  floorplans?: SanityImage[]
 }
 
 export interface TeamMember {
@@ -188,5 +149,4 @@ export interface SiteSettings {
   craftVideoUrl?: string
   craftVideoFileUrl?: string
   iconicProjects?: IconicProjectCard[]
-  homepageDevelopments?: HomepageDevelopmentCardRaw[]
 }

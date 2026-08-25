@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import type { SiteSettings, Residence } from '@/lib/types'
+import type { SiteSettings, IconicProjectCard } from '@/lib/types'
 import styles from './EnquireSection.module.css'
 
 interface Props {
   settings: SiteSettings | null
-  residences: Residence[]
+  projects: IconicProjectCard[]
 }
 
-export default function EnquireSection({ settings, residences }: Props) {
+export default function EnquireSection({ settings, projects }: Props) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', residence: '', date: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
@@ -77,8 +77,8 @@ export default function EnquireSection({ settings, residences }: Props) {
             />
             <select className={styles.field} name="residence" value={form.residence} onChange={onChange} required>
               <option value="">Select a residence</option>
-              {residences.map((r) => (
-                <option key={r._id} value={r.title}>{r.title}</option>
+              {projects.map((p, i) => (
+                <option key={p._key ?? `${p.title}-${i}`} value={p.title}>{p.title}</option>
               ))}
             </select>
             <input className={styles.field} name="date" type="text" placeholder="Preferred visit date" value={form.date} onChange={onChange} required />

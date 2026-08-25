@@ -2,21 +2,22 @@ import { getSanityClient, isSanityConfigured } from '@/lib/sanity'
 import { devHomepageContent } from '@/lib/sanity-dev-data'
 import {
   heroQuery,
-  residencesQuery,
   teamQuery,
   testimonialsQuery,
   iconicProjectsContentQuery,
+  residencesListingContentQuery,
   pressContentQuery,
   siteSettingsQuery,
 } from '@/lib/queries'
 import type {
   Hero,
-  Residence,
   TeamMember,
   Testimonial,
   SiteSettings,
   IconicProjectsContent,
+  ResidencesListingContent,
   PressContent,
+  IconicProjectCard,
 } from '@/lib/types'
 
 import HeroSection from '@/components/sections/HeroSection'
@@ -34,37 +35,48 @@ import styles from './compare/compare.module.css'
 export const revalidate = 60
 
 export default async function HomePage() {
-  const { hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent } = isSanityConfigured
-    ? await (async () => {
-        const c = getSanityClient()
-        const [hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent] =
-          await Promise.all([
-            c.fetch<Hero>(heroQuery),
-            c.fetch<Residence[]>(residencesQuery),
-            c.fetch<TeamMember[]>(teamQuery),
-            c.fetch<Testimonial[]>(testimonialsQuery),
-            c.fetch<SiteSettings>(siteSettingsQuery),
-            c.fetch<IconicProjectsContent | null>(iconicProjectsContentQuery),
-            c.fetch<PressContent | null>(pressContentQuery),
-          ])
-        return { hero, residences, team, testimonials, settings, iconicProjectsContent, pressContent }
-      })()
-    : {
-        ...devHomepageContent,
-        iconicProjectsContent: null as IconicProjectsContent | null,
-        pressContent: null as PressContent | null,
-      }
+  const { hero, team, testimonials, settings, iconicProjectsContent, residencesListingContent, pressContent } =
+    isSanityConfigured
+      ? await (async () => {
+          const c = getSanityClient()
+          const [hero, team, testimonials, settings, iconicProjectsContent, residencesListingContent, pressContent] =
+            await Promise.all([
+              c.fetch<Hero>(heroQuery),
+              c.fetch<TeamMember[]>(teamQuery),
+              c.fetch<Testimonial[]>(testimonialsQuery),
+              c.fetch<SiteSettings>(siteSettingsQuery),
+              c.fetch<IconicProjectsContent | null>(iconicProjectsContentQuery),
+              c.fetch<ResidencesListingContent | null>(residencesListingContentQuery),
+              c.fetch<PressContent | null>(pressContentQuery),
+            ])
+          return {
+            hero,
+            team,
+            testimonials,
+            settings,
+            iconicProjectsContent,
+            residencesListingContent,
+            pressContent,
+          }
+        })()
+      : {
+          ...devHomepageContent,
+          iconicProjectsContent: null as IconicProjectsContent | null,
+          residencesListingContent: null as ResidencesListingContent | null,
+          pressContent: null as PressContent | null,
+        }
 
   const iconicDevelopments = iconicProjectsContent?.cards ?? settings?.iconicProjects ?? []
+  const enquireOptions: IconicProjectCard[] =
+    residencesListingContent?.cards ?? iconicDevelopments
   const fallbackSubheading = devHomepageContent.hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
   const fallbackCtaLabel = devHomepageContent.hero?.ctaLabel ?? 'Explore Residences'
-  const fallbackCtaHref = devHomepageContent.hero?.ctaHref ?? '/residences'
   const compareHero: Hero = {
     heading: hero?.heading ?? 'MORAJ GROUP',
     headingItalic: hero?.headingItalic ?? 'A Legacy of Trust and Excellence Since 1985',
     subheading: hero?.subheading ?? fallbackSubheading,
     ctaLabel: hero?.ctaLabel ?? fallbackCtaLabel,
-    ctaHref: hero?.ctaHref ?? '/residences',
+    ctaHref: '/residences',
     videoHref: hero?.videoHref,
     heroVideoUrl: hero?.heroVideoUrl,
     stats: hero?.stats,
@@ -112,7 +124,7 @@ export default async function HomePage() {
       <IntroSection settings={settings} />
       <TestimonialsSection testimonials={testimonials} />
       <PressSection press={pressContent?.logos} logos={pressContent?.fallbackPublicationNames} />
-      <EnquireSection settings={settings} residences={residences} />
+      <EnquireSection settings={settings} projects={enquireOptions} />
       <Footer settings={settings} />
     </div>
   )

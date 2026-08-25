@@ -1,8 +1,8 @@
 import Footer from '@/components/sections/Footer'
 import { getSanityClient, isSanityConfigured, urlFor } from '@/lib/sanity'
 import { devHomepageContent } from '@/lib/sanity-dev-data'
-import { iconicProjectsContentQuery, siteSettingsQuery } from '@/lib/queries'
-import type { IconicProjectCard, IconicProjectsContent, SiteSettings } from '@/lib/types'
+import { residencesListingContentQuery, siteSettingsQuery } from '@/lib/queries'
+import type { IconicProjectCard, ResidencesListingContent, SiteSettings } from '@/lib/types'
 import type { Metadata } from 'next'
 import cardStyles from '@/components/compare/CompareResidencesSection.module.css'
 import compareStyles from '../compare/compare.module.css'
@@ -48,13 +48,13 @@ function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS
 }
 
 export default async function ResidencesPage() {
-  const [iconicProjectsContent, settings] = isSanityConfigured
+  const [residencesListingContent, settings] = isSanityConfigured
     ? await Promise.all([
-        getSanityClient().fetch<IconicProjectsContent | null>(iconicProjectsContentQuery),
+        getSanityClient().fetch<ResidencesListingContent | null>(residencesListingContentQuery),
         getSanityClient().fetch<SiteSettings>(siteSettingsQuery),
       ])
     : [null, devHomepageContent.settings]
-  const cards = iconicProjectsContent?.cards ?? []
+  const cards = residencesListingContent?.cards ?? []
 
   return (
     <div className={`${compareStyles.compareTheme} ${styles.page}`}>

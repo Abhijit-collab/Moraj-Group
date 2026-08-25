@@ -17,24 +17,80 @@ interface Props {
   params: { slug: string }
 }
 
+const KNOWN_PROJECTS: Record<string, string> = {
+  'moraj-opulence': 'Moraj Opulence',
+  'moraj-pride': 'Moraj Pride',
+  'moraj-prive': 'Moraj Prive',
+  'moraj-eternal': 'Moraj Eternal',
+  'moraj-jewel-crest': 'Moraj Jewel Crest',
+  'jewel-crest': 'Moraj Jewel Crest',
+  'moraj-mountain-view': 'Moraj Mountain View',
+  'moraj-riverside-park': 'Moraj Riverside Park',
+  'moraj-waterfall-gateway': 'Moraj Waterfall Gateway',
+  'moraj-waterfall-gateway-phase-2': 'Moraj Waterfall Gateway Phase 2',
+  'moraj-silent-valley': 'Moraj Silent Valley',
+  'moraj-woods-nagpur': 'Moraj Woods Nagpur',
+  'maa-smriti-maa-shristi': 'Maa Smriti & Maa Shristi',
+}
+
+const PROJECT_FALLBACKS = {
+  heroSubtitle: '3 & 4 BHK Residences',
+  heroAddress: 'Panvel, Navi Mumbai',
+  heroPrimaryCtaLabel: 'Book a Site Visit',
+  heroPrimaryCtaHref: '#enquire',
+  heroSecondaryCtaLabel: 'Download Brochure',
+  heroSecondaryCtaHref: '#',
+  galleryHero: 'https://images.unsplash.com/photo-1613553507747-5f8d62ad5904?auto=format&fit=crop&w=1200&q=80',
+  galleryThumbs: [
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80',
+  ],
+  galleryMoreText: '+ 16 more photos',
+  specCards: [
+    { value: '3 & 4 BHK', label: 'Configuration' },
+    { value: '980 - 1540', label: 'sq.ft.' },
+    { value: 'Jun 2031', label: 'Possession' },
+    { value: '28', label: 'Floors' },
+    { value: '240', label: 'Units' },
+    { value: 'Ready', label: 'to enquire' },
+  ],
+  description:
+    'This Moraj residence is designed for spacious, elegant family living, with premium finishes and thoughtful planning throughout the home.',
+  locationHighlights: [
+    { title: 'Panvel Station', value: '1.2 km' },
+    { title: 'NMIA', value: '9 km' },
+    { title: 'Mumbai-Pune Expy', value: '2.5 km' },
+  ],
+  amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'Children Play Area', 'Jogging Track', 'Indoor Games', 'Yoga Deck', 'Multipurpose Hall'],
+  floorPlans: [{ label: 'Type A | 980 sq.ft.' }, { label: 'Type B | 1540 sq.ft.' }],
+  price: '₹ 1.85 Cr',
+  priceMeta: ['3 & 4 BHK', '980 - 1540 sq.ft.', 'Jun 2031', 'New Launch'],
+  reraId: '—',
+}
+
 export async function generateStaticParams() {
-  if (!isSanityConfigured) return []
+  const known = Object.keys(KNOWN_PROJECTS).map((slug) => ({ slug }))
+  if (!isSanityConfigured) return known
   try {
     const slugs = await getSanityClient().fetch<{ slug: string }[]>(allProjectDetailSlugsQuery)
-    return (slugs ?? []).filter((s) => s?.slug).map((s) => ({ slug: s.slug }))
+    const cms = (slugs ?? []).filter((s) => s?.slug).map((s) => ({ slug: s.slug }))
+    const merged = new Map([...known, ...cms].map((item) => [item.slug, item]))
+    return Array.from(merged.values())
   } catch {
-    return []
+    return known
   }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isSanityConfigured) {
-    return { title: 'Project | Moraj Group' }
+    return { title: `${KNOWN_PROJECTS[params.slug] ?? 'Project'} | Moraj Group` }
   }
   const project = await getSanityClient().fetch<ProjectDetail | null>(projectDetailBySlugQuery, { slug: params.slug })
   return {
-    title: project?.projectName ? `${project.projectName} | Moraj Group` : 'Project | Moraj Group',
-    description: project?.description,
+    title: project?.projectName
+      ? `${project.projectName} | Moraj Group`
+      : `${KNOWN_PROJECTS[params.slug] ?? 'Project'} | Moraj Group`,
+    description: project?.description ?? PROJECT_FALLBACKS.description,
   }
 }
 
@@ -61,52 +117,63 @@ function getAmenityIcon(label: string): string {
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
+  const knownTitle = KNOWN_PROJECTS[params.slug]
+  const fb = PROJECT_FALLBACKS
+
   if (!isSanityConfigured) {
-    return (
-      <div style={{ padding: '120px 52px', fontFamily: 'var(--sans)', color: 'var(--mid)', maxWidth: '560px', lineHeight: 1.6 }}>
-        Project pages load from Sanity. Add <code style={{ fontSize: '12px' }}>NEXT_PUBLIC_SANITY_PROJECT_ID</code> to{' '}
-        <code style={{ fontSize: '12px' }}>.env.local</code>, then restart the dev server.
-      </div>
-    )
+    if (!knownTitle) notFound()
   }
 
-  const [settings, project] = await Promise.all([
-    getSanityClient().fetch<SiteSettings>(siteSettingsQuery),
-    getSanityClient().fetch<ProjectDetail | null>(projectDetailBySlugQuery, { slug: params.slug }),
-  ])
+  const [settings, project] = isSanityConfigured
+    ? await Promise.all([
+        getSanityClient().fetch<SiteSettings>(siteSettingsQuery),
+        getSanityClient().fetch<ProjectDetail | null>(projectDetailBySlugQuery, { slug: params.slug }),
+      ])
+    : [null, null]
 
-  if (!project) notFound()
+  if (!project && !knownTitle) notFound()
 
-  const title = project.projectName
-  const heroSubtitle = project.heroSubtitle ?? ''
-  const heroAddress = project.heroAddress ?? ''
-  const heroPrimaryCtaLabel = project.heroPrimaryCtaLabel ?? 'Book a Site Visit'
-  const heroPrimaryCtaHref = project.heroPrimaryCtaHref ?? '#enquire'
-  const heroSecondaryCtaLabel = project.heroSecondaryCtaLabel ?? 'Download Brochure'
-  const heroSecondaryCtaHref = project.heroSecondaryCtaHref ?? '#'
-  const heroBg = project.heroBackgroundUrl || project.heroBackgroundMediaUrl || ''
-  const galleryHero = project.galleryHeroImageUrl || ''
-  const galleryThumbs =
-    project.galleryThumbs && project.galleryThumbs.length > 0
-      ? project.galleryThumbs.slice(0, 2).map((img) => urlFor(img).width(600).height(260).fit('crop').url())
+  const title = project?.projectName || knownTitle || 'Project'
+  const heroSubtitle = project?.heroSubtitle || fb.heroSubtitle
+  const heroAddress = project?.heroAddress || fb.heroAddress
+  const heroPrimaryCtaLabel = project?.heroPrimaryCtaLabel || fb.heroPrimaryCtaLabel
+  const heroPrimaryCtaHref = project?.heroPrimaryCtaHref || fb.heroPrimaryCtaHref
+  const heroSecondaryCtaLabel = project?.heroSecondaryCtaLabel || fb.heroSecondaryCtaLabel
+  const heroSecondaryCtaHref = project?.heroSecondaryCtaHref || fb.heroSecondaryCtaHref
+  const heroBg = project?.heroBackgroundUrl || project?.heroBackgroundMediaUrl || ''
+  const galleryFromList = (project?.galleryImages ?? [])
+    .map((img) => img.imageUrl?.trim() || img.uploadUrl?.trim() || '')
+    .filter(Boolean)
+  const galleryFromThumbs =
+    project?.galleryThumbs && project.galleryThumbs.length > 0
+      ? project.galleryThumbs.map((img) => urlFor(img).width(600).height(260).fit('crop').url())
       : []
-  const galleryMoreText = project.galleryMoreText ?? ''
-  const specCards = project.specCards ?? []
-  const description = project.description ?? ''
-  const locationHighlights = project.locationHighlights ?? []
-  const amenities = project.amenities ?? []
-  const floorPlans = project.floorPlans ?? []
+  const galleryUrls = Array.from(
+    new Set([project?.galleryHeroImageUrl?.trim() || '', ...galleryFromList, ...galleryFromThumbs].filter(Boolean))
+  )
+  const galleryHero = galleryUrls[0] || fb.galleryHero
+  const galleryThumbs = galleryUrls.length > 1 ? galleryUrls.slice(1, 3) : fb.galleryThumbs
+  const extraCount = Math.max(0, galleryUrls.length - 3)
+  const galleryMoreText =
+    extraCount > 0
+      ? (project?.galleryMoreText || `+ ${extraCount} more photos`)
+      : (project?.galleryMoreText || fb.galleryMoreText)
+  const specCards = project?.specCards?.length ? project.specCards : fb.specCards
+  const description = project?.description || fb.description
+  const locationHighlights = project?.locationHighlights?.length ? project.locationHighlights : fb.locationHighlights
+  const amenities = project?.amenities?.length ? project.amenities : fb.amenities
+  const floorPlans = project?.floorPlans?.length ? project.floorPlans : fb.floorPlans
   const floorPlansWithImages = floorPlans
     .map((plan) => {
       const imageUrl = plan.imageUrl || (plan.image ? urlFor(plan.image).width(1200).fit('max').url() : '')
       return { label: plan.label ?? 'Floor Plan', imageUrl }
     })
     .filter((plan) => Boolean(plan.imageUrl))
-  const price = project.price ?? ''
-  const priceMeta = project.priceMeta ?? []
-  const reraId = project.reraId ?? '—'
-  const enquireHeading = project.enquireHeading ?? `Interested in ${title}?`
-  const mapSrc = parseMapEmbedSrc(project.mapEmbedCode || project.mapEmbedUrl)
+  const price = project?.price || fb.price
+  const priceMeta = project?.priceMeta?.length ? project.priceMeta : fb.priceMeta
+  const reraId = project?.reraId || fb.reraId
+  const enquireHeading = project?.enquireHeading || `Interested in ${title}?`
+  const mapSrc = parseMapEmbedSrc(project?.mapEmbedCode || project?.mapEmbedUrl)
 
   return (
     <div className={compareStyles.compareTheme}>
@@ -150,7 +217,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className={styles.sectionNav}>
               {galleryHero && <a href="#gallery">Gallery</a>}
               {description && <a href="#description">Description</a>}
-              {mapSrc && <a href="#location">Location</a>}
+              {(mapSrc || locationHighlights.length > 0) && <a href="#location">Location</a>}
               {amenities.length > 0 && <a href="#amenities">Amenities</a>}
               {floorPlans.length > 0 && <a href="#floor-plans">Floor Plan</a>}
             </div>
@@ -189,10 +256,14 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
             )}
 
-            {mapSrc && (
+            {(mapSrc || locationHighlights.length > 0) && (
               <div id="location" className={styles.section}>
                 <h2 className={styles.sectionTitle}>Location</h2>
-                <iframe className={styles.mapBlock} src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                {mapSrc ? (
+                  <iframe className={styles.mapBlock} src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                ) : (
+                  <div className={styles.mapBlock} />
+                )}
                 {locationHighlights.length > 0 && (
                   <div className={styles.locStats}>
                     {locationHighlights.map((loc, i) => (

@@ -23,7 +23,29 @@ export default defineType({
     defineField({ name: 'heroSecondaryCtaHref', title: 'Hero Secondary CTA Link', type: 'string', initialValue: '#' }),
     defineField({ name: 'galleryHeroImageUrl', title: 'Gallery Hero Image URL (S3)', type: 'url' }),
     defineField({ name: 'galleryHeroImage', title: 'Gallery Hero Image (Upload)', type: 'image', options: { hotspot: true } }),
-    defineField({ name: 'galleryThumbs', title: 'Gallery Thumbnails', type: 'array', of: [{ type: 'image', options: { hotspot: true } }] }),
+    defineField({
+      name: 'galleryImages',
+      title: 'Gallery Images',
+      type: 'array',
+      description: 'Add multiple gallery photos. Use S3 URL and/or upload. The first item is the large image; the rest are thumbnails.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'imageUrl', title: 'Image URL (S3)', type: 'url' }),
+            defineField({ name: 'image', title: 'Image (Upload)', type: 'image', options: { hotspot: true } }),
+          ],
+          preview: {
+            select: { url: 'imageUrl', media: 'image' },
+            prepare: ({ url, media }) => ({
+              title: url || 'Gallery image',
+              media,
+            }),
+          },
+        },
+      ],
+    }),
+    defineField({ name: 'galleryThumbs', title: 'Gallery Thumbnails (Upload fallback)', type: 'array', of: [{ type: 'image', options: { hotspot: true } }] }),
     defineField({ name: 'galleryMoreText', title: 'Gallery More Text', type: 'string', initialValue: '+ 16 more photos' }),
     defineField({
       name: 'specCards',

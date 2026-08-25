@@ -2,6 +2,11 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './sanity/schemas'
+import {
+  createPublishAndSyncAction,
+  CopyIconicToResidencesAction,
+  SyncResidencesToIconicAction,
+} from './sanity/actions/syncResidencesToIconic'
 
 const projectId =
   process.env.SANITY_STUDIO_PROJECT_ID?.trim() ||
@@ -42,7 +47,6 @@ export default defineConfig({
                   .documentId('hero')
               ),
             S.divider(),
-            S.documentTypeListItem('residence').title('Residences'),
             S.listItem()
               .title('Iconic Projects Content')
               .id('iconicProjectsContent')
@@ -50,6 +54,14 @@ export default defineConfig({
                 S.document()
                   .schemaType('iconicProjectsContent')
                   .documentId('iconicProjectsContent')
+              ),
+            S.listItem()
+              .title('Residences Page Content')
+              .id('residencesListingContent')
+              .child(
+                S.document()
+                  .schemaType('residencesListingContent')
+                  .documentId('residencesListingContent')
               ),
             S.listItem()
               .title('Press')
@@ -76,4 +88,24 @@ export default defineConfig({
     visionTool(),
   ],
   schema: { types: schemaTypes },
+  document: {
+    actions: (prev, context) => {
+      if (context.schemaType === 'residencesListingContent') {
+        return prev
+          .map((action) => {
+            if (action.action === 'publish') {
+              return createPublishAndSyncAction(action)
+            }
+            return action
+          })
+          .concat([SyncResidencesToIconicAction])
+      }
+
+      if (context.schemaType === 'iconicProjectsContent') {
+        return prev.concat([CopyIconicToResidencesAction])
+      }
+
+      return prev
+    },
+  },
 })

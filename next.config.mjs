@@ -23,6 +23,11 @@ const nextConfig = {
         destination: '/projects/moraj-opulence',
         permanent: false,
       },
+      {
+        source: '/residences/:slug',
+        destination: '/projects/:slug',
+        permanent: false,
+      },
     ]
   },
   async rewrites() {

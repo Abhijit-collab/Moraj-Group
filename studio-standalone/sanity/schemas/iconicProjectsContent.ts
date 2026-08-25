@@ -7,8 +7,10 @@ export default defineType({
   fields: [
     defineField({
       name: 'cards',
-      title: 'Iconic Project Cards',
+      title: 'Project Cards',
       type: 'array',
+      description:
+        'Same fields as Residences Page Content. Cards shown in Iconic Developments on the homepage. Use “Copy to Residences” to copy/update matching cards into Residences Page Content (does not delete Residences cards).',
       of: [{ type: 'iconicProjectCard' }],
       validation: (r) => r.required().min(1),
     }),

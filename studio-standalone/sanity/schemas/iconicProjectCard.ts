@@ -1,9 +1,13 @@
 import { defineField, defineType } from 'sanity'
+import { IconicProjectCardInput } from '../components/IconicProjectCardInput'
 
 export default defineType({
   name: 'iconicProjectCard',
   title: 'Iconic Project Card',
   type: 'object',
+  components: {
+    input: IconicProjectCardInput,
+  },
   fields: [
     defineField({ name: 'title', title: 'Project Name', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'location', title: 'Location', type: 'string', validation: (r) => r.required() }),
@@ -56,4 +60,17 @@ export default defineType({
       fields: [defineField({ name: 'alt', title: 'Alt Text', type: 'string' })],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'location',
+      media: 'image',
+      status: 'status',
+    },
+    prepare: ({ title, subtitle, media, status }) => ({
+      title: title || 'Untitled project',
+      subtitle: [status, subtitle].filter(Boolean).join(' · '),
+      media,
+    }),
+  },
 })
