@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
@@ -20,6 +21,8 @@ export default function Nav({
 }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [logoSrc, setLogoSrc] = useState(brandLogoSrc)
+  const [logoHidden, setLogoHidden] = useState(false)
   const pathname = usePathname()
   const isCompare =
     pathname === '/' ||
@@ -28,6 +31,11 @@ export default function Nav({
     pathname?.startsWith('/residences') ||
     pathname?.startsWith('/blogs') ||
     pathname?.startsWith('/career')
+
+  useEffect(() => {
+    setLogoSrc(brandLogoSrc)
+    setLogoHidden(false)
+  }, [brandLogoSrc])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -45,18 +53,20 @@ export default function Nav({
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${isCompare ? styles.compareNav : ''}`}>
       <Link href="/" className={styles.logo}>
-        {brandLogoSrc && (
-          <img
-            src={brandLogoSrc}
+        {logoSrc && !logoHidden && (
+          <Image
+            src={logoSrc}
             alt={brandLogoAlt}
+            width={52}
+            height={52}
             className={styles.logoIcon}
-            onError={(e) => {
-              const img = e.currentTarget
-              if (brandLogoFallbackSrc && img.dataset.fallbackTried !== '1') {
-                img.dataset.fallbackTried = '1'
-                img.src = brandLogoFallbackSrc
+            priority
+            sizes="52px"
+            onError={() => {
+              if (brandLogoFallbackSrc && logoSrc !== brandLogoFallbackSrc) {
+                setLogoSrc(brandLogoFallbackSrc)
               } else {
-                img.style.display = 'none'
+                setLogoHidden(true)
               }
             }}
           />

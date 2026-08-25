@@ -28,12 +28,12 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.72));
-  z-index: 0;
+  z-index: 1;
 }
 
 .overline {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 16px;

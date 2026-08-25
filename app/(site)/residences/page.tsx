@@ -4,8 +4,10 @@ import { devHomepageContent } from '@/lib/sanity-dev-data'
 import { residencesListingContentQuery, siteSettingsQuery } from '@/lib/queries'
 import type { IconicProjectCard, ResidencesListingContent, SiteSettings } from '@/lib/types'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import cardStyles from '@/components/compare/CompareResidencesSection.module.css'
 import compareStyles from '../compare/compare.module.css'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 import styles from './page.module.css'
 
 export const revalidate = 60
@@ -73,7 +75,21 @@ export default async function ResidencesPage() {
               <article key={card._key ?? `${card.title}-${index}`} className={cardStyles.card}>
                 <div className={cardStyles.imageWrap}>
                   <span className={cardStyles.badge}>{details.type}</span>
-                  {src ? <img src={src} alt={card.title} className={cardStyles.img} /> : <div className={cardStyles.placeholder} />}
+                  {src ? (
+                    <Image
+                      src={src}
+                      alt={card.title}
+                      fill
+                      priority={index === 0}
+                      placeholder="blur"
+                      blurDataURL={creamBlurDataURL}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className={cardStyles.img}
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div className={cardStyles.placeholder} />
+                  )}
                 </div>
                 <div className={cardStyles.caption}>
                   <div className={cardStyles.name}>{card.title}</div>

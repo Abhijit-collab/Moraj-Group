@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Footer from '@/components/sections/Footer'
 import { careerContentQuery, siteSettingsQuery } from '@/lib/queries'
+import { darkBlurDataURL } from '@/lib/image-placeholder'
 import { devHomepageContent } from '@/lib/sanity-dev-data'
 import { getSanityClient, isSanityConfigured } from '@/lib/sanity'
 import type { CareerContent, SiteSettings } from '@/lib/types'
@@ -26,10 +28,19 @@ export default async function CareerPage() {
 
   return (
     <div className={`${compareStyles.compareTheme} ${styles.page}`}>
-      <section
-        className={`${styles.hero} ${heroImage ? styles.heroWithImage : ''}`}
-        style={heroImage ? { backgroundImage: `url(${heroImage})` } : undefined}
-      >
+      <section className={`${styles.hero} ${heroImage ? styles.heroWithImage : ''}`}>
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt="Careers at Moraj Group"
+            fill
+            priority
+            placeholder="blur"
+            blurDataURL={darkBlurDataURL}
+            sizes="100vw"
+            style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}
+          />
+        )}
         <p className={styles.overline}>Careers at Moraj</p>
       </section>
 

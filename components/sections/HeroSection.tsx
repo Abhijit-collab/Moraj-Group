@@ -24,6 +24,7 @@ export default function HeroSection({ hero }: Props) {
         muted
         loop
         playsInline
+        preload="metadata"
         poster="/hero-poster.svg"
       >
         {videoSrc && <source src={videoSrc} type={videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}

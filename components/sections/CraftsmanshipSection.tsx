@@ -21,6 +21,7 @@ export default function CraftsmanshipSection({ settings }: Props) {
             muted
             loop
             playsInline
+            preload="metadata"
           />
         ) : (
           <div className={styles.imgPlaceholder} />

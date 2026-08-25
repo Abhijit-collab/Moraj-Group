@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
+import Image from 'next/image'
 import styles from './CompareResidencesSection.module.css'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 
 interface Props {
   cards?: IconicProjectCard[]
@@ -126,7 +128,21 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                       >
                         <div className={styles.imageWrap}>
                           <span className={styles.badge}>{details.type}</span>
-                          {src ? <img src={src} alt={card.title} className={styles.img} /> : <div className={styles.placeholder} />}
+                          {src ? (
+                            <Image
+                              src={src}
+                              alt={card.title}
+                              fill
+                              priority={slideIndex === 0 && i === 0}
+                              placeholder="blur"
+                              blurDataURL={creamBlurDataURL}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className={styles.img}
+                              style={{ objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div className={styles.placeholder} />
+                          )}
                         </div>
                         <div className={styles.caption}>
                           <div className={styles.name}>{card.title}</div>

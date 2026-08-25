@@ -1,4 +1,5 @@
 import type { SiteSettings } from '@/lib/types'
+import Image from 'next/image'
 import styles from './Footer.module.css'
 
 interface Props { settings: SiteSettings | null }
@@ -13,10 +14,13 @@ export default function Footer({ settings }: Props) {
         <div>
           <div className={styles.logoRow}>
             {brandLogoSrc && (
-              <img
+              <Image
                 src={brandLogoSrc}
                 alt={brandLogoAlt}
+                width={180}
+                height={90}
                 className={styles.logoIcon}
+                sizes="180px"
               />
             )}
           </div>

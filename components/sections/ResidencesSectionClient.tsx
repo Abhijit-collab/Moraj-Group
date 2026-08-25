@@ -3,8 +3,10 @@
 import { useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
+import Image from 'next/image'
 import Link from 'next/link'
 import styles from './ResidencesSection.module.css'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 
 interface Props {
   cards?: IconicProjectCard[]
@@ -44,12 +46,24 @@ export default function ResidencesSectionClient({ cards = [] }: Props) {
       <div className={styles.carouselWrap}>
         <div className={styles.viewport}>
           <div className={styles.track} style={{ animationDuration: `${durationSec}s`, animationDirection: direction }}>
-            {items.map((r, i) => (
+            {items.map((r, i) => {
+              const src = cardImageSrc(r)
+              return (
               <div key={`${r._key ?? r.title}-${i}`} className={styles.tileCell}>
               <div className={styles.tile}>
                 <div className={styles.imgWrap}>
-                  {cardImageSrc(r) ? (
-                    <img src={cardImageSrc(r)!} alt={r.title} className={styles.img} />
+                  {src ? (
+                    <Image
+                      src={src}
+                      alt={r.title}
+                      fill
+                      priority={i === 0}
+                      placeholder="blur"
+                      blurDataURL={creamBlurDataURL}
+                      sizes="(max-width: 768px) 70vw, 280px"
+                      className={styles.img}
+                      style={{ objectFit: 'cover' }}
+                    />
                   ) : (
                     <div className={styles.placeholder} />
                   )}
@@ -62,7 +76,8 @@ export default function ResidencesSectionClient({ cards = [] }: Props) {
                 <span className={styles.tileAccent} aria-hidden="true" />
               </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
         <div className={styles.mobileArrows}>

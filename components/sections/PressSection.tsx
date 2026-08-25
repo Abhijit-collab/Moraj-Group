@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import styles from './PressSection.module.css'
 import type { PressLogo } from '@/lib/types'
 
@@ -22,25 +23,27 @@ export default function PressSection({ press, logos }: Props) {
         <div className={styles.logosViewport}>
           <div className={`${styles.logosTrack} ${styles.logosTrackDesktop}`}>
             {items.map((p, i) => (
-              <img
+              <Image
                 key={p._key ?? `${p.logoUrl}-${i}`}
-                src={p.logoUrl}
-                alt={p.alt ?? ''}
+                src={p.logoUrl!}
+                alt={p.alt?.trim() || 'Press feature logo'}
+                width={200}
+                height={52}
                 className={styles.logoImg}
-                loading="lazy"
-                decoding="async"
+                sizes="(max-width: 768px) 170px, 200px"
               />
             ))}
           </div>
           <div className={`${styles.logosTrack} ${styles.logosTrackMobile}`}>
             {doubled.map((p, i) => (
-              <img
+              <Image
                 key={`${p._key ?? p.logoUrl}-m-${i}`}
-                src={p.logoUrl}
-                alt={p.alt ?? ''}
+                src={p.logoUrl!}
+                alt={p.alt?.trim() || 'Press feature logo'}
+                width={200}
+                height={52}
                 className={styles.logoImg}
-                loading="lazy"
-                decoding="async"
+                sizes="170px"
               />
             ))}
           </div>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { TeamMember, SiteSettings } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 import styles from './TeamSection.module.css'
 
 interface Props {
@@ -102,6 +103,8 @@ export default function TeamSection({ team, settings, mobileLayout = 'pair' }: P
                   alt={m.name}
                   fill
                   quality={92}
+                  placeholder="blur"
+                  blurDataURL={creamBlurDataURL}
                   sizes={mobileStack ? '(max-width: 768px) 100vw, 320px' : '(max-width: 768px) 40vw, 280px'}
                   style={{
                     objectFit: 'cover',
@@ -116,6 +119,8 @@ export default function TeamSection({ team, settings, mobileLayout = 'pair' }: P
                   alt={m.photo.alt ?? m.name}
                   fill
                   quality={92}
+                  placeholder="blur"
+                  blurDataURL={creamBlurDataURL}
                   sizes={mobileStack ? '(max-width: 768px) 100vw, 320px' : '(max-width: 768px) 40vw, 280px'}
                   style={{
                     objectFit: 'cover',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 interface Props {
@@ -13,8 +14,15 @@ type LoaderPhase = 'visible' | 'hiding' | 'unmounted'
 
 export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj logo' }: Props) {
   const [phase, setPhase] = useState<LoaderPhase>('visible')
+  const [src, setSrc] = useState(logoSrc)
+  const [hidden, setHidden] = useState(false)
   const pathname = usePathname()
   const isCompare = pathname === '/'
+
+  useEffect(() => {
+    setSrc(logoSrc)
+    setHidden(false)
+  }, [logoSrc])
 
   useEffect(() => {
     const t = window.setTimeout(() => setPhase('hiding'), 1500)
@@ -44,18 +52,20 @@ export default function PageLoader({ logoSrc, logoFallbackSrc, logoAlt = 'Moraj 
       onTransitionEnd={onTransitionEnd}
     >
       <div className="pageLoaderInner">
-        {logoSrc && (
-          <img
-            src={logoSrc}
+        {src && !hidden && (
+          <Image
+            src={src}
             alt={logoAlt}
+            width={152}
+            height={152}
             className="pageLoaderLogo"
-            onError={(e) => {
-              const img = e.currentTarget
-              if (logoFallbackSrc && img.dataset.fallbackTried !== '1') {
-                img.dataset.fallbackTried = '1'
-                img.src = logoFallbackSrc
+            priority
+            sizes="(max-width: 768px) 92px, 152px"
+            onError={() => {
+              if (logoFallbackSrc && src !== logoFallbackSrc) {
+                setSrc(logoFallbackSrc)
               } else {
-                img.style.display = 'none'
+                setHidden(true)
               }
             }}
           />

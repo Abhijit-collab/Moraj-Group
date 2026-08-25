@@ -1,7 +1,9 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import styles from './page.module.css'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 
 interface FloorPlanItem {
   label: string
@@ -55,7 +57,17 @@ export default function FloorPlansLightbox({ plans }: Props) {
             >
               ×
             </button>
-            <img className={styles.floorPlanModalImage} src={activePlan.imageUrl} alt={activePlan.label} />
+            <Image
+              className={styles.floorPlanModalImage}
+              src={activePlan.imageUrl}
+              alt={activePlan.label}
+              width={1180}
+              height={800}
+              placeholder="blur"
+              blurDataURL={creamBlurDataURL}
+              sizes="(max-width: 1180px) 92vw, 1180px"
+              style={{ width: 'auto', height: 'auto', maxWidth: 'min(92vw, 1180px)', maxHeight: '78vh' }}
+            />
             <div className={styles.floorPlanModalLabel}>{activePlan.label}</div>
           </div>
         </div>

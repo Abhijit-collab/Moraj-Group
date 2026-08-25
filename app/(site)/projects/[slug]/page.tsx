@@ -1,11 +1,13 @@
 import { notFound } from 'next/navigation'
 import { getSanityClient, isSanityConfigured, urlFor } from '@/lib/sanity'
 import { allProjectDetailSlugsQuery, projectDetailBySlugQuery, siteSettingsQuery } from '@/lib/queries'
-import type { ProjectDetail, SiteSettings } from '@/lib/types'
+import type { ProjectDetail, ProjectDetailFloorPlan, SiteSettings } from '@/lib/types'
+import Image from 'next/image'
 import Link from 'next/link'
 import Footer from '@/components/sections/Footer'
 import FloorPlansLightbox from './FloorPlansLightbox'
 import ProjectEnquireForm from './ProjectEnquireForm'
+import { creamBlurDataURL, darkBlurDataURL } from '@/lib/image-placeholder'
 import compareStyles from '../../compare/compare.module.css'
 import styles from './page.module.css'
 import type { Metadata } from 'next'
@@ -62,7 +64,7 @@ const PROJECT_FALLBACKS = {
     { title: 'Mumbai-Pune Expy', value: '2.5 km' },
   ],
   amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'Children Play Area', 'Jogging Track', 'Indoor Games', 'Yoga Deck', 'Multipurpose Hall'],
-  floorPlans: [{ label: 'Type A | 980 sq.ft.' }, { label: 'Type B | 1540 sq.ft.' }],
+  floorPlans: [{ label: 'Type A | 980 sq.ft.' }, { label: 'Type B | 1540 sq.ft.' }] as ProjectDetailFloorPlan[],
   price: '₹ 1.85 Cr',
   priceMeta: ['3 & 4 BHK', '980 - 1540 sq.ft.', 'Jun 2031', 'New Launch'],
   reraId: '—',
@@ -190,10 +192,20 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
               </div>
             </div>
-            <div
-              className={styles.heroMedia}
-              style={heroBg ? { backgroundImage: `url(${heroBg})` } : undefined}
-            />
+            <div className={styles.heroMedia}>
+              {heroBg ? (
+                <Image
+                  src={heroBg}
+                  alt={`${title} render`}
+                  fill
+                  priority
+                  placeholder="blur"
+                  blurDataURL={darkBlurDataURL}
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center 58%' }}
+                />
+              ) : null}
+            </div>
           </div>
         </section>
 
@@ -227,11 +239,45 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <div className={styles.section}>
                   <h2 className={styles.sectionTitle}>Gallery</h2>
                 </div>
-                <div id="gallery" className={styles.galleryHero} style={{ backgroundImage: `url(${galleryHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                <div id="gallery" className={styles.galleryHero}>
+                  <Image
+                    src={galleryHero}
+                    alt={`${title} gallery`}
+                    fill
+                    placeholder="blur"
+                    blurDataURL={creamBlurDataURL}
+                    sizes="(max-width: 900px) 100vw, 720px"
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  />
+                </div>
                 {galleryThumbs.length > 0 && (
                   <div className={styles.thumbRow}>
-                    {galleryThumbs[0] && <div className={styles.thumb} style={{ backgroundImage: `url(${galleryThumbs[0]})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />}
-                    {galleryThumbs[1] && <div className={styles.thumb} style={{ backgroundImage: `url(${galleryThumbs[1]})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />}
+                    {galleryThumbs[0] && (
+                      <div className={styles.thumb}>
+                        <Image
+                          src={galleryThumbs[0]}
+                          alt={`${title} gallery thumbnail 1`}
+                          fill
+                          placeholder="blur"
+                          blurDataURL={creamBlurDataURL}
+                          sizes="240px"
+                          style={{ objectFit: 'cover', objectPosition: 'center' }}
+                        />
+                      </div>
+                    )}
+                    {galleryThumbs[1] && (
+                      <div className={styles.thumb}>
+                        <Image
+                          src={galleryThumbs[1]}
+                          alt={`${title} gallery thumbnail 2`}
+                          fill
+                          placeholder="blur"
+                          blurDataURL={creamBlurDataURL}
+                          sizes="240px"
+                          style={{ objectFit: 'cover', objectPosition: 'center' }}
+                        />
+                      </div>
+                    )}
                     {galleryMoreText && <div className={styles.thumbMore}>{galleryMoreText}</div>}
                   </div>
                 )}

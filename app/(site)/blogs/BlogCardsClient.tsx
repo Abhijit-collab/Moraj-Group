@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import type { BlogPost } from '@/lib/types'
+import { creamBlurDataURL } from '@/lib/image-placeholder'
 import styles from './page.module.css'
 
 interface Props {
@@ -67,7 +69,17 @@ export default function BlogCardsClient({ posts }: Props) {
             <article key={post._id} className={styles.card}>
               <div className={styles.media}>
                 {imageSrc ? (
-                  <img src={imageSrc} alt={post.title} className={styles.image} loading="lazy" decoding="async" />
+                  <Image
+                    src={imageSrc}
+                    alt={post.title}
+                    fill
+                    priority={index === 0}
+                    placeholder="blur"
+                    blurDataURL={creamBlurDataURL}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className={styles.image}
+                    style={{ objectFit: 'cover' }}
+                  />
                 ) : (
                   <div className={styles.imagePlaceholder} />
                 )}
@@ -113,10 +125,15 @@ export default function BlogCardsClient({ posts }: Props) {
               </button>
               <div className={styles.modalMedia}>
                 {(activePost.coverImageExternalUrl?.trim() || activePost.coverImageUrl?.trim()) ? (
-                  <img
-                    src={activePost.coverImageExternalUrl?.trim() || activePost.coverImageUrl?.trim()}
+                  <Image
+                    src={(activePost.coverImageExternalUrl?.trim() || activePost.coverImageUrl?.trim())!}
                     alt={activePost.title}
+                    fill
+                    placeholder="blur"
+                    blurDataURL={creamBlurDataURL}
+                    sizes="(max-width: 900px) 92vw, 860px"
                     className={styles.modalImage}
+                    style={{ objectFit: 'cover' }}
                   />
                 ) : (
                   <div className={styles.imagePlaceholder} />
