@@ -41,7 +41,7 @@ export default function CraftsmanshipSection({ settings }: Props) {
         </h2>
         <p className={styles.p}>{p1}</p>
         <p className={styles.p}>{p2}</p>
-        <a href="#team" className={styles.link}>Learn about our process &nbsp;→</a>
+        <a href="#founders-cards" className={styles.link}>Learn about our process &nbsp;→</a>
       </div>
     </section>
   )

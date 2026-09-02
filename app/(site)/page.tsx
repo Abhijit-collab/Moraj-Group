@@ -88,7 +88,7 @@ export default async function HomePage() {
       <StatsBar stats={compareHero.stats} />
       <CompareResidencesSection cards={iconicDevelopments} />
       <CraftsmanshipSection settings={settings} />
-      <div className={styles.foundersCardsSection}>
+      <div className={styles.foundersCardsSection} id="founders-cards">
         <div className={styles.foundersPlaceholder}>
           <div className={styles.founderCardSlot}>
             <div className={styles.founderCardBody}>

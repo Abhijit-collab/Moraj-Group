@@ -1,8 +1,53 @@
-.page { padding-top: 68px; padding-bottom: 80px; background: var(--cream); }
-.header { text-align: center; padding: 80px 52px 56px; border-bottom: 1px solid var(--light); }
-.overline { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); font-weight: 400; display: block; margin-bottom: 13px; }
-.h1 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); font-weight: 400; font-style: italic; color: var(--ink); line-height: 1.06; }
-.cardsGrid { margin-top: 48px; margin-bottom: 86px; }
-.emptyState { padding: 48px 115px 0; color: #6e665a; font-size: 15px; font-weight: 500; }
-@media (max-width: 1024px) { .cardsGrid { margin-top: 40px; } .emptyState { padding: 40px 16px 0; } }
-@media (max-width: 768px) { .header { padding: 64px 24px 42px; } }
+.page {
+  padding-top: 0;
+  padding-bottom: 80px;
+  background: var(--cream);
+}
+
+.header {
+  text-align: center;
+  padding: 96px 52px 32px;
+  background: #fff;
+  border-bottom: 1px solid var(--light);
+}
+
+.overline {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 400;
+  display: block;
+}
+
+.cardsGrid {
+  margin-top: 32px;
+  margin-bottom: 86px;
+}
+
+.listingWrap {
+  padding-top: 8px;
+}
+
+.emptyState {
+  padding: 48px 115px 0;
+  color: #6e665a;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .cardsGrid {
+    margin-top: 40px;
+  }
+
+  .emptyState {
+    padding: 40px 16px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 88px 24px 24px;
+  }
+}

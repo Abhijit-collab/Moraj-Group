@@ -6,6 +6,7 @@ import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
 import styles from './CompareResidencesSection.module.css'
 import { creamBlurDataURL } from '@/lib/image-placeholder'
+import { formatPropertyStatus } from '@/lib/format-property-status'
 
 interface Props {
   cards?: IconicProjectCard[]
@@ -21,15 +22,16 @@ const FALLBACK_CARDS: IconicProjectCard[] = [
 ]
 
 const DETAIL_FALLBACKS = [
-  { type: 'RESIDENTIAL', endDate: 'Jun 2031', rera: 'P51700052109', config: '3 & 4 BHK', area: '980 - 1540 sq.ft.' },
-  { type: 'COMMERCIAL', endDate: 'Dec 2028', rera: 'P51700049320', config: 'Office Spaces', area: '1020 - 1625 sq.ft.' },
-  { type: 'RESIDENTIAL', endDate: 'Jun 2030', rera: 'P51700055856', config: '2, 3, & 4 BHK', area: '990 - 1510 sq.ft.' },
-  { type: 'RESIDENTIAL', endDate: 'Sep 2028', rera: 'P51700010177', config: '2 & 3 BHK', area: '1050 - 1680 sq.ft.' },
-  { type: 'RESIDENTIAL', endDate: 'Dec 2028', rera: 'P51700011721', config: '2 & 3 BHK', area: '1010 - 1590 sq.ft.' },
-  { type: 'RESIDENTIAL', endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
+  { status: 'upcoming' as const, endDate: 'Jun 2031', rera: 'P51700052109', config: '3 & 4 BHK', area: '980 - 1540 sq.ft.' },
+  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700049320', config: 'Office Spaces', area: '1020 - 1625 sq.ft.' },
+  { status: 'completed' as const, endDate: 'Jun 2030', rera: 'P51700055856', config: '2, 3, & 4 BHK', area: '990 - 1510 sq.ft.' },
+  { status: 'upcoming' as const, endDate: 'Sep 2028', rera: 'P51700010177', config: '2 & 3 BHK', area: '1050 - 1680 sq.ft.' },
+  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700011721', config: '2 & 3 BHK', area: '1010 - 1590 sq.ft.' },
+  { status: 'completed' as const, endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
 ]
 
 const CARDS_PER_SLIDE = 3
+type TabKey = 'upcoming' | 'ongoing' | 'completed'
 
 function cardImageSrc(card: IconicProjectCard): string | null {
   if (card.s3ImageUrl?.trim()) return card.s3ImageUrl.trim()
@@ -46,7 +48,7 @@ function detailsHref(card: IconicProjectCard): string {
 
 function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS)[number]) {
   return {
-    type: card.propertyType?.trim() || fallback.type,
+    statusLabel: formatPropertyStatus(card.status || fallback.status),
     endDate: card.endDate?.trim() || fallback.endDate,
     rera: card.reraId?.trim() || fallback.rera,
     config: card.configuration?.trim() || fallback.config,
@@ -56,17 +58,27 @@ function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS
 
 export default function CompareResidencesSection({ cards = [] }: Props) {
   const items = cards.length > 0 ? cards : FALLBACK_CARDS
-  const hasAnyStatus = items.some((item) => item.status === 'upcoming' || item.status === 'completed')
-  const splitIndex = Math.ceil(items.length / 2)
-  const ongoingItems = hasAnyStatus
+  const hasAnyStatus = items.some(
+    (item) => item.status === 'upcoming' || item.status === 'ongoing' || item.status === 'completed'
+  )
+  const third = Math.ceil(items.length / 3)
+  const upcomingItems = hasAnyStatus
     ? items.filter((item) => item.status === 'upcoming')
-    : items.slice(0, splitIndex)
+    : items.slice(0, third)
+  const ongoingItems = hasAnyStatus
+    ? items.filter((item) => item.status === 'ongoing')
+    : items.slice(third, third * 2)
   const completedItems = hasAnyStatus
     ? items.filter((item) => item.status === 'completed')
-    : items.slice(splitIndex)
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'completed'>('upcoming')
+    : items.slice(third * 2)
+  const tabItems: Record<TabKey, IconicProjectCard[]> = {
+    upcoming: upcomingItems,
+    ongoing: ongoingItems,
+    completed: completedItems,
+  }
+  const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
   const [activeSlide, setActiveSlide] = useState(0)
-  const visibleItems = activeTab === 'upcoming' ? ongoingItems : completedItems
+  const visibleItems = tabItems[activeTab]
   const slideCount = Math.max(1, Math.ceil(visibleItems.length / CARDS_PER_SLIDE))
   const slides = Array.from({ length: slideCount }, (_, slideIndex) =>
     visibleItems.slice(slideIndex * CARDS_PER_SLIDE, slideIndex * CARDS_PER_SLIDE + CARDS_PER_SLIDE)
@@ -104,6 +116,13 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
         </button>
         <button
           type="button"
+          className={`${styles.tab} ${activeTab === 'ongoing' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('ongoing')}
+        >
+          Ongoing
+        </button>
+        <button
+          type="button"
           className={`${styles.tab} ${activeTab === 'completed' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('completed')}
         >
@@ -123,7 +142,9 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                       ? originalIndex
                       : activeTab === 'upcoming'
                         ? originalIndex
-                        : splitIndex + originalIndex
+                        : activeTab === 'ongoing'
+                          ? third + originalIndex
+                          : third * 2 + originalIndex
                     const details = cardDetails(card, DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length])
                     const src = cardImageSrc(card)
                     const href = detailsHref(card)
@@ -133,7 +154,7 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                         className={styles.card}
                       >
                         <div className={styles.imageWrap}>
-                          <span className={styles.badge}>{details.type}</span>
+                          <span className={styles.badge}>{details.statusLabel}</span>
                           {src ? (
                             <Image
                               src={src}
@@ -218,7 +239,10 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
       {activeTab === 'completed' && completedItems.length === 0 && (
         <div className={styles.emptyState}>Completed projects will appear here soon.</div>
       )}
-      {activeTab === 'upcoming' && ongoingItems.length === 0 && (
+      {activeTab === 'ongoing' && ongoingItems.length === 0 && (
+        <div className={styles.emptyState}>Ongoing projects will appear here soon.</div>
+      )}
+      {activeTab === 'upcoming' && upcomingItems.length === 0 && (
         <div className={styles.emptyState}>Upcoming projects will appear here soon.</div>
       )}
       <div className={styles.viewAllWrap}>

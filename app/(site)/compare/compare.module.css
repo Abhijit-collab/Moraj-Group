@@ -141,6 +141,7 @@
   margin: 0 auto;
   padding: 0 52px;
   box-sizing: border-box;
+  scroll-margin-top: 96px;
 }
 .foundersPlaceholder {
   display: grid;

@@ -5,7 +5,6 @@ type ListingCard = {
   title?: string
   location?: string
   status?: string
-  propertyType?: string
   configuration?: string
   endDate?: string
   reraId?: string
@@ -138,7 +137,6 @@ export async function syncResidencesToIconic(): Promise<{
       title: source.title,
       location: source.location,
       status: source.status,
-      propertyType: source.propertyType,
       configuration: source.configuration,
       endDate: source.endDate,
       reraId: source.reraId,

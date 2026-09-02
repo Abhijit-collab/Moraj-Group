@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import styles from './Nav.module.css'
 
 interface Props {
@@ -23,14 +22,6 @@ export default function Nav({
   const [menuOpen, setMenuOpen] = useState(false)
   const [logoSrc, setLogoSrc] = useState(brandLogoSrc)
   const [logoHidden, setLogoHidden] = useState(false)
-  const pathname = usePathname()
-  const isCompare =
-    pathname === '/' ||
-    pathname?.startsWith('/moraj-opulence') ||
-    pathname?.startsWith('/projects') ||
-    pathname?.startsWith('/residences') ||
-    pathname?.startsWith('/blogs') ||
-    pathname?.startsWith('/career')
 
   useEffect(() => {
     setLogoSrc(brandLogoSrc)
@@ -51,7 +42,7 @@ export default function Nav({
   }, [menuOpen])
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${isCompare ? styles.compareNav : ''}`}>
+    <nav className={`${styles.nav} ${styles.compareNav} ${scrolled ? styles.scrolled : ''}`}>
       <Link href="/" className={styles.logo}>
         {logoSrc && !logoHidden && (
           <Image

@@ -1,4 +1,4 @@
-.page { padding-top: 68px; }
+.page { padding-top: 0; background: var(--cream); }
 .header { text-align: center; padding: 80px 52px 56px; border-bottom: 1px solid var(--light); }
 .skOverline { width: 120px; height: 10px; background: var(--xlight); border-radius: 4px; margin: 0 auto 16px; animation: pulse 1.4s ease-in-out infinite; }
 .skTitle { width: 280px; height: 48px; background: var(--xlight); border-radius: 4px; margin: 0 auto; animation: pulse 1.4s ease-in-out infinite; }

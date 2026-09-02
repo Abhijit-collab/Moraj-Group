@@ -13,28 +13,15 @@ export default defineType({
     defineField({ name: 'location', title: 'Location', type: 'string', validation: (r) => r.required() }),
     defineField({
       name: 'status',
-      title: 'Project Status',
+      title: 'Property Status',
       type: 'string',
+      description: 'Shown on the card badge and used for Upcoming / Ongoing / Completed tabs on the site.',
       initialValue: 'upcoming',
       options: {
         list: [
           { title: 'Upcoming', value: 'upcoming' },
+          { title: 'Ongoing', value: 'ongoing' },
           { title: 'Completed', value: 'completed' },
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      validation: (r) => r.required(),
-    }),
-    defineField({
-      name: 'propertyType',
-      title: 'Property Type',
-      type: 'string',
-      initialValue: 'RESIDENTIAL',
-      options: {
-        list: [
-          { title: 'Residential', value: 'RESIDENTIAL' },
-          { title: 'Commercial', value: 'COMMERCIAL' },
         ],
         layout: 'radio',
         direction: 'horizontal',
