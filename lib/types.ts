@@ -14,6 +14,8 @@ export interface Hero {
   ctaHref: string
   videoHref?: string
   heroVideoUrl?: string
+  mobileVideoHref?: string
+  heroMobileVideoUrl?: string
   stats?: { value: string; unit: string; label: string }[]
 }
 

@@ -10,6 +10,8 @@
   transform-origin: center center;
   animation: heroKenBurns 8s ease-in-out both;
 }
+.videoDesktop { display: block; }
+.videoMobile { display: none; }
 .heroBgFallback {
   position: absolute; inset: 0; z-index: 0;
   background:
@@ -105,4 +107,6 @@
     padding: 11px 30px;
     letter-spacing: .14em;
   }
+  .videoDesktop { display: none; }
+  .videoMobile { display: block; }
 }

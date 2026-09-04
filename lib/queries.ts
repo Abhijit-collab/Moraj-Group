@@ -10,6 +10,8 @@ export const heroQuery = groq`
     ctaHref,
     videoHref,
     "heroVideoUrl": heroVideo.asset->url,
+    mobileVideoHref,
+    "heroMobileVideoUrl": heroMobileVideo.asset->url,
     stats[] {
       value,
       unit,

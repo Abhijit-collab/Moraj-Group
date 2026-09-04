@@ -189,11 +189,19 @@
 .location { font-size: 24px; color: #656565; margin-top: 4px; font-weight: 500; }
 
 .meta { margin-top: 14px; display: grid; gap: 8px; font-size: 15px; color: #202020; font-weight: 600; }
-.metaRow { display: grid; grid-template-columns: auto 1fr auto 1fr; align-items: center; gap: 8px; }
+.metaRow { display: grid; grid-template-columns: auto 1fr auto 1fr; align-items: center; gap: 8px; min-height: 1.4em; }
 .metaIcon { color: #b59a58; font-size: 14px; }
-.reraWrap { display: flex; flex-direction: column; line-height: 1.25; }
+.metaEmpty {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  color: #8a847c;
+  text-transform: uppercase;
+}
+.reraWrap { display: flex; flex-direction: column; line-height: 1.25; min-height: 2.5em; }
 .reraLabel { white-space: nowrap; }
 .reraValue { font-weight: 700; }
+.reraValue.metaEmpty { font-weight: 600; }
 
 .actions {
   margin-top: auto;

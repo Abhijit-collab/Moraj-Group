@@ -21,15 +21,6 @@ const FALLBACK_CARDS: IconicProjectCard[] = [
   { _key: 'fallback-6', title: 'Moraj Skyline', location: 'Nerul' },
 ]
 
-const DETAIL_FALLBACKS = [
-  { status: 'upcoming' as const, endDate: 'Jun 2031', rera: 'P51700052109', config: '3 & 4 BHK', area: '980 - 1540 sq.ft.' },
-  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700049320', config: 'Office Spaces', area: '1020 - 1625 sq.ft.' },
-  { status: 'completed' as const, endDate: 'Jun 2030', rera: 'P51700055856', config: '2, 3, & 4 BHK', area: '990 - 1510 sq.ft.' },
-  { status: 'upcoming' as const, endDate: 'Sep 2028', rera: 'P51700010177', config: '2 & 3 BHK', area: '1050 - 1680 sq.ft.' },
-  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700011721', config: '2 & 3 BHK', area: '1010 - 1590 sq.ft.' },
-  { status: 'completed' as const, endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
-]
-
 const CARDS_PER_SLIDE = 3
 type TabKey = 'upcoming' | 'ongoing' | 'completed'
 
@@ -46,14 +37,20 @@ function detailsHref(card: IconicProjectCard): string {
   return '/residences'
 }
 
-function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS)[number]) {
+const EMPTY_DETAIL = 'NOT AVAILABLE'
+
+function cardDetails(card: IconicProjectCard) {
   return {
-    statusLabel: formatPropertyStatus(card.status || fallback.status),
-    endDate: card.endDate?.trim() || fallback.endDate,
-    rera: card.reraId?.trim() || fallback.rera,
-    config: card.configuration?.trim() || fallback.config,
-    area: card.area?.trim() || fallback.area,
+    statusLabel: card.status ? formatPropertyStatus(card.status) : '',
+    config: card.configuration?.trim() || EMPTY_DETAIL,
+    endDate: card.endDate?.trim() || EMPTY_DETAIL,
+    rera: card.reraId?.trim() || EMPTY_DETAIL,
+    area: card.area?.trim() || EMPTY_DETAIL,
   }
+}
+
+function isEmptyDetail(value: string) {
+  return value === EMPTY_DETAIL
 }
 
 export default function CompareResidencesSection({ cards = [] }: Props) {
@@ -137,15 +134,7 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
               <div className={styles.carouselSlide} key={`${activeTab}-slide-${slideIndex}`}>
                 <div className={styles.carouselGrid}>
                   {slide.map((card, i) => {
-                    const originalIndex = visibleItems.indexOf(card)
-                    const detailIndex = hasAnyStatus
-                      ? originalIndex
-                      : activeTab === 'upcoming'
-                        ? originalIndex
-                        : activeTab === 'ongoing'
-                          ? third + originalIndex
-                          : third * 2 + originalIndex
-                    const details = cardDetails(card, DETAIL_FALLBACKS[detailIndex % DETAIL_FALLBACKS.length])
+                    const details = cardDetails(card)
                     const src = cardImageSrc(card)
                     const href = detailsHref(card)
                     return (
@@ -154,7 +143,9 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                         className={styles.card}
                       >
                         <div className={styles.imageWrap}>
-                          <span className={styles.badge}>{details.statusLabel}</span>
+                          {details.statusLabel ? (
+                            <span className={styles.badge}>{details.statusLabel}</span>
+                          ) : null}
                           {src ? (
                             <Image
                               src={src}
@@ -178,18 +169,28 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                           <div className={styles.meta}>
                             <div className={styles.metaRow}>
                               <span className={styles.metaIcon}>▣</span>
-                              <span>{details.config}</span>
+                              <span className={isEmptyDetail(details.config) ? styles.metaEmpty : undefined}>
+                                {details.config}
+                              </span>
                               <span className={styles.metaIcon}>◷</span>
-                              <span>{details.endDate}</span>
+                              <span className={isEmptyDetail(details.endDate) ? styles.metaEmpty : undefined}>
+                                {details.endDate}
+                              </span>
                             </div>
                             <div className={styles.metaRow}>
                               <span className={styles.metaIcon}>▤</span>
                               <span className={styles.reraWrap}>
                                 <span className={styles.reraLabel}>RERA ID :</span>
-                                <span className={styles.reraValue}>{details.rera}</span>
+                                <span
+                                  className={`${styles.reraValue}${isEmptyDetail(details.rera) ? ` ${styles.metaEmpty}` : ''}`}
+                                >
+                                  {details.rera}
+                                </span>
                               </span>
                               <span className={styles.metaIcon}>▧</span>
-                              <span>{details.area}</span>
+                              <span className={isEmptyDetail(details.area) ? styles.metaEmpty : undefined}>
+                                {details.area}
+                              </span>
                             </div>
                           </div>
                         </div>

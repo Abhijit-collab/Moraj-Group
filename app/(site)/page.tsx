@@ -79,6 +79,8 @@ export default async function HomePage() {
     ctaHref: '/residences',
     videoHref: hero?.videoHref,
     heroVideoUrl: hero?.heroVideoUrl,
+    mobileVideoHref: hero?.mobileVideoHref,
+    heroMobileVideoUrl: hero?.heroMobileVideoUrl,
     stats: hero?.stats,
   }
 

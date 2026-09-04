@@ -15,7 +15,7 @@ export default defineType({
       name: 'status',
       title: 'Property Status',
       type: 'string',
-      description: 'Shown on the card badge and used for Upcoming / Ongoing / Completed tabs on the site.',
+      description: 'Optional. Shown on the card badge and used for Upcoming / Ongoing / Completed tabs on the site.',
       initialValue: 'upcoming',
       options: {
         list: [
@@ -26,17 +26,36 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
-      validation: (r) => r.required(),
     }),
-    defineField({ name: 'configuration', title: 'Configuration', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'endDate', title: 'End Date', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'reraId', title: 'RERA ID', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'area', title: 'Area', type: 'string', validation: (r) => r.required() }),
+    defineField({
+      name: 'configuration',
+      title: 'Configuration',
+      type: 'string',
+      description: 'Optional. e.g. 3 & 4 BHK',
+    }),
+    defineField({
+      name: 'endDate',
+      title: 'End Date',
+      type: 'string',
+      description: 'Optional. e.g. Jun 2031',
+    }),
+    defineField({
+      name: 'reraId',
+      title: 'RERA ID',
+      type: 'string',
+      description: 'Optional',
+    }),
+    defineField({
+      name: 'area',
+      title: 'Area',
+      type: 'string',
+      description: 'Optional. e.g. 980 - 1540 sq.ft.',
+    }),
     defineField({
       name: 'detailSlug',
       title: 'Detail Page Slug',
       type: 'string',
-      description: 'Slug of the Project Detail page (e.g. moraj-opulence). Leave empty if no detail page exists.',
+      description: 'Optional. Slug of the Project Detail page (e.g. moraj-opulence). Leave empty if no detail page exists.',
     }),
     defineField({ name: 's3ImageUrl', title: 'Image URL (S3)', type: 'url' }),
     defineField({

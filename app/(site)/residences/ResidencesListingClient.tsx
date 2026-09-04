@@ -11,15 +11,6 @@ import styles from './page.module.css'
 
 type TabKey = 'all' | 'upcoming' | 'ongoing' | 'completed'
 
-const DETAIL_FALLBACKS = [
-  { status: 'upcoming' as const, endDate: 'Jun 2031', rera: 'P51700052109', config: '3 & 4 BHK', area: '980 - 1540 sq.ft.' },
-  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700049320', config: 'Office Spaces', area: '1020 - 1625 sq.ft.' },
-  { status: 'completed' as const, endDate: 'Jun 2030', rera: 'P51700055856', config: '2, 3, & 4 BHK', area: '990 - 1510 sq.ft.' },
-  { status: 'upcoming' as const, endDate: 'Sep 2028', rera: 'P51700010177', config: '2 & 3 BHK', area: '1050 - 1680 sq.ft.' },
-  { status: 'ongoing' as const, endDate: 'Dec 2028', rera: 'P51700011721', config: '2 & 3 BHK', area: '1010 - 1590 sq.ft.' },
-  { status: 'completed' as const, endDate: 'Mar 2029', rera: 'P51700013866', config: '2 & 3 BHK', area: '1080 - 1710 sq.ft.' },
-]
-
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'upcoming', label: 'Upcoming' },
@@ -40,14 +31,20 @@ function detailsHref(card: IconicProjectCard): string {
   return '/residences'
 }
 
-function cardDetails(card: IconicProjectCard, fallback: (typeof DETAIL_FALLBACKS)[number]) {
+const EMPTY_DETAIL = 'NOT AVAILABLE'
+
+function cardDetails(card: IconicProjectCard) {
   return {
-    statusLabel: formatPropertyStatus(card.status || fallback.status),
-    endDate: card.endDate?.trim() || fallback.endDate,
-    rera: card.reraId?.trim() || fallback.rera,
-    config: card.configuration?.trim() || fallback.config,
-    area: card.area?.trim() || fallback.area,
+    statusLabel: card.status ? formatPropertyStatus(card.status) : '',
+    config: card.configuration?.trim() || EMPTY_DETAIL,
+    endDate: card.endDate?.trim() || EMPTY_DETAIL,
+    rera: card.reraId?.trim() || EMPTY_DETAIL,
+    area: card.area?.trim() || EMPTY_DETAIL,
   }
+}
+
+function isEmptyDetail(value: string) {
+  return value === EMPTY_DETAIL
 }
 
 function filterCards(cards: IconicProjectCard[], tab: TabKey): IconicProjectCard[] {
@@ -85,14 +82,15 @@ export default function ResidencesListingClient({ cards }: Props) {
       {filteredCards.length > 0 ? (
         <div className={`${cardStyles.grid} ${styles.cardsGrid}`}>
           {filteredCards.map((card, index) => {
-            const originalIndex = cards.indexOf(card)
-            const details = cardDetails(card, DETAIL_FALLBACKS[originalIndex % DETAIL_FALLBACKS.length])
+            const details = cardDetails(card)
             const src = cardImageSrc(card)
             const href = detailsHref(card)
             return (
               <article key={card._key ?? `${card.title}-${index}`} className={cardStyles.card}>
                 <div className={cardStyles.imageWrap}>
-                  <span className={cardStyles.badge}>{details.statusLabel}</span>
+                  {details.statusLabel ? (
+                    <span className={cardStyles.badge}>{details.statusLabel}</span>
+                  ) : null}
                   {src ? (
                     <Image
                       src={src}
@@ -116,18 +114,28 @@ export default function ResidencesListingClient({ cards }: Props) {
                   <div className={cardStyles.meta}>
                     <div className={cardStyles.metaRow}>
                       <span className={cardStyles.metaIcon}>▣</span>
-                      <span>{details.config}</span>
+                      <span className={isEmptyDetail(details.config) ? cardStyles.metaEmpty : undefined}>
+                        {details.config}
+                      </span>
                       <span className={cardStyles.metaIcon}>◷</span>
-                      <span>{details.endDate}</span>
+                      <span className={isEmptyDetail(details.endDate) ? cardStyles.metaEmpty : undefined}>
+                        {details.endDate}
+                      </span>
                     </div>
                     <div className={cardStyles.metaRow}>
                       <span className={cardStyles.metaIcon}>▤</span>
                       <span className={cardStyles.reraWrap}>
                         <span className={cardStyles.reraLabel}>RERA ID :</span>
-                        <span className={cardStyles.reraValue}>{details.rera}</span>
+                        <span
+                          className={`${cardStyles.reraValue}${isEmptyDetail(details.rera) ? ` ${cardStyles.metaEmpty}` : ''}`}
+                        >
+                          {details.rera}
+                        </span>
                       </span>
                       <span className={cardStyles.metaIcon}>▧</span>
-                      <span>{details.area}</span>
+                      <span className={isEmptyDetail(details.area) ? cardStyles.metaEmpty : undefined}>
+                        {details.area}
+                      </span>
                     </div>
                   </div>
                 </div>

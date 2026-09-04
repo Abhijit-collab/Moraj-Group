@@ -27,16 +27,29 @@ export default defineType({
     defineField({ name: 'ctaHref', title: 'Primary Button Link', type: 'string', initialValue: '/residences' }),
     defineField({
       name: 'videoHref',
-      title: 'Hero Background Video URL',
+      title: 'Hero Background Video URL (Desktop)',
       type: 'url',
-      description: 'Direct video file URL (recommended: mp4/webm).',
+      description: 'Horizontal / landscape video for desktop and tablet. Direct file URL (mp4/webm).',
     }),
     defineField({
       name: 'heroVideo',
-      title: 'Hero Background Video (Upload)',
+      title: 'Hero Background Video Upload (Desktop)',
       type: 'file',
       options: { accept: 'video/mp4,video/webm' },
-      description: 'Preferred over URL. Upload mp4/webm directly to Sanity.',
+      description: 'Preferred over desktop URL. Upload mp4/webm directly to Sanity.',
+    }),
+    defineField({
+      name: 'mobileVideoHref',
+      title: 'Hero Background Video URL (Mobile / Vertical)',
+      type: 'url',
+      description: 'Vertical / portrait video for phone screens. Direct file URL (mp4/webm). Falls back to desktop video if empty.',
+    }),
+    defineField({
+      name: 'heroMobileVideo',
+      title: 'Hero Background Video Upload (Mobile / Vertical)',
+      type: 'file',
+      options: { accept: 'video/mp4,video/webm' },
+      description: 'Preferred over mobile URL. Upload a vertical mp4/webm for phones.',
     }),
     defineField({
       name: 'stats',

@@ -4,6 +4,10 @@ import styles from './HeroSection.module.css'
 
 interface Props { hero: Hero | null }
 
+function videoType(src: string) {
+  return src.endsWith('.webm') ? 'video/webm' : 'video/mp4'
+}
+
 export default function HeroSection({ hero }: Props) {
   const heading = hero?.heading ?? 'Where every home tells a story of'
   const italic = hero?.headingItalic ?? 'enduring craft.'
@@ -13,25 +17,43 @@ export default function HeroSection({ hero }: Props) {
   const ctaLabel = hero?.ctaLabel ?? 'Explore Residences'
   // Always go to the all-properties listing (ignore CMS hash links like /#residences)
   const ctaHref = '/residences'
-  const videoSrc = hero?.heroVideoUrl?.trim() || hero?.videoHref?.trim()
+  const desktopVideoSrc = hero?.heroVideoUrl?.trim() || hero?.videoHref?.trim() || ''
+  const mobileOnlySrc = hero?.heroMobileVideoUrl?.trim() || hero?.mobileVideoHref?.trim() || ''
+  const hasDesktopVideo = Boolean(desktopVideoSrc)
+  const hasMobileVideo = Boolean(mobileOnlySrc)
+  const hasAnyVideo = hasDesktopVideo || hasMobileVideo
 
   return (
     <section className={styles.hero} data-reveal>
-      {/* Background video / image — swap src with real video in production */}
-      <video
-        className={styles.videoBg}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/hero-poster.svg"
-      >
-        {videoSrc && <source src={videoSrc} type={videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
-      </video>
+      {hasDesktopVideo && (
+        <video
+          className={`${styles.videoBg} ${hasMobileVideo ? styles.videoDesktop : ''}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/hero-poster.svg"
+        >
+          <source src={desktopVideoSrc} type={videoType(desktopVideoSrc)} />
+        </video>
+      )}
+      {hasMobileVideo && (
+        <video
+          className={`${styles.videoBg} ${hasDesktopVideo ? styles.videoMobile : ''}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/hero-poster.svg"
+        >
+          <source src={mobileOnlySrc} type={videoType(mobileOnlySrc)} />
+        </video>
+      )}
 
       {/* Fallback: cinematic gradient when no video */}
-      {!videoSrc && <div className={styles.heroBgFallback} />}
+      {!hasAnyVideo && <div className={styles.heroBgFallback} />}
       <div className={styles.dim} />
 
       {/* Hero text — centred */}
