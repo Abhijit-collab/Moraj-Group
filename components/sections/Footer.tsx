@@ -4,6 +4,9 @@ import styles from './Footer.module.css'
 
 interface Props { settings: SiteSettings | null }
 
+const ADOPTXR_LOGO_DARK =
+  'https://d3deuzgnmq8y32.cloudfront.net/adoptXR-logo/AdoptXR+Logo_dark.png'
+
 export default function Footer({ settings }: Props) {
   const brandLogoSrc = settings?.brandLogoUrl?.trim() || settings?.brandLogoExternalUrl?.trim()
   const brandLogoAlt = settings?.brandLogo?.alt ?? 'Moraj logo'
@@ -49,6 +52,24 @@ export default function Footer({ settings }: Props) {
             </li>
           </ul>
         </div>
+
+        <a
+          href="https://adoptxr.com"
+          className={styles.poweredBy}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Powered by AdoptXR"
+        >
+          <span className={styles.poweredByLabel}>Powered by</span>
+          <Image
+            src={ADOPTXR_LOGO_DARK}
+            alt="AdoptXR"
+            width={320}
+            height={88}
+            className={styles.poweredByLogo}
+            sizes="(max-width: 768px) 240px, 320px"
+          />
+        </a>
       </div>
 
       <div className={styles.bar}>

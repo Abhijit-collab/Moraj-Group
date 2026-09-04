@@ -17,6 +17,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'd3deuzgnmq8y32.cloudfront.net',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'moraj-group.s3.eu-north-1.amazonaws.com',
         port: '',
         pathname: '/**',
