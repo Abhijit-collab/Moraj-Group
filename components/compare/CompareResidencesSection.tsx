@@ -7,6 +7,7 @@ import Image from 'next/image'
 import styles from './CompareResidencesSection.module.css'
 import { creamBlurDataURL } from '@/lib/image-placeholder'
 import { formatPropertyStatus } from '@/lib/format-property-status'
+import { sortByCompletionYearDesc } from '@/lib/sort-project-cards'
 
 interface Props {
   cards?: IconicProjectCard[]
@@ -59,15 +60,15 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
     (item) => item.status === 'upcoming' || item.status === 'ongoing' || item.status === 'completed'
   )
   const third = Math.ceil(items.length / 3)
-  const upcomingItems = hasAnyStatus
-    ? items.filter((item) => item.status === 'upcoming')
-    : items.slice(0, third)
-  const ongoingItems = hasAnyStatus
-    ? items.filter((item) => item.status === 'ongoing')
-    : items.slice(third, third * 2)
-  const completedItems = hasAnyStatus
-    ? items.filter((item) => item.status === 'completed')
-    : items.slice(third * 2)
+  const upcomingItems = sortByCompletionYearDesc(
+    hasAnyStatus ? items.filter((item) => item.status === 'upcoming') : items.slice(0, third)
+  )
+  const ongoingItems = sortByCompletionYearDesc(
+    hasAnyStatus ? items.filter((item) => item.status === 'ongoing') : items.slice(third, third * 2)
+  )
+  const completedItems = sortByCompletionYearDesc(
+    hasAnyStatus ? items.filter((item) => item.status === 'completed') : items.slice(third * 2)
+  )
   const tabItems: Record<TabKey, IconicProjectCard[]> = {
     upcoming: upcomingItems,
     ongoing: ongoingItems,

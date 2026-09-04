@@ -24,6 +24,7 @@ export interface IconicProjectCard {
   title: string
   location: string
   status?: 'upcoming' | 'ongoing' | 'completed'
+  completionYear?: number
   configuration?: string
   endDate?: string
   reraId?: string

@@ -3,6 +3,7 @@ export type ListingCard = {
   title?: string
   location?: string
   status?: string
+  completionYear?: number
   configuration?: string
   endDate?: string
   reraId?: string
@@ -66,6 +67,7 @@ function mergeSourceIntoTarget(targetCards: ListingCard[], sourceCards: ListingC
       title: source.title,
       location: source.location,
       status: source.status,
+      completionYear: source.completionYear,
       configuration: source.configuration,
       endDate: source.endDate,
       reraId: source.reraId,

@@ -7,6 +7,7 @@ import Image from 'next/image'
 import cardStyles from '@/components/compare/CompareResidencesSection.module.css'
 import { creamBlurDataURL } from '@/lib/image-placeholder'
 import { formatPropertyStatus } from '@/lib/format-property-status'
+import { sortByCompletionYearDesc, sortForAllFilter } from '@/lib/sort-project-cards'
 import styles from './page.module.css'
 
 type TabKey = 'all' | 'upcoming' | 'ongoing' | 'completed'
@@ -48,8 +49,8 @@ function isEmptyDetail(value: string) {
 }
 
 function filterCards(cards: IconicProjectCard[], tab: TabKey): IconicProjectCard[] {
-  if (tab === 'all') return cards
-  return cards.filter((card) => card.status === tab)
+  if (tab === 'all') return sortForAllFilter(cards)
+  return sortByCompletionYearDesc(cards.filter((card) => card.status === tab))
 }
 
 interface Props {

@@ -28,6 +28,14 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'completionYear',
+      title: 'Year of Completion',
+      type: 'number',
+      description:
+        'Used to order cards. Most recent year shows first. On Residences “All”, order is Upcoming → Ongoing → Completed, then by this year within each group.',
+      validation: (r) => r.integer().min(1900).max(2100),
+    }),
+    defineField({
       name: 'configuration',
       title: 'Configuration',
       type: 'string',
