@@ -11,6 +11,7 @@ import { sortByCompletionYearDesc } from '@/lib/sort-project-cards'
 
 interface Props {
   cards?: IconicProjectCard[]
+  brandLogoSrc?: string
 }
 
 const FALLBACK_CARDS: IconicProjectCard[] = [
@@ -54,7 +55,7 @@ function isEmptyDetail(value: string) {
   return value === EMPTY_DETAIL
 }
 
-export default function CompareResidencesSection({ cards = [] }: Props) {
+export default function CompareResidencesSection({ cards = [], brandLogoSrc }: Props) {
   const items = cards.length > 0 ? cards : FALLBACK_CARDS
   const hasAnyStatus = items.some(
     (item) => item.status === 'upcoming' || item.status === 'ongoing' || item.status === 'completed'
@@ -138,10 +139,11 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                     const details = cardDetails(card)
                     const src = cardImageSrc(card)
                     const href = detailsHref(card)
+                    const isCompleted = card.status === 'completed'
                     return (
                       <article
                         key={card._key ?? `${activeTab}-${card.title}-${slideIndex}-${i}`}
-                        className={styles.card}
+                        className={`${styles.card}${isCompleted ? ` ${styles.cardStatic}` : ''}`}
                       >
                         <div className={styles.imageWrap}>
                           {details.statusLabel ? (
@@ -159,6 +161,17 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                               className={styles.img}
                               style={{ objectFit: 'cover' }}
                             />
+                          ) : brandLogoSrc ? (
+                            <div className={styles.logoFallback}>
+                              <Image
+                                src={brandLogoSrc}
+                                alt="Moraj logo"
+                                width={220}
+                                height={120}
+                                className={styles.logoFallbackImg}
+                                sizes="220px"
+                              />
+                            </div>
                           ) : (
                             <div className={styles.placeholder} />
                           )}
@@ -195,13 +208,17 @@ export default function CompareResidencesSection({ cards = [] }: Props) {
                             </div>
                           </div>
                         </div>
-                        <div className={styles.actions}>
-                          <a href={href} className={styles.btnPrimary}>View Details</a>
-                          <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
-                        </div>
-                        <a href={href} className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
-                          <span />
-                        </a>
+                        {!isCompleted && (
+                          <>
+                            <div className={styles.actions}>
+                              <a href={href} className={styles.btnPrimary}>View Details</a>
+                              <a href="/residences" className={styles.btnSecondary}>Download Brochure</a>
+                            </div>
+                            <a href={href} className={styles.cardOverlay} aria-label={`Open ${card.title} details`}>
+                              <span />
+                            </a>
+                          </>
+                        )}
                       </article>
                     )
                   })}

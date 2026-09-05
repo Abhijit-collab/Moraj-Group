@@ -23,6 +23,7 @@ export default async function ResidencesPage() {
       ])
     : [null, devHomepageContent.settings]
   const cards = residencesListingContent?.cards ?? []
+  const brandLogoSrc = settings?.brandLogoExternalUrl?.trim() || settings?.brandLogoUrl?.trim()
 
   return (
     <div className={`${compareStyles.compareTheme} ${styles.page}`}>
@@ -30,7 +31,7 @@ export default async function ResidencesPage() {
         <span className={styles.overline}>Our Presence</span>
       </div>
 
-      <ResidencesListingClient cards={cards} />
+      <ResidencesListingClient cards={cards} brandLogoSrc={brandLogoSrc} />
 
       <Footer settings={settings} />
     </div>

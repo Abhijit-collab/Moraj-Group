@@ -88,7 +88,10 @@ export default async function HomePage() {
     <div className={styles.compareTheme}>
       <HeroSection hero={compareHero} />
       <StatsBar stats={compareHero.stats} />
-      <CompareResidencesSection cards={iconicDevelopments} />
+      <CompareResidencesSection
+        cards={iconicDevelopments}
+        brandLogoSrc={settings?.brandLogoExternalUrl?.trim() || settings?.brandLogoUrl?.trim()}
+      />
       <CraftsmanshipSection settings={settings} />
       <div className={styles.foundersCardsSection} id="founders-cards">
         <div className={styles.foundersPlaceholder}>

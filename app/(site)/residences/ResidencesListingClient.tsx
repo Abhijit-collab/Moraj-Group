@@ -55,9 +55,10 @@ function filterCards(cards: IconicProjectCard[], tab: TabKey): IconicProjectCard
 
 interface Props {
   cards: IconicProjectCard[]
+  brandLogoSrc?: string
 }
 
-export default function ResidencesListingClient({ cards }: Props) {
+export default function ResidencesListingClient({ cards, brandLogoSrc }: Props) {
   const [activeTab, setActiveTab] = useState<TabKey>('all')
   const filteredCards = useMemo(() => filterCards(cards, activeTab), [cards, activeTab])
 
@@ -86,8 +87,12 @@ export default function ResidencesListingClient({ cards }: Props) {
             const details = cardDetails(card)
             const src = cardImageSrc(card)
             const href = detailsHref(card)
+            const isCompleted = card.status === 'completed'
             return (
-              <article key={card._key ?? `${card.title}-${index}`} className={cardStyles.card}>
+              <article
+                key={card._key ?? `${card.title}-${index}`}
+                className={`${cardStyles.card}${isCompleted ? ` ${cardStyles.cardStatic}` : ''}`}
+              >
                 <div className={cardStyles.imageWrap}>
                   {details.statusLabel ? (
                     <span className={cardStyles.badge}>{details.statusLabel}</span>
@@ -104,6 +109,17 @@ export default function ResidencesListingClient({ cards }: Props) {
                       className={cardStyles.img}
                       style={{ objectFit: 'cover' }}
                     />
+                  ) : brandLogoSrc ? (
+                    <div className={cardStyles.logoFallback}>
+                      <Image
+                        src={brandLogoSrc}
+                        alt="Moraj logo"
+                        width={220}
+                        height={120}
+                        className={cardStyles.logoFallbackImg}
+                        sizes="220px"
+                      />
+                    </div>
                   ) : (
                     <div className={cardStyles.placeholder} />
                   )}
@@ -140,13 +156,17 @@ export default function ResidencesListingClient({ cards }: Props) {
                     </div>
                   </div>
                 </div>
-                <div className={cardStyles.actions}>
-                  <a href={href} className={cardStyles.btnPrimary}>View Details</a>
-                  <a href="/residences" className={cardStyles.btnSecondary}>Download Brochure</a>
-                </div>
-                <a href={href} className={cardStyles.cardOverlay} aria-label={`Open ${card.title} details`}>
-                  <span />
-                </a>
+                {!isCompleted && (
+                  <>
+                    <div className={cardStyles.actions}>
+                      <a href={href} className={cardStyles.btnPrimary}>View Details</a>
+                      <a href="/residences" className={cardStyles.btnSecondary}>Download Brochure</a>
+                    </div>
+                    <a href={href} className={cardStyles.cardOverlay} aria-label={`Open ${card.title} details`}>
+                      <span />
+                    </a>
+                  </>
+                )}
               </article>
             )
           })}
