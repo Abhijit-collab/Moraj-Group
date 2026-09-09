@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 import type { Hero } from '@/lib/types'
-import Link from 'next/link'
 import { HERO_VIDEO_READY_EVENT } from '@/lib/hero-loader-events'
 import styles from './HeroSection.module.css'
 
@@ -22,13 +21,8 @@ export default function HeroSection({ hero }: Props) {
   const mobileRef = useRef<HTMLVideoElement | null>(null)
   const readySent = useRef(false)
 
-  const heading = hero?.heading ?? 'Where every home tells a story of'
-  const italic = hero?.headingItalic ?? 'enduring craft.'
-  const headingWords = heading.split(' ')
-  const italicWords = italic.split(' ')
-  const subheading = hero?.subheading ?? "Navi Mumbai's Trusted Developer · Est. 1985"
-  const ctaLabel = hero?.ctaLabel ?? 'Explore Residences'
-  const ctaHref = '/residences'
+  const italic = hero?.headingItalic?.trim() || ''
+  const subheading = hero?.subheading?.trim() || "Navi Mumbai's Trusted Developer · Est. 1985"
   const desktopVideoSrc = hero?.heroVideoUrl?.trim() || hero?.videoHref?.trim() || ''
   const mobileOnlySrc = hero?.heroMobileVideoUrl?.trim() || hero?.mobileVideoHref?.trim() || ''
   const hasDesktopVideo = Boolean(desktopVideoSrc)
@@ -119,37 +113,17 @@ export default function HeroSection({ hero }: Props) {
       {!hasAnyVideo && <div className={styles.heroBgFallback} />}
       <div className={styles.dim} />
 
-      <div className={styles.body}>
-        <span className={styles.overline}>
-          <span className={styles.afterHeadline}>{subheading}</span>
-        </span>
-        <h1 className={styles.h1}>
-          <span className={styles.hLine}>
-            {headingWords.map((word, i) => (
-              <span key={`${word}-${i}`} className={styles.hWord} style={{ animationDelay: `${i * 0.08}s` }}>
-                {word}&nbsp;
-              </span>
-            ))}
-          </span>
-          <br />
-          <em className={styles.hLine}>
-            {italicWords.map((word, i) => (
-              <span
-                key={`${word}-italic-${i}`}
-                className={styles.hWord}
-                style={{ animationDelay: `${(headingWords.length + i) * 0.08}s` }}
-              >
-                {word}&nbsp;
-              </span>
-            ))}
-          </em>
-        </h1>
-        <Link href={ctaHref} className={`${styles.cta} ${styles.afterHeadline}`}>{ctaLabel}</Link>
-      </div>
-
-      <div className={styles.scroll}>
-        <span className={styles.scrollTxt}>Scroll</span>
-        <div className={styles.scrollLine} />
+      <div className={styles.bottomCopy}>
+        {(subheading || italic) && (
+          <div className={styles.bottomText}>
+            {subheading ? <p className={styles.bottomOverline}>{subheading}</p> : null}
+            {italic ? <p className={styles.bottomHeadline}>{italic}</p> : null}
+          </div>
+        )}
+        <div className={styles.scroll}>
+          <span className={styles.scrollTxt}>Scroll</span>
+          <div className={styles.scrollLine} />
+        </div>
       </div>
     </section>
   )

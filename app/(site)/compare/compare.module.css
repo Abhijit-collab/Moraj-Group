@@ -33,23 +33,15 @@
   margin-top: 0;
   height: 100vh;
 }
-.compareTheme :global([class*='HeroSection_h1']) {
-  font-size: clamp(52px, 7vw, 88px);
-  font-weight: 400;
-}
-.compareTheme :global([class*='HeroSection_h1'] em) {
+.compareTheme :global([class*='HeroSection_bottomHeadline']) {
   font-weight: 500;
   color: var(--rose);
-  font-size: 0.72em;
 }
-.compareTheme :global([class*='HeroSection_overline']) {
-  font-size: 20px;
-  letter-spacing: .4em;
+.compareTheme :global([class*='HeroSection_bottomOverline']) {
+  font-size: 14px;
+  letter-spacing: .28em;
   color: rgba(255,255,255,.75);
   font-weight: 500;
-}
-.compareTheme :global([class*='HeroSection_cta']) {
-  font-size: 20px;
 }
 
 /* 3) Intro */

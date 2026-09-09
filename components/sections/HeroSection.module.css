@@ -38,51 +38,55 @@
 }
 .droneTxt { font-size: 8px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 
-.body {
-  position: relative; z-index: 2; padding: 0 60px;
+.bottomCopy {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: min(92vw, 720px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  padding: 0 20px;
 }
-.overline {
-  font-size: 12px; letter-spacing: .26em; text-transform: uppercase;
-  color: rgba(255,255,255,.55); font-weight: 300;
-  display: block; margin-bottom: 20px;
-}
-.h1 {
-  font-family: var(--serif);
-  font-size: clamp(40px, 6vw, 72px);
-  font-weight: 300; color: #fff;
-  line-height: 1.06; margin-bottom: 36px;
-}
-.h1 em { font-style: italic; }
-.hLine {
-  display: inline-block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
-.hWord {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(130%);
-  animation: heroWordReveal .75s cubic-bezier(.22,1,.36,1) both;
-}
-.afterHeadline {
+
+.bottomText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   opacity: 0;
   transform: translateY(16px);
-  animation: fadeUp .9s cubic-bezier(.22,1,.36,1) 1.05s both;
+  animation: fadeUp .9s cubic-bezier(.22,1,.36,1) 0.85s both;
 }
-.cta {
-  display: inline-block;
-  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-  color: #fff; border: 1px solid rgba(255,255,255,.55);
-  padding: 14px 42px; background: none;
-  transition: all .3s; text-decoration: none;
+
+.bottomOverline {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  font-weight: 300;
 }
-.cta:hover { background: #fff; color: var(--ink); }
+
+.bottomHeadline {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.2vw, 34px);
+  font-weight: 300;
+  font-style: italic;
+  color: #b08a3c;
+  line-height: 1.25;
+}
 
 .scroll {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center;
-  gap: 8px; z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 .scrollTxt { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.45); }
 .scrollLine {
@@ -100,13 +104,9 @@
 
 @media (max-width: 768px) {
   .droneBadge { top: 72px; right: 20px; }
-  .body { padding: 0 24px; }
-  .h1 { font-size: 34px; }
-  .cta {
-    font-size: 10px;
-    padding: 11px 30px;
-    letter-spacing: .14em;
-  }
+  .bottomCopy { bottom: 72px; gap: 12px; }
+  .bottomOverline { font-size: 10px; letter-spacing: .16em; }
+  .bottomHeadline { font-size: 20px; }
   .videoDesktop { display: none; }
   .videoMobile { display: block; }
 }
