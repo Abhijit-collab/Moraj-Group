@@ -1,0 +1,103 @@
+.page {
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.page :global([class*='Footer_footer']) {
+  background: #f9f7f3;
+  border-top-color: #e0dbd3;
+}
+
+.hero {
+  padding: 128px 52px 48px;
+  border-bottom: 1px solid var(--light);
+  background: #000;
+}
+
+.overline {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c7a35a;
+  font-weight: 600;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+  font-weight: 500;
+  color: #fff;
+}
+
+.updated {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+}
+
+.content {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 52px 88px;
+}
+
+.section {
+  margin-bottom: 36px;
+}
+
+.section h2 {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.section p,
+.section li {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #5a534c;
+  font-weight: 500;
+}
+
+.section ul {
+  margin: 0 0 12px;
+  padding-left: 1.25rem;
+}
+
+.section li {
+  margin-bottom: 8px;
+}
+
+.section a {
+  color: #8a6d2f;
+  font-weight: 600;
+}
+
+.note {
+  margin-top: 40px;
+  padding: 18px 20px;
+  border: 1px solid #e0d6c8;
+  background: #f7f2ea;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6b645c;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 108px 24px 36px;
+  }
+
+  .content {
+    padding: 36px 24px 72px;
+  }
+}
