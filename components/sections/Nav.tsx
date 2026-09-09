@@ -48,11 +48,12 @@ export default function Nav({
           <Image
             src={logoSrc}
             alt={brandLogoAlt}
-            width={52}
-            height={52}
+            width={320}
+            height={178}
             className={styles.logoIcon}
             priority
-            sizes="52px"
+            quality={100}
+            sizes="(max-width: 768px) 54px, 120px"
             onError={() => {
               if (brandLogoFallbackSrc && logoSrc !== brandLogoFallbackSrc) {
                 setLogoSrc(brandLogoFallbackSrc)
