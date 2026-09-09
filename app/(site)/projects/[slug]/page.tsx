@@ -183,21 +183,23 @@ export default async function ProjectDetailPage({ params }: Props) {
               {heroSubtitle && <div className={styles.heroSubtitle}>{heroSubtitle}</div>}
               {heroAddress && <div className={styles.heroAddress}>{heroAddress}</div>}
               <div className={styles.heroRera}>Rera ID : {reraId}</div>
-              <div className={styles.heroActions}>
-                <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
-                <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
+              <div className={styles.heroCtaGroup}>
+                <div className={styles.heroActions}>
+                  <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
+                  <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
+                </div>
+                {projectWebsiteUrl ? (
+                  <a
+                    href={projectWebsiteUrl}
+                    className={styles.projectWebsiteLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className={styles.projectWebsiteLabel}>Visit Project Website</span>
+                    <span className={styles.projectWebsiteArrow} aria-hidden="true">→</span>
+                  </a>
+                ) : null}
               </div>
-              {projectWebsiteUrl ? (
-                <a
-                  href={projectWebsiteUrl}
-                  className={styles.projectWebsiteLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit Project Website
-                  <span aria-hidden="true"> →</span>
-                </a>
-              ) : null}
             </div>
             <div className={styles.heroMedia}>
               {heroBg ? (

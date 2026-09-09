@@ -70,8 +70,18 @@
   font-weight: 600;
 }
 
-.heroActions {
+.heroCtaGroup {
   margin-top: 28px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+  width: max-content;
+  max-width: 100%;
+}
+
+.heroActions {
+  margin-top: 0;
   display: flex;
   gap: 10px;
 }
@@ -95,6 +105,13 @@
 .heroBtnPrimary {
   background: #b8860b;
   color: #111;
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+.heroBtnPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 10px 22px rgba(184, 134, 11, 0.35);
 }
 
 .heroBtnSecondary {
@@ -111,21 +128,58 @@
 .projectWebsiteLink {
   display: inline-flex;
   align-items: center;
-  margin-top: 28px;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 22px;
+  box-sizing: border-box;
+  color: #111;
+  background: linear-gradient(135deg, #d4af57 0%, #b8860b 48%, #a07408 100%);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   text-decoration: none;
-  border-bottom: 1px solid rgba(184, 134, 11, 0.85);
-  padding-bottom: 2px;
-  transition: color .25s ease, border-color .25s ease;
+  border: 1px solid rgba(255, 220, 140, 0.55);
+  box-shadow:
+    0 10px 28px rgba(184, 134, 11, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+.projectWebsiteLabel {
+  line-height: 1;
+}
+
+.projectWebsiteArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  transition: transform .25s ease, background .25s ease;
 }
 
 .projectWebsiteLink:hover {
-  color: #d4af57;
-  border-bottom-color: #d4af57;
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 14px 34px rgba(184, 134, 11, 0.48),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+.projectWebsiteLink:hover .projectWebsiteArrow {
+  transform: translateX(3px);
+  background: rgba(0, 0, 0, 0.28);
 }
 
 .contentWrap {
@@ -747,4 +801,10 @@
   .floorPlans { grid-template-columns: 1fr; }
   .floorPlan { min-height: 200px; }
   .heroActions { flex-wrap: wrap; }
+  .heroCtaGroup {
+    width: 100%;
+  }
+  .projectWebsiteLink {
+    width: 100%;
+  }
 }
