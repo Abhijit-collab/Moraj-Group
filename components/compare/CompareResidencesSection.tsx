@@ -3,11 +3,10 @@
 import { useEffect, useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
-import Image from 'next/image'
 import styles from './CompareResidencesSection.module.css'
-import { creamBlurDataURL } from '@/lib/image-placeholder'
 import { formatPropertyStatus } from '@/lib/format-property-status'
 import { sortByCompletionYearDesc } from '@/lib/sort-project-cards'
+import ProjectCardMedia from '@/components/ui/ProjectCardMedia'
 
 interface Props {
   cards?: IconicProjectCard[]
@@ -29,7 +28,7 @@ type TabKey = 'upcoming' | 'ongoing' | 'completed'
 function cardImageSrc(card: IconicProjectCard): string | null {
   if (card.s3ImageUrl?.trim()) return card.s3ImageUrl.trim()
   if (card.imageUrl?.trim()) return card.imageUrl.trim()
-  if (card.image) return urlFor(card.image).width(900).height(1100).fit('crop').url()
+  if (card.image) return urlFor(card.image).width(1200).height(975).fit('crop').url()
   return null
 }
 
@@ -149,32 +148,14 @@ export default function CompareResidencesSection({ cards = [], brandLogoSrc }: P
                           {details.statusLabel ? (
                             <span className={styles.badge}>{details.statusLabel}</span>
                           ) : null}
-                          {src ? (
-                            <Image
-                              src={src}
-                              alt={card.title}
-                              fill
-                              priority={slideIndex === 0 && i === 0}
-                              placeholder="blur"
-                              blurDataURL={creamBlurDataURL}
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className={styles.img}
-                              style={{ objectFit: 'cover' }}
-                            />
-                          ) : brandLogoSrc ? (
-                            <div className={styles.logoFallback}>
-                              <Image
-                                src={brandLogoSrc}
-                                alt="Moraj logo"
-                                width={220}
-                                height={120}
-                                className={styles.logoFallbackImg}
-                                sizes="220px"
-                              />
-                            </div>
-                          ) : (
-                            <div className={styles.placeholder} />
-                          )}
+                          <ProjectCardMedia
+                            src={src}
+                            brandLogoSrc={brandLogoSrc}
+                            alt={card.title}
+                            priority={slideIndex === 0 && i === 0}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            imageClassName={styles.img}
+                          />
                         </div>
                         <div className={styles.caption}>
                           <div className={styles.name}>{card.title}</div>

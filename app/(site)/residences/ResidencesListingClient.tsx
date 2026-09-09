@@ -3,11 +3,10 @@
 import { useMemo, useState } from 'react'
 import type { IconicProjectCard } from '@/lib/types'
 import { urlFor } from '@/lib/sanity'
-import Image from 'next/image'
 import cardStyles from '@/components/compare/CompareResidencesSection.module.css'
-import { creamBlurDataURL } from '@/lib/image-placeholder'
 import { formatPropertyStatus } from '@/lib/format-property-status'
 import { sortByCompletionYearDesc, sortForAllFilter } from '@/lib/sort-project-cards'
+import ProjectCardMedia from '@/components/ui/ProjectCardMedia'
 import styles from './page.module.css'
 
 type TabKey = 'all' | 'upcoming' | 'ongoing' | 'completed'
@@ -22,7 +21,7 @@ const TABS: { key: TabKey; label: string }[] = [
 function cardImageSrc(card: IconicProjectCard): string | null {
   if (card.s3ImageUrl?.trim()) return card.s3ImageUrl.trim()
   if (card.imageUrl?.trim()) return card.imageUrl.trim()
-  if (card.image) return urlFor(card.image).width(900).height(1100).fit('crop').url()
+  if (card.image) return urlFor(card.image).width(1200).height(975).fit('crop').url()
   return null
 }
 
@@ -97,32 +96,14 @@ export default function ResidencesListingClient({ cards, brandLogoSrc }: Props) 
                   {details.statusLabel ? (
                     <span className={cardStyles.badge}>{details.statusLabel}</span>
                   ) : null}
-                  {src ? (
-                    <Image
-                      src={src}
-                      alt={card.title}
-                      fill
-                      priority={index === 0 && activeTab === 'all'}
-                      placeholder="blur"
-                      blurDataURL={creamBlurDataURL}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className={cardStyles.img}
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : brandLogoSrc ? (
-                    <div className={cardStyles.logoFallback}>
-                      <Image
-                        src={brandLogoSrc}
-                        alt="Moraj logo"
-                        width={220}
-                        height={120}
-                        className={cardStyles.logoFallbackImg}
-                        sizes="220px"
-                      />
-                    </div>
-                  ) : (
-                    <div className={cardStyles.placeholder} />
-                  )}
+                  <ProjectCardMedia
+                    src={src}
+                    brandLogoSrc={brandLogoSrc}
+                    alt={card.title}
+                    priority={index === 0 && activeTab === 'all'}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    imageClassName={cardStyles.img}
+                  />
                 </div>
                 <div className={cardStyles.caption}>
                   <div className={cardStyles.name}>{card.title}</div>
