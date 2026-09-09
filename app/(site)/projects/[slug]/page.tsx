@@ -142,6 +142,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const heroPrimaryCtaHref = project?.heroPrimaryCtaHref || fb.heroPrimaryCtaHref
   const heroSecondaryCtaLabel = project?.heroSecondaryCtaLabel || fb.heroSecondaryCtaLabel
   const heroSecondaryCtaHref = project?.heroSecondaryCtaHref || fb.heroSecondaryCtaHref
+  const projectWebsiteUrl = project?.projectWebsiteUrl?.trim() || ''
   const heroBg = project?.heroBackgroundUrl || project?.heroBackgroundMediaUrl || ''
   const galleryFromList = (project?.galleryImages ?? [])
     .map((img) => img.imageUrl?.trim() || img.uploadUrl?.trim() || '')
@@ -191,6 +192,17 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <Link href={heroPrimaryCtaHref} className={styles.heroBtnPrimary}>{heroPrimaryCtaLabel}</Link>
                 <Link href={heroSecondaryCtaHref} className={styles.heroBtnSecondary}>{heroSecondaryCtaLabel}</Link>
               </div>
+              {projectWebsiteUrl ? (
+                <a
+                  href={projectWebsiteUrl}
+                  className={styles.projectWebsiteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Project Website
+                  <span aria-hidden="true"> →</span>
+                </a>
+              ) : null}
             </div>
             <div className={styles.heroMedia}>
               {heroBg ? (

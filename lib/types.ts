@@ -70,6 +70,7 @@ export interface ProjectDetail {
   heroPrimaryCtaHref?: string
   heroSecondaryCtaLabel?: string
   heroSecondaryCtaHref?: string
+  projectWebsiteUrl?: string
   galleryHeroImageUrl?: string
   galleryImages?: { imageUrl?: string; uploadUrl?: string }[]
   galleryThumbs?: SanityImage[]

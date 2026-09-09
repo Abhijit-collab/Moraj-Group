@@ -21,6 +21,12 @@ export default defineType({
     defineField({ name: 'heroPrimaryCtaHref', title: 'Hero Primary CTA Link', type: 'string', initialValue: '#enquire' }),
     defineField({ name: 'heroSecondaryCtaLabel', title: 'Hero Secondary CTA Label', type: 'string', initialValue: 'Download Brochure' }),
     defineField({ name: 'heroSecondaryCtaHref', title: 'Hero Secondary CTA Link', type: 'string', initialValue: '#' }),
+    defineField({
+      name: 'projectWebsiteUrl',
+      title: 'Dedicated Project Website URL',
+      type: 'url',
+      description: 'Shown below Book a Site Visit / Download Brochure as “Visit Project Website”. Opens in a new tab. Leave empty to hide.',
+    }),
     defineField({ name: 'galleryHeroImageUrl', title: 'Gallery Hero Image URL (S3)', type: 'url' }),
     defineField({ name: 'galleryHeroImage', title: 'Gallery Hero Image (Upload)', type: 'image', options: { hotspot: true } }),
     defineField({

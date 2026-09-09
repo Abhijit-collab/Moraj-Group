@@ -134,6 +134,7 @@ export const projectDetailBySlugQuery = groq`
     heroPrimaryCtaHref,
     heroSecondaryCtaLabel,
     heroSecondaryCtaHref,
+    projectWebsiteUrl,
     "galleryHeroImageUrl": coalesce(galleryHeroImageUrl, galleryHeroImage.asset->url),
     galleryImages[] {
       imageUrl,
