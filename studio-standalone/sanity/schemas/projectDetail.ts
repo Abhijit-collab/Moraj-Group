@@ -52,7 +52,12 @@ export default defineType({
       ],
     }),
     defineField({ name: 'galleryThumbs', title: 'Gallery Thumbnails (Upload fallback)', type: 'array', of: [{ type: 'image', options: { hotspot: true } }] }),
-    defineField({ name: 'galleryMoreText', title: 'Gallery More Text', type: 'string', initialValue: '+ 16 more photos' }),
+    defineField({
+      name: 'galleryMoreText',
+      title: 'Gallery More Text (unused — site counts remaining photos automatically)',
+      type: 'string',
+      hidden: true,
+    }),
     defineField({
       name: 'specCards',
       title: 'Spec Cards',

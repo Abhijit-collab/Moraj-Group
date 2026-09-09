@@ -185,11 +185,28 @@
   scroll-margin-top: 110px;
 }
 
+.thumb,
+.thumbMore {
+  position: relative;
+  height: 68px;
+  background: #9ea5ab;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
 .galleryHero {
   position: relative;
   height: 220px;
   overflow: hidden;
   background: linear-gradient(130deg, #c5b98f, #ad9f74);
+  border: 0;
+  padding: 0;
+  width: 100%;
+  display: block;
+  cursor: pointer;
 }
 
 .thumbRow {
@@ -199,14 +216,6 @@
   gap: 8px;
 }
 
-.thumb,
-.thumbMore {
-  position: relative;
-  height: 68px;
-  background: #9ea5ab;
-  overflow: hidden;
-}
-
 .thumbMore {
   background: #7c8386;
   color: #fff;
@@ -214,6 +223,110 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.galleryModal {
+  position: relative;
+  width: min(92vw, 1180px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.galleryModalStage {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+}
+
+.galleryModalImage {
+  display: block;
+  width: auto;
+  max-width: min(92vw, 1180px);
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+  background: transparent;
+}
+
+.galleryModalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  background: rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.galleryNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.galleryNavPrev {
+  left: 12px;
+}
+
+.galleryNavNext {
+  right: 12px;
+}
+
+.galleryFilmstrip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 4px 2px 0;
+}
+
+.galleryFilmstripItem {
+  width: 64px;
+  height: 48px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #2a2a2a;
+  opacity: 0.72;
+}
+
+.galleryFilmstripItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.galleryFilmstripItemActive {
+  opacity: 1;
+  border-color: #b8860b;
 }
 
 .specGrid {
@@ -303,8 +416,8 @@
 .amenities {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  background: #313131;
+  gap: 8px;
+  background: transparent;
 }
 
 .amenities div {

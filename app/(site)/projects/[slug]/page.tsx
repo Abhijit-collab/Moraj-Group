@@ -1,13 +1,14 @@
 import { notFound } from 'next/navigation'
 import { getSanityClient, isSanityConfigured, urlFor } from '@/lib/sanity'
 import { allProjectDetailSlugsQuery, projectDetailBySlugQuery, siteSettingsQuery } from '@/lib/queries'
-import type { ProjectDetail, ProjectDetailFloorPlan, SiteSettings } from '@/lib/types'
+import type { ProjectDetail, SiteSettings } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import Footer from '@/components/sections/Footer'
 import FloorPlansLightbox from './FloorPlansLightbox'
+import GalleryLightbox from './GalleryLightbox'
 import ProjectEnquireForm from './ProjectEnquireForm'
-import { creamBlurDataURL, darkBlurDataURL } from '@/lib/image-placeholder'
+import { darkBlurDataURL } from '@/lib/image-placeholder'
 import compareStyles from '../../compare/compare.module.css'
 import styles from './page.module.css'
 import type { Metadata } from 'next'
@@ -47,7 +48,6 @@ const PROJECT_FALLBACKS = {
     'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80',
   ],
-  galleryMoreText: '+ 16 more photos',
   specCards: [
     { value: '3 & 4 BHK', label: 'Configuration' },
     { value: '980 - 1540', label: 'sq.ft.' },
@@ -64,7 +64,6 @@ const PROJECT_FALLBACKS = {
     { title: 'Mumbai-Pune Expy', value: '2.5 km' },
   ],
   amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'Children Play Area', 'Jogging Track', 'Indoor Games', 'Yoga Deck', 'Multipurpose Hall'],
-  floorPlans: [{ label: 'Type A | 980 sq.ft.' }, { label: 'Type B | 1540 sq.ft.' }] as ProjectDetailFloorPlan[],
   price: '₹ 1.85 Cr',
   priceMeta: ['3 & 4 BHK', '980 - 1540 sq.ft.', 'Jun 2031', 'New Launch'],
   reraId: '—',
@@ -154,18 +153,14 @@ export default async function ProjectDetailPage({ params }: Props) {
   const galleryUrls = Array.from(
     new Set([project?.galleryHeroImageUrl?.trim() || '', ...galleryFromList, ...galleryFromThumbs].filter(Boolean))
   )
-  const galleryHero = galleryUrls[0] || fb.galleryHero
-  const galleryThumbs = galleryUrls.length > 1 ? galleryUrls.slice(1, 3) : fb.galleryThumbs
-  const extraCount = Math.max(0, galleryUrls.length - 3)
-  const galleryMoreText =
-    extraCount > 0
-      ? (project?.galleryMoreText || `+ ${extraCount} more photos`)
-      : (project?.galleryMoreText || fb.galleryMoreText)
+  const displayGallery =
+    galleryUrls.length > 0 ? galleryUrls : [fb.galleryHero, ...fb.galleryThumbs]
+  const galleryHero = displayGallery[0]
   const specCards = project?.specCards?.length ? project.specCards : fb.specCards
   const description = project?.description || fb.description
   const locationHighlights = project?.locationHighlights?.length ? project.locationHighlights : fb.locationHighlights
   const amenities = project?.amenities?.length ? project.amenities : fb.amenities
-  const floorPlans = project?.floorPlans?.length ? project.floorPlans : fb.floorPlans
+  const floorPlans = project?.floorPlans ?? []
   const floorPlansWithImages = floorPlans
     .map((plan) => {
       const imageUrl = plan.imageUrl || (plan.image ? urlFor(plan.image).width(1200).fit('max').url() : '')
@@ -243,57 +238,11 @@ export default async function ProjectDetailPage({ params }: Props) {
               {description && <a href="#description">Description</a>}
               {(mapSrc || locationHighlights.length > 0) && <a href="#location">Location</a>}
               {amenities.length > 0 && <a href="#amenities">Amenities</a>}
-              {floorPlans.length > 0 && <a href="#floor-plans">Floor Plan</a>}
+              {floorPlansWithImages.length > 0 && <a href="#floor-plans">Floor Plan</a>}
             </div>
 
             {galleryHero && (
-              <>
-                <div className={styles.section}>
-                  <h2 className={styles.sectionTitle}>Gallery</h2>
-                </div>
-                <div id="gallery" className={styles.galleryHero}>
-                  <Image
-                    src={galleryHero}
-                    alt={`${title} gallery`}
-                    fill
-                    placeholder="blur"
-                    blurDataURL={creamBlurDataURL}
-                    sizes="(max-width: 900px) 100vw, 720px"
-                    style={{ objectFit: 'cover', objectPosition: 'center' }}
-                  />
-                </div>
-                {galleryThumbs.length > 0 && (
-                  <div className={styles.thumbRow}>
-                    {galleryThumbs[0] && (
-                      <div className={styles.thumb}>
-                        <Image
-                          src={galleryThumbs[0]}
-                          alt={`${title} gallery thumbnail 1`}
-                          fill
-                          placeholder="blur"
-                          blurDataURL={creamBlurDataURL}
-                          sizes="240px"
-                          style={{ objectFit: 'cover', objectPosition: 'center' }}
-                        />
-                      </div>
-                    )}
-                    {galleryThumbs[1] && (
-                      <div className={styles.thumb}>
-                        <Image
-                          src={galleryThumbs[1]}
-                          alt={`${title} gallery thumbnail 2`}
-                          fill
-                          placeholder="blur"
-                          blurDataURL={creamBlurDataURL}
-                          sizes="240px"
-                          style={{ objectFit: 'cover', objectPosition: 'center' }}
-                        />
-                      </div>
-                    )}
-                    {galleryMoreText && <div className={styles.thumbMore}>{galleryMoreText}</div>}
-                  </div>
-                )}
-              </>
+              <GalleryLightbox images={displayGallery} title={title} />
             )}
 
             {specCards.length > 0 && (
@@ -346,20 +295,10 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
             )}
 
-            {floorPlans.length > 0 && (
+            {floorPlansWithImages.length > 0 && (
               <div id="floor-plans" className={styles.section}>
                 <h2 className={styles.sectionTitle}>Floor Plans</h2>
-                {floorPlansWithImages.length > 0 ? (
-                  <FloorPlansLightbox plans={floorPlansWithImages} />
-                ) : (
-                  <div className={styles.floorPlans}>
-                    {floorPlans.map((plan, i) => (
-                      <div key={`${plan.label}-${i}`} className={styles.floorPlan}>
-                        {plan.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <FloorPlansLightbox plans={floorPlansWithImages} />
               </div>
             )}
           </div>
