@@ -8,7 +8,21 @@
   align-items: start;
 }
 .logoRow { display: inline-flex; align-items: center; gap: 10px; }
-.logoIcon { width: auto; height: 90px; object-fit: contain; }
+.brandLockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.logoIcon {
+  width: auto;
+  height: 90px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  /* Logo asset has ~14.6% empty padding on each side */
+  transform: translateX(-14.6%);
+}
 .logo { font-family: var(--serif); font-size: 21px; font-weight: 300; color: var(--ink); letter-spacing: .18em; text-transform: uppercase; }
 .logoSub { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose2); margin-top: 5px; margin-bottom: 17px; font-weight: 400; }
 .desc { font-size: 20px; color: #5e5750; line-height: 1.72; font-weight: 500; max-width: 52ch; }
@@ -82,7 +96,32 @@
 @media (max-width: 768px) {
   .footer { padding: 48px 24px 0; }
   .top { grid-template-columns: 1fr; gap: 28px; }
-  .logoIcon { width: auto; height: 90px; }
+  .brandLockup {
+    align-items: flex-start;
+    width: 100%;
+    overflow: visible;
+  }
+  .logoRow {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .logoIcon {
+    display: block;
+    width: auto;
+    height: 90px;
+    margin: 0;
+    padding: 0;
+    object-position: left center;
+  }
+  .logoSub,
+  .desc {
+    margin-left: 0;
+    padding-left: 0;
+    text-align: left;
+  }
   .poweredBy { justify-self: center; }
   .poweredByLogo { height: 64px; max-width: 240px; }
   .bar { flex-direction: column; align-items: flex-start; }

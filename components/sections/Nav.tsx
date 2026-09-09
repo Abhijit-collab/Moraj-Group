@@ -53,7 +53,7 @@ export default function Nav({
             className={styles.logoIcon}
             priority
             quality={100}
-            sizes="(max-width: 768px) 54px, 120px"
+            sizes="(max-width: 768px) 80px, 120px"
             onError={() => {
               if (brandLogoFallbackSrc && logoSrc !== brandLogoFallbackSrc) {
                 setLogoSrc(brandLogoFallbackSrc)

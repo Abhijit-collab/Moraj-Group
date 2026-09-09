@@ -15,23 +15,25 @@ export default function Footer({ settings }: Props) {
     <footer className={styles.footer} data-reveal data-reveal-stagger="true">
       <div className={styles.top}>
         <div>
-          <div className={styles.logoRow}>
-            {brandLogoSrc && (
-              <Image
-                src={brandLogoSrc}
-                alt={brandLogoAlt}
-                width={180}
-                height={90}
-                className={styles.logoIcon}
-                sizes="180px"
-              />
-            )}
+          <div className={styles.brandLockup}>
+            <div className={styles.logoRow}>
+              {brandLogoSrc && (
+                <Image
+                  src={brandLogoSrc}
+                  alt={brandLogoAlt}
+                  width={180}
+                  height={90}
+                  className={styles.logoIcon}
+                  sizes="180px"
+                />
+              )}
+            </div>
+            <div className={styles.logoSub}>Group · Est. 1985</div>
+            <p className={styles.desc}>
+              A legacy of trust and excellence since 1985.<br />
+              Navi Mumbai&apos;s most respected residential developer.
+            </p>
           </div>
-          <div className={styles.logoSub}>Group · Est. 1985</div>
-          <p className={styles.desc}>
-            A legacy of trust and excellence since 1985.<br />
-            Navi Mumbai&apos;s most respected residential developer.
-          </p>
         </div>
 
         <div>
