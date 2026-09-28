@@ -53,6 +53,23 @@ const nextConfig = {
         destination: '/projects/:slug',
         permanent: false,
       },
+      // Legacy PHP site URLs. `statusCode: 301` is used instead of `permanent: true` (which sends 308).
+      {
+        source: '/completedprojects.php',
+        destination: '/residences',
+        statusCode: 301,
+      },
+      {
+        source: '/careers.php',
+        destination: '/career',
+        statusCode: 301,
+      },
+      // Must stay after the specific legacy redirects above; first match wins.
+      {
+        source: '/:legacy(.*\\.php)',
+        destination: '/',
+        statusCode: 301,
+      },
     ]
   },
   async rewrites() {
