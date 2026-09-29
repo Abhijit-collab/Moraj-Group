@@ -6,8 +6,6 @@ export const runtime = 'nodejs'
 // Apps Script is slow (often 5–20s); stay within Vercel's function limit.
 export const maxDuration = 60
 
-const SOURCE = 'Homepage – Request a site visit'
-
 export async function POST(req: NextRequest) {
   let input: EnquiryInput
   try {
@@ -19,20 +17,17 @@ export async function POST(req: NextRequest) {
   const name = field(input, 'name')
   const mobile = field(input, 'mobile', 'phone')
   const email = field(input, 'email')
-  const residence = field(input, 'residence')
-  const visitDate = field(input, 'visitDate', 'date')
+  const project = field(input, 'project').slice(0, 120)
 
-  if (!name || !mobile || !residence) return badRequest('Missing required fields')
+  if (!name) return badRequest('Missing required fields')
 
   const invalid = phoneError(mobile) || emailError(email)
   if (invalid) return badRequest(invalid)
 
-  return sendToSheet('site-visit', {
+  return sendToSheet('contact', {
     name: sheetText(name),
-    mobile: sheetText(mobile),
     email: sheetText(email),
-    residence: sheetText(residence),
-    visitDate,
-    source: SOURCE,
+    mobile: sheetText(mobile),
+    source: sheetText(project ? `Project page – Request callback (${project})` : 'Project page – Request callback'),
   })
 }

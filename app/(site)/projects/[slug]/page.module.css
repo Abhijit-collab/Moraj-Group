@@ -749,6 +749,41 @@
   color: #000000;
 }
 
+.enquireCard button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.enquirePhone {
+  gap: 8px;
+}
+
+.enquirePhonePicker {
+  height: 42px;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  padding: 0 10px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.enquirePhonePicker:focus-within {
+  border-color: #b8860b;
+}
+
+.enquireSuccess {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: #8a6508;
+  line-height: 1.5;
+}
+
+.enquireError {
+  font-size: 11px;
+  color: #c0392b;
+  line-height: 1.5;
+}
+
 @media (max-width: 1024px) {
   .contentWrap {
     grid-template-columns: 1fr;

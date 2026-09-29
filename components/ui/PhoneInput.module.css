@@ -1,0 +1,11 @@
+.group { display: flex; align-items: stretch; gap: 12px; min-width: 0; }
+.group > input { flex: 1; min-width: 0; }
+.picker {
+  position: relative; flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+  cursor: pointer; color: inherit; font: inherit;
+}
+.picker::after {
+  content: ''; width: 6px; height: 6px; margin-top: -3px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg);
+}
+.picker select { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; font-size: 16px; }

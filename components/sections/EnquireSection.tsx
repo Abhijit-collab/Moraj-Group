@@ -1,7 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { SiteSettings, IconicProjectCard } from '@/lib/types'
+import {
+  COUNTRY_CODES,
+  DEFAULT_COUNTRY_CODE,
+  EMAIL_PATTERN,
+  phoneError,
+  withCountryCode,
+} from '@/lib/enquiry-validation'
 import styles from './EnquireSection.module.css'
 
 interface Props {
@@ -13,6 +20,14 @@ export default function EnquireSection({ settings, projects }: Props) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', residence: '', date: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [minDate, setMinDate] = useState<string>()
+  const [countryCode, setCountryCode] = useState(DEFAULT_COUNTRY_CODE)
+  const phoneRef = useRef<HTMLInputElement>(null)
+  const fullPhone = withCountryCode(countryCode, form.phone)
+
+  // Leave an empty field to the `required` message; otherwise show the specific problem on submit.
+  useEffect(() => {
+    phoneRef.current?.setCustomValidity(fullPhone ? phoneError(fullPhone) : '')
+  }, [fullPhone])
 
   // Computed on the client so "today" uses the visitor's timezone, not the server's.
   useEffect(() => {
@@ -26,7 +41,6 @@ export default function EnquireSection({ settings, projects }: Props) {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
-
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
@@ -36,15 +50,15 @@ export default function EnquireSection({ settings, projects }: Props) {
     trackEnquiry(form.residence || 'general')
 
     // Submit to API route
-    const res = await fetch('/api/enquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
-
-    if (res.ok) {
-      setStatus('sent')
-    } else {
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, phone: fullPhone }),
+      })
+      const data: { ok?: boolean } | null = await res.json().catch(() => null)
+      setStatus(data?.ok === true ? 'sent' : 'error')
+    } catch {
       setStatus('error')
     }
   }
@@ -70,7 +84,37 @@ export default function EnquireSection({ settings, projects }: Props) {
           <form onSubmit={onSubmit} className={styles.form}>
             <div className={styles.row}>
               <input className={styles.field} name="name" placeholder="Full name" value={form.name} onChange={onChange} required />
-              <input className={styles.field} name="phone" placeholder="Mobile number" value={form.phone} onChange={onChange} required />
+              <div className={styles.phoneGroup}>
+                <label className={styles.countryCode}>
+                  <span aria-hidden="true">{countryCode}</span>
+                  <select
+                    name="countryCode"
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    aria-label="Country code"
+                    autoComplete="tel-country-code"
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.country} ({c.code})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <input
+                  ref={phoneRef}
+                  className={styles.field}
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel-national"
+                  maxLength={20}
+                  placeholder="Mobile number"
+                  value={form.phone}
+                  onChange={onChange}
+                  required
+                />
+              </div>
             </div>
             <input
               className={styles.field}
@@ -79,7 +123,7 @@ export default function EnquireSection({ settings, projects }: Props) {
               placeholder="Email address"
               value={form.email}
               onChange={onChange}
-              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              pattern={EMAIL_PATTERN}
               title="Please enter a valid email address, for example name@example.com"
               required
             />

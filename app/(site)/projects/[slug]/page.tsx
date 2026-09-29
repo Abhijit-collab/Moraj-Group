@@ -315,7 +315,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
             )}
             <div className={styles.reraCard}>Rera ID : {reraId}</div>
-            <ProjectEnquireForm heading={enquireHeading} />
+            <ProjectEnquireForm heading={enquireHeading} project={title} />
           </aside>
         </section>
       </main>
