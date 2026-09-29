@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { SiteSettings, IconicProjectCard } from '@/lib/types'
 import styles from './EnquireSection.module.css'
 
@@ -12,6 +12,14 @@ interface Props {
 export default function EnquireSection({ settings, projects }: Props) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', residence: '', date: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [minDate, setMinDate] = useState<string>()
+
+  // Computed on the client so "today" uses the visitor's timezone, not the server's.
+  useEffect(() => {
+    const now = new Date()
+    const pad = (n: number) => String(n).padStart(2, '0')
+    setMinDate(`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`)
+  }, [])
 
   const heading = (settings as any)?.enquireHeading ?? 'Your dream home is waiting for you.'
   const sub = (settings as any)?.enquireSub ?? 'Schedule a complimentary site visit. Our team will guide you through every detail — no pressure, just possibilities.'
@@ -81,7 +89,30 @@ export default function EnquireSection({ settings, projects }: Props) {
                 <option key={p._key ?? `${p.title}-${i}`} value={p.title}>{p.title}</option>
               ))}
             </select>
-            <input className={styles.field} name="date" type="text" placeholder="Preferred visit date" value={form.date} onChange={onChange} required />
+            <label className={styles.datePicker}>
+              <input
+                className={`${styles.field} ${form.date ? '' : styles.dateEmpty}`}
+                name="date"
+                type="date"
+                min={minDate}
+                value={form.date}
+                onChange={onChange}
+                onClick={(e) => {
+                  try {
+                    e.currentTarget.showPicker()
+                  } catch {
+                    // Older browsers without showPicker still open the picker from the calendar icon.
+                  }
+                }}
+                aria-label="Preferred visit date"
+                required
+              />
+              {!form.date && (
+                <span className={styles.datePlaceholder} aria-hidden="true">
+                  Preferred visit date
+                </span>
+              )}
+            </label>
             <button type="submit" className={styles.submit} disabled={status === 'sending'}>
               <span>{status === 'sending' ? 'Sending…' : 'Request a site visit'}</span>
             </button>
