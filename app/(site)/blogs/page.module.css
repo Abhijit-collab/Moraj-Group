@@ -44,6 +44,14 @@
   background: #ffffff;
 }
 
+.empty {
+  margin: 0;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #605a54;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
